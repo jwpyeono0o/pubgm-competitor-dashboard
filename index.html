@@ -6,7 +6,8 @@
 <title>[PUBG M/JP] Monthly Competitor Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
-<script src="https://cdnjsm�cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script><script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
 <style>
@@ -686,7 +687,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
       </div>
     </div>
     <div class="modal-actions" style="margin-top:16px">
-      <button class="btn-secondary" onclick="closeEditEvModal()">취셬</button>
+      <button class="btn-secondary" onclick="closeEditEvModal()">취소</button>
       <button class="btn-primary" onclick="saveEditEv()">저장</button>
     </div>
   </div>
@@ -700,13 +701,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 <script>
 /* ─── GAME CONFIG ─── */
 const GAMES = {
-  knivesout:   { name:'Knives Out',         jp:'荒野行動',        color:'#3b82f6', bg:'#dbeafe' },
+  knivesout:   { name:'Knives Out',          jp:'該野行動',       color:'#3b82f6', bg:'#dbeafe' },
   codm:        { name:'Call of Duty: Mobile', jp:'CoD Mobile',   color:'#f97316', bg:'#ffedd5' },
   deltaforce:  { name:'Delta Force',         jp:'デルタフォース', color:'#22c55e', bg:'#dcfce7' },
   pubgm:       { name:'PUBG Mobile',         jp:'PUBG Mobile',   color:'#eab308', bg:'#fef9c3' }
 };
 const GAME_PATTERNS = {
-  knivesout:  ['knives out','荒野行動','knivesout','knives_out'],
+  knivesout:  ['knives out','該野行動','knivesout','knives_out'],
   codm:       ['call of duty','cod mobile','codm','cod:mobile','callofduty'],
   deltaforce: ['delta force','deltaforce','delta_force'],
   pubgm:      ['pubg mobile','pubgm','pubg_mobile','pubg mobile(t-log)','pubg(t-log)']
@@ -732,27 +733,23 @@ const SEED_EVENTS = [
    tags:['Hololive','VTuber','無料50連','音楽コラボ','SP衣装']},
   {id:3,game:'knivesout',date:'2026-03-20',endDate:'2026-03-26',type:'event',
    title:'東京喰種 コラボ第6弾 事前施策',
-   desc:'コラボ開始7日前から毎日0時に無料10連ガチャ配布�� ߚ^��ZL��r��_�����"��d ^�H̼�ߖ>_��c����W�7�nӎ_�Z��?��'��^��
-ώ��s�G�&ˎ
-��
-������w�r'��������*��æ����Zg�7���̼�Îp̼�ێ���/�&7��#����Ǧ��>_�>[�
-��g�ώ#�⛢�3���Z���
-ώ��s�&7�/�
-%W�
-K��7����+�K�
-/�����#�3�*�zs�j���������(���х���l���W�7�nӎ_�
-���������/�&7�Z���X������Zg�
-�����������ώ
-ߎ��̝u��(������б����蝭��ٕͽ�М���є����ش�̴�ܜ�����є����ش�д�ܜ�����蝍�������(���ѥѱ�蟚vǒ곖ZÞ����
-ώ��p����ۖ����(�����͌蟦G�r���S��r���/�F���g��r#��ǿ�が登場。コラボ金枠確定「引き直しガチャ」(毎日0時10連/7日間)、新規EX伝説ガチャ・EX伝説ガチャ複数開設。第2〜5弾歴代コラボアイテム期間限定復刻。MoM +22%の売上増・MoM +13%のDAU増を達成。',
+   desc:'コラボ開始7日前から毎日0時に無料10連ガチャ配布（7日間/最気に入り1回を3/27受領の引き直し方式）。旧コラボ金色アイテム保有者への追加10連無料配布。3/20〜3/26に事前予約報酬受取イベント並行実施。コラボ前からDAUを積み上げる設計が効果的に機能。',
+   tags:['引き直しガチャ','事前施策','無料ガチャ','リテンション']},
+  {id:4,game:'knivesout',date:'2026-03-27',endDate:'2026-04-17',type:'collab',
+   title:'東京喰種 コラボ 第6弾',
+   desc:'金木研・霧嶋董香・月山習が登場。コラボ金枠確定「引き直しガチャ」(毎日0時10連/7日間)、新規EX伝説ガチャ・EX伝説ガチャ複数開設。第2〜5弾歴代コラボアイテム期間限定復刻。MoM +22%の売上増・MoM +13%のDAU増を達成。',
    tags:['東京喰種','アニメコラボ','EX伝説ガチャ','引き直しガチャ','復刻']},
   {id:5,game:'knivesout',date:'2026-04-25',endDate:'2026-05-08',type:'collab',
-   title:'にすさんじ コラボ 第4弾',
+   title:'にじさんじ コラボ 第4弾',
    desc:'笹木咲・葛葉・リゼ・ヘルエスタ・星川サラの4名が登場。葛葉のSP衣装（限定デザイン）を新規実装。コラボガチャ・期間限定ミッション・特典配布イベント同時開催。',
    tags:['にじさんじ','VTuber','SP衣装','葛葉']},
   {id:6,game:'codm',date:'2026-03-19',type:'update',
    title:'Season 3 "Paranoia" ローンチ',
-   desc:'新シーズン3スプリンイベント。高品質オペレータースキン・コスメティクスを無料獲得できるグラインダブルイベント。各ドロウにレジェンド武器設計図＋エピックオペレータースキンセット構成。',
+   desc:'新シーズン「Paranoia」開幕(3/19)。新モードDMZ: Recon Quick Play追加、新武器MX Guardianショットガン実装。Pop Team Epic(ポプ子・ピピ美)コラボ＆NieR: Automataコラボ同時展開。コズミック・ドロウ4種＋ポッピングエピック・ストロングボックス(武器設計図・イモート・車両スキン等10種以上)販売開始。MoM +11%の売上増。',
+   tags:['新シーズン','Pop Team Epic','NieR:Automata','新モード','新武器']},
+  {id:7,game:'codm',date:'2026-03-19',endDate:'2026-04-18',type:'event',
+   title:'Spring Invasion イベント',
+   desc:'シーズン3スプリングイベント。高品質オペレータースキン・コスメティクスを無料獲得できるグラインダブルイベント。各ドロウにレジェンド武器設計図＋エピックオペレータースキンセット構成。',
    tags:['フリーイベント','Spring','グラインド','期間限定スキン']},
   {id:8,game:'deltaforce',date:'2026-02-03',type:'update',
    title:'大型シーズンアップデート「モーフォシス」',
@@ -761,12 +758,7 @@ K��7����+�K�
   {id:9,game:'deltaforce',date:'2026-02-27',endDate:'2026-03-13',type:'event',
    title:'春節 錦鯉イベント ＆「春の軍馬」抽選イベント',
    desc:'マップ水域に出現する特殊カラーの錦鯉を捕まえて報酬を獲得するシーズナルイベント。「春の軍馬」抽選イベントと同時実施し期間限定スキン・乗り物外観を提供。',
-   tags:['春節','シーズナル','限定イ��(移動型目標)実装。アップデート以降DAUは持続的下落傾向。',
-   tags:['モーフォシス','新シーズン','新マップ','新モード','新オペレーター']},
-  {id:9,game:'deltaforce',date:'2026-02-27',endDate:'2026-03-13',type:'event',
-   title:'春節 錦鯉イベント ＆「春の軍馬」抽選イベント',
-   desc:'マップ水域に出現する特殊カラーの錦鯉を捕まえて報酬を獲得するシーズナルイベント。「春の軍馬」抽選イベントと同時実施し期間限定スキン・乗り物外観を提供。',
-   tags:['春節','シーズナル','限定イベント','春の軍馬']},
+   tags:['春節','シーズナナル','限定イベント','春の軍馬']},
   {id:10,game:'deltaforce',date:'2026-04-21',type:'update',
    title:'Season 9 "Echo" ローンチ',
    desc:'新シーズン「Echo」開幕(4/21)。新偵察オペレーター「モース」(ソナー追跡/インテルコントロール)、新Warfareマップ「アク・カナル」、「ゼロダム」大幅リニューアル(新ルート・横断オプション)、新武器AR-57・M82追加。Tomb Raiderコラボ(ラーラ・クロフト)、Burst Festイベント同時展開。',
@@ -2030,7 +2022,7 @@ function previewEditImg(input){
   if(!file) return;
   const reader=new FileReader();
   reader.onload=e=>{
-    document.getElementById('eImgPreview').innerHTML=`<img src="${e.target.result}" style="max-height:100px;border-radius:6px;max-width:100%">`;
+    document.getElementById('eImgPreview').innerHTML<`<img src="${e.target.result}" style="max-height:100px;border-radius:6px;max-width:100%">`;
     document.getElementById('eImgUrl').value='';
   };
   reader.readAsDataURL(file);
@@ -2167,7 +2159,7 @@ function downloadTemplate(){
   a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
   a.download='competitor_traffic_template.csv';
   a.click();
-  toast('CSV 텘플릿 다운로드 완료','ok');
+  toast('CSV 템플릿 다운로드 완료','ok');
 }
 
 /* ─── TOAST ─── */
