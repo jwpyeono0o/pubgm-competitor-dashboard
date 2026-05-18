@@ -6,15 +6,14 @@
 <title>[PUBG M/JP] Monthly Competitor Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-<script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjsm�cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script><script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
 
-/* ââ HEADER ââ */
+/* ── HEADER ── */
 .app-header{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);color:white;padding:0 24px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.35)}
 .app-header h1{font-size:15px;font-weight:700;letter-spacing:.3px}
 .header-right{display:flex;gap:8px;align-items:center}
@@ -23,7 +22,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .header-btn:hover{background:rgba(255,255,255,.2)}
 .last-updated{font-size:10px;color:rgba(255,255,255,.4)}
 
-/* ââ TABS ââ */
+/* ── TABS ── */
 .tab-nav{background:white;border-bottom:1px solid #e5e7eb;display:flex;padding:0 24px;gap:0;position:sticky;top:54px;z-index:90}
 .tab-btn{padding:13px 20px;border:none;background:none;cursor:pointer;font-size:13px;font-weight:500;color:#6b7280;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap}
 .tab-btn:hover{color:#374151}
@@ -31,11 +30,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .tab-content{display:none}
 .tab-content.active{display:block}
 
-/* ââ CONTAINER ââ */
+/* ── CONTAINER ── */
 .container{max-width:1440px;margin:0 auto;padding:20px 24px}
 .section-title{font-size:13px;font-weight:700;color:#374151;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;gap:6px}
 
-/* ââ UPLOAD ââ */
+/* ── UPLOAD ── */
 .upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
 .upload-card{background:white;border-radius:10px;padding:14px;border:1px solid #e5e7eb}
 .upload-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
@@ -64,18 +63,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .clear-btn{padding:2px 8px;background:white;border:1px solid #d1fae5;border-radius:4px;font-size:10px;color:#6b7280;cursor:pointer;transition:all .15s;white-space:nowrap}
 .clear-btn:hover{background:#fef2f2;border-color:#fca5a5;color:#dc2626}
 
-/* ââ GAME CHIPS (data.ai) ââ */
+/* ── GAME CHIPS (data.ai) ── */
 .game-chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
 .game-chip{padding:3px 9px;border-radius:12px;font-size:10px;font-weight:700;background:#f3f4f6;color:#9ca3af;border:1px solid #e5e7eb;transition:all .2s;white-space:nowrap}
 .game-chip.loaded{background:#dcfce7;color:#166534;border-color:#bbf7d0}
 
-/* ââ ST DUAL ZONES ââ */
+/* ── ST DUAL ZONES ── */
 .st-dual-zones{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px}
 .st-zone-label{font-size:10px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
 .drop-zone.compact{padding:10px 8px}
 .drop-zone.compact .dz-icon{font-size:20px;margin-bottom:4px}
 
-/* ââ RANGE PICKER ââ */
+/* ── RANGE PICKER ── */
 .range-bar{background:white;border-radius:10px;padding:11px 18px;margin-bottom:16px;border:1px solid #e5e7eb;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .range-presets{display:flex;gap:4px;flex-wrap:wrap}
 .preset-btn{padding:4px 11px;border:1px solid #d1d5db;border-radius:20px;background:white;font-size:11px;font-weight:600;color:#6b7280;cursor:pointer;transition:all .15s;white-space:nowrap}
@@ -91,7 +90,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .range-info{font-size:11px;color:#9ca3af;margin-left:auto}
 .range-info strong{color:#374151}
 
-/* ââ CONTROLS BAR ââ */
+/* ── CONTROLS BAR ── */
 .controls-bar{background:white;border-radius:10px;padding:12px 18px;margin-bottom:16px;border:1px solid #e5e7eb;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
 .ctrl-group{display:flex;align-items:center;gap:8px}
 .ctrl-label{font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
@@ -101,7 +100,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .check-label{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:#374151}
 .check-label input{cursor:pointer;accent-color:#3b82f6}
 
-/* ââ CHART ââ */
+/* ── CHART ── */
 .chart-section{background:white;border-radius:10px;padding:18px 20px;margin-bottom:16px;border:1px solid #e5e7eb}
 .chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
 .chart-title{font-size:14px;font-weight:700}
@@ -113,7 +112,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .chart-empty-icon{font-size:40px;margin-bottom:10px}
 .chart-empty-text{font-size:13px}
 
-/* ââ SUMMARY TABLE ââ */
+/* ── SUMMARY TABLE ── */
 .table-section{background:white;border-radius:10px;padding:18px 20px;margin-bottom:16px;border:1px solid #e5e7eb}
 .table-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
 .report-date-wrap{display:flex;align-items:center;gap:8px;font-size:12px;color:#6b7280}
@@ -134,7 +133,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .neu{color:#6b7280!important}
 .no-data-msg{text-align:center;padding:40px;color:#9ca3af;font-size:13px}
 
-/* ââ 4-CHART GRID ââ */
+/* ── 4-CHART GRID ── */
 .charts-outer{margin-bottom:16px}
 .chart-row-header{background:#1a1a2e;color:white;text-align:center;padding:5px 14px;border-radius:7px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
 .charts-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:8px}
@@ -144,7 +143,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .chart-wrapper-sm{position:relative;height:230px}
 @media(max-width:900px){.charts-row{grid-template-columns:1fr}}
 
-/* ââ MULTI-SOURCE TABLE ââ */
+/* ── MULTI-SOURCE TABLE ── */
 .ms-table{width:100%;border-collapse:collapse;font-size:11.5px;min-width:880px}
 .ms-table th{padding:7px 10px;text-align:center;font-weight:700;white-space:nowrap;border:1px solid rgba(255,255,255,.15)}
 .ms-table th.meta-h{background:#2d3748;color:white;text-align:left;min-width:170px}
@@ -167,7 +166,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .ms-table tr.selected-range-row td{background:#eff6ff!important;border-top:2px solid #3b82f6;border-bottom:2px solid #3b82f6}
 .ms-table tr.selected-range-row td.period-name{font-weight:700;color:#1d4ed8}
 
-/* ââ MAPPING MODAL ââ */
+/* ── MAPPING MODAL ── */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:center;justify-content:center}
 .modal{background:white;border-radius:12px;padding:24px;max-width:560px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
 .modal-title{font-size:15px;font-weight:700;margin-bottom:6px}
@@ -177,7 +176,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .map-select{flex:1;padding:6px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:12px;font-family:inherit}
 .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;padding-top:12px;border-top:1px solid #f3f4f6}
 
-/* ââ EVENTS TAB ââ */
+/* ── EVENTS TAB ── */
 .events-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
 .filter-stack{display:flex;flex-direction:column;gap:8px;flex:1}
 .filter-row{display:flex;gap:6px;flex-wrap:wrap}
@@ -224,7 +223,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .empty-state{text-align:center;padding:60px;color:#9ca3af;grid-column:1/-1}
 .empty-icon{font-size:44px;margin-bottom:10px}
 
-/* ââ EVENT ANNOTATION LIST ââ */
+/* ── EVENT ANNOTATION LIST ── */
 .ev-anno-bar{background:white;border-radius:10px;margin-top:12px;border:1px solid #e5e7eb;overflow:hidden}
 .ev-anno-toggle{display:flex;align-items:center;gap:8px;padding:10px 16px;cursor:pointer;user-select:none;transition:background .15s}
 .ev-anno-toggle:hover{background:#f9fafb}
@@ -246,17 +245,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 .ev-check-date{font-size:10px;color:#9ca3af}
 .ev-anno-empty{padding:20px 14px;color:#9ca3af;font-size:12px;text-align:center}
 
-/* ââ BUTTONS ââ */
+/* ── BUTTONS ── */
 .btn-primary{padding:7px 16px;background:#3b82f6;color:white;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer}
 .btn-secondary{padding:7px 14px;background:white;color:#374151;border:1px solid #d1d5db;border-radius:6px;font-size:12px;cursor:pointer}
 
-/* ââ TOAST ââ */
+/* ── TOAST ── */
 .toast{position:fixed;bottom:24px;right:24px;background:#1a1a2e;color:white;padding:10px 18px;border-radius:8px;font-size:12px;z-index:1000;transform:translateY(100px);opacity:0;transition:all .3s;max-width:340px}
 .toast.show{transform:translateY(0);opacity:1}
 .toast.ok{background:#16a34a}
 .toast.err{background:#dc2626}
 
-/* ââ RESPONSIVE ââ */
+/* ── RESPONSIVE ── */
 @media(max-width:768px){
   .upload-grid{grid-template-columns:1fr}
   .form-grid{grid-template-columns:1fr 1fr}
@@ -267,7 +266,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 </head>
 <body>
 
-<!-- ââââââââââââââââââ HEADER ââââââââââââââââââ -->
+<!-- ══════════════════ HEADER ══════════════════ -->
 <header class="app-header">
   <div style="display:flex;align-items:center;gap:10px">
     <h1>[PUBG M/JP] Monthly Competitor Dashboard</h1>
@@ -275,25 +274,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
   </div>
   <div class="header-right">
     <span class="last-updated" id="lastUpdated"></span>
-    <button class="header-btn" style="background:rgba(239,68,68,.3);border-color:rgba(239,68,68,.5)" onclick="clearAllData()">ðï¸ ë°ì´í° ì´ê¸°í</button>
-    <button class="header-btn" onclick="resetEvents()">ð ì´ë²¤í¸ ì´ê¸°í</button>
+    <button class="header-btn" style="background:rgba(239,68,68,.3);border-color:rgba(239,68,68,.5)" onclick="clearAllData()">🗑️ 데이터 초기화</button>
+    <button class="header-btn" onclick="resetEvents()">🔄 이벤트 초기화</button>
   </div>
 </header>
 
-<!-- ââââââââââââââââââ TAB NAV ââââââââââââââââââ -->
+<!-- ══════════════════ TAB NAV ══════════════════ -->
 <nav class="tab-nav">
-  <button class="tab-btn active" onclick="showTab('dashboard',this)">ð ëìë³´ë</button>
-  <button class="tab-btn" onclick="showTab('events',this)">ð® ì´ë²¤í¸ &amp; ìë°ì´í¸</button>
+  <button class="tab-btn active" onclick="showTab('dashboard',this)">📊 대시보드</button>
+  <button class="tab-btn" onclick="showTab('events',this)">🎮 이벤트 &amp; 업데이트</button>
 </nav>
 
-<!-- ââââââââââââââââââ MAIN ââââââââââââââââââ -->
+<!-- ══════════════════ MAIN ══════════════════ -->
 <div class="container">
 
-  <!-- ââââââââ DASHBOARD TAB ââââââââ -->
+  <!-- ════════ DASHBOARD TAB ════════ -->
   <div id="tab-dashboard" class="tab-content active">
 
     <!-- Upload -->
-    <div class="section-title">ð ë°ì´í° ìë¡ë</div>
+    <div class="section-title">📂 데이터 업로드</div>
     <div class="upload-grid">
 
       <!-- data.ai -->
@@ -302,29 +301,29 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
           <span class="upload-card-title">data.ai</span>
           <span class="source-badge dataai">data.ai</span>
         </div>
-        <!-- ê²ìë³ ìë¡ë ìí ì¹© -->
+        <!-- 게임별 업로드 상태 칩 -->
         <div class="game-chips" id="chips-dataai">
-          <span class="game-chip" id="chip-dataai-knivesout">â¬ Knives Out</span>
-          <span class="game-chip" id="chip-dataai-codm">â¬ CoD Mobile</span>
-          <span class="game-chip" id="chip-dataai-deltaforce">â¬ Delta Force</span>
-          <span class="game-chip" id="chip-dataai-pubgm">â¬ PUBG Mobile</span>
+          <span class="game-chip" id="chip-dataai-knivesout">⬜ Knives Out</span>
+          <span class="game-chip" id="chip-dataai-codm">⬜ CoD Mobile</span>
+          <span class="game-chip" id="chip-dataai-deltaforce">⬜ Delta Force</span>
+          <span class="game-chip" id="chip-dataai-pubgm">⬜ PUBG Mobile</span>
         </div>
         <div class="drop-zone" id="dz-dataai"
           onclick="document.getElementById('fi-dataai').click()"
           ondragover="onDragOver(event)"
           ondragleave="onDragLeave(event,'dz-dataai')"
           ondrop="onDropMulti(event,'dataai')">
-          <div class="dz-icon">ð</div>
-          <div class="dz-text">ê²ìë³ CSV íì¼ ìë¡ë (ë¤ì¤ ì í ê°ë¥)</div>
-          <div class="dz-sub">íì´íë³ íì¼ 1ê°ì© Â· Traffic + Revenue ìë ì²ë¦¬</div>
+          <div class="dz-icon">📊</div>
+          <div class="dz-text">게임별 CSV 파일 업로드 (다중 선택 가능)</div>
+          <div class="dz-sub">타이틀별 파일 1개씩 · Traffic + Revenue 자동 처리</div>
           <input type="file" id="fi-dataai" accept=".csv" multiple onchange="onFileInputMulti(event,'dataai')">
         </div>
-        <div class="file-status" id="st-dataai">íì¼ì ìë¡ëíë©´ ê¸°ì¡´ ì ì¥ ë°ì´í°ì ë³í©ë©ëë¤</div>
+        <div class="file-status" id="st-dataai">파일을 업로드하면 기존 저장 데이터에 병합됩니다</div>
         <div class="stored-info" id="si-dataai">
           <div class="stored-info-text" id="si-dataai-text"></div>
           <div class="clear-btns">
-            <button class="clear-btn" onclick="clearData('dataai','traffic')">Traffic ì­ì </button>
-            <button class="clear-btn" onclick="clearData('dataai','revenue')">Revenue ì­ì </button>
+            <button class="clear-btn" onclick="clearData('dataai','traffic')">Traffic 삭제</button>
+            <button class="clear-btn" onclick="clearData('dataai','revenue')">Revenue 삭제</button>
           </div>
         </div>
       </div>
@@ -335,42 +334,42 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
           <span class="upload-card-title">Sensor Tower</span>
           <span class="source-badge sensortower">Sensor Tower</span>
         </div>
-        <!-- DAU / Revenue ë¶ë¦¬ ìë¡ë ì¡´ -->
+        <!-- DAU / Revenue 분리 업로드 존 -->
         <div class="st-dual-zones">
           <div>
-            <div class="st-zone-label">ð¥ DAU íì¼</div>
+            <div class="st-zone-label">👥 DAU 파일</div>
             <div class="drop-zone compact" id="dz-st-dau"
               onclick="document.getElementById('fi-st-dau').click()"
               ondragover="onDragOver(event)"
               ondragleave="onDragLeave(event,'dz-st-dau')"
               ondrop="onDropST(event,'dau')">
-              <div class="dz-icon">ð</div>
-              <div class="dz-text">DAU íì¼ ëëê·¸</div>
-              <div class="dz-sub">ì ì²´ ê²ì í¬í¨ CSV</div>
+              <div class="dz-icon">📈</div>
+              <div class="dz-text">DAU 파일 드래그</div>
+              <div class="dz-sub">전체 게임 포함 CSV</div>
               <input type="file" id="fi-st-dau" accept=".csv" onchange="onFileInputST(event,'dau')">
             </div>
-            <div class="file-status" id="fs-st-dau">ë¯¸ìë¡ë</div>
+            <div class="file-status" id="fs-st-dau">미업로드</div>
           </div>
           <div>
-            <div class="st-zone-label">ð° Revenue íì¼</div>
+            <div class="st-zone-label">💰 Revenue 파일</div>
             <div class="drop-zone compact" id="dz-st-rev"
               onclick="document.getElementById('fi-st-rev').click()"
               ondragover="onDragOver(event)"
               ondragleave="onDragLeave(event,'dz-st-rev')"
               ondrop="onDropST(event,'rev')">
-              <div class="dz-icon">ðµ</div>
-              <div class="dz-text">Revenue íì¼ ëëê·¸</div>
-              <div class="dz-sub">ì ì²´ ê²ì í¬í¨ CSV</div>
+              <div class="dz-icon">💵</div>
+              <div class="dz-text">Revenue 파일 드래그</div>
+              <div class="dz-sub">전체 게임 포함 CSV</div>
               <input type="file" id="fi-st-rev" accept=".csv" onchange="onFileInputST(event,'rev')">
             </div>
-            <div class="file-status" id="fs-st-rev">ë¯¸ìë¡ë</div>
+            <div class="file-status" id="fs-st-rev">미업로드</div>
           </div>
         </div>
         <div class="stored-info" id="si-sensortower">
           <div class="stored-info-text" id="si-sensortower-text"></div>
           <div class="clear-btns">
-            <button class="clear-btn" onclick="clearData('sensortower','traffic')">DAU ì­ì </button>
-            <button class="clear-btn" onclick="clearData('sensortower','revenue')">Revenue ì­ì </button>
+            <button class="clear-btn" onclick="clearData('sensortower','traffic')">DAU 삭제</button>
+            <button class="clear-btn" onclick="clearData('sensortower','revenue')">Revenue 삭제</button>
           </div>
         </div>
       </div>
@@ -379,19 +378,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
     <!-- Range Picker -->
     <div class="range-bar">
       <div class="range-presets">
-        <button class="preset-btn active" id="preset-all"  onclick="setPreset('all')">ì ì²´</button>
-        <button class="preset-btn"        id="preset-1m"   onclick="setPreset('1m')">ìµê·¼ 1ê°ì</button>
-        <button class="preset-btn"        id="preset-3m"   onclick="setPreset('3m')">ìµê·¼ 3ê°ì</button>
-        <button class="preset-btn"        id="preset-6m"   onclick="setPreset('6m')">ìµê·¼ 6ê°ì</button>
-        <button class="preset-btn"        id="preset-ytd"  onclick="setPreset('ytd')">ì¬í´</button>
-        <button class="preset-btn"        id="preset-custom" style="display:none">ì§ì  ì¤ì </button>
+        <button class="preset-btn active" id="preset-all"  onclick="setPreset('all')">전체</button>
+        <button class="preset-btn"        id="preset-1m"   onclick="setPreset('1m')">최근 1개월</button>
+        <button class="preset-btn"        id="preset-3m"   onclick="setPreset('3m')">최근 3개월</button>
+        <button class="preset-btn"        id="preset-6m"   onclick="setPreset('6m')">최근 6개월</button>
+        <button class="preset-btn"        id="preset-ytd"  onclick="setPreset('ytd')">올해</button>
+        <button class="preset-btn"        id="preset-custom" style="display:none">직접 설정</button>
       </div>
       <div class="range-divider"></div>
       <div class="range-inputs">
         <input type="date" class="range-input" id="rangeStart" onchange="onRangeInputChange()">
         <span class="range-sep">~</span>
         <input type="date" class="range-input" id="rangeEnd"   onchange="onRangeInputChange()">
-        <button class="range-apply" onclick="applyRange()">ì ì©</button>
+        <button class="range-apply" onclick="applyRange()">적용</button>
       </div>
       <span class="range-info" id="rangeInfo"></span>
     </div>
@@ -406,14 +405,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
             <span class="chart-card-title">Competitor Active User (data.ai)</span>
             <div class="chart-legend" id="legend-dataai-traffic"></div>
             <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#6b7280">
-              <span>Yìµê³ :</span>
-              <input type="number" id="ymax-dataai-traffic" placeholder="ìë"
+              <span>Y최고:</span>
+              <input type="number" id="ymax-dataai-traffic" placeholder="자동"
                 style="width:80px;padding:2px 6px;border:1px solid #d1d5db;border-radius:4px;font-size:11px;font-family:inherit"
                 onchange="setYMax('dataai-traffic', this.value)">
             </div>
           </div>
           <div class="chart-wrapper-sm">
-            <div class="chart-empty" id="empty-dataai-traffic"><div class="chart-empty-icon">ð</div><div class="chart-empty-text">ë°ì´í° ìì</div></div>
+            <div class="chart-empty" id="empty-dataai-traffic"><div class="chart-empty-icon">📈</div><div class="chart-empty-text">데이터 없음</div></div>
             <canvas id="canvas-dataai-traffic" style="display:none"></canvas>
           </div>
         </div>
@@ -422,14 +421,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
             <span class="chart-card-title">Competitor Active User (Sensor Tower)</span>
             <div class="chart-legend" id="legend-sensortower-traffic"></div>
             <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#6b7280">
-              <span>Yìµê³ :</span>
-              <input type="number" id="ymax-sensortower-traffic" placeholder="ìë"
+              <span>Y최고:</span>
+              <input type="number" id="ymax-sensortower-traffic" placeholder="자동"
                 style="width:80px;padding:2px 6px;border:1px solid #d1d5db;border-radius:4px;font-size:11px;font-family:inherit"
                 onchange="setYMax('sensortower-traffic', this.value)">
             </div>
           </div>
           <div class="chart-wrapper-sm">
-            <div class="chart-empty" id="empty-sensortower-traffic"><div class="chart-empty-icon">ð¡</div><div class="chart-empty-text">ë°ì´í° ìì</div></div>
+            <div class="chart-empty" id="empty-sensortower-traffic"><div class="chart-empty-icon">📡</div><div class="chart-empty-text">데이터 없음</div></div>
             <canvas id="canvas-sensortower-traffic" style="display:none"></canvas>
           </div>
         </div>
@@ -442,14 +441,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
             <span class="chart-card-title">Competitor Revenue (data.ai)</span>
             <div class="chart-legend" id="legend-dataai-revenue"></div>
             <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#6b7280">
-              <span>Yìµê³ :</span>
-              <input type="number" id="ymax-dataai-revenue" placeholder="ìë"
+              <span>Y최고:</span>
+              <input type="number" id="ymax-dataai-revenue" placeholder="자동"
                 style="width:80px;padding:2px 6px;border:1px solid #d1d5db;border-radius:4px;font-size:11px;font-family:inherit"
                 onchange="setYMax('dataai-revenue', this.value)">
             </div>
           </div>
           <div class="chart-wrapper-sm">
-            <div class="chart-empty" id="empty-dataai-revenue"><div class="chart-empty-icon">ð°</div><div class="chart-empty-text">ë°ì´í° ìì</div></div>
+            <div class="chart-empty" id="empty-dataai-revenue"><div class="chart-empty-icon">💰</div><div class="chart-empty-text">데이터 없음</div></div>
             <canvas id="canvas-dataai-revenue" style="display:none"></canvas>
           </div>
         </div>
@@ -458,41 +457,41 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
             <span class="chart-card-title">Competitor Revenue (Sensor Tower)</span>
             <div class="chart-legend" id="legend-sensortower-revenue"></div>
             <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:#6b7280">
-              <span>Yìµê³ :</span>
-              <input type="number" id="ymax-sensortower-revenue" placeholder="ìë"
+              <span>Y최고:</span>
+              <input type="number" id="ymax-sensortower-revenue" placeholder="자동"
                 style="width:80px;padding:2px 6px;border:1px solid #d1d5db;border-radius:4px;font-size:11px;font-family:inherit"
                 onchange="setYMax('sensortower-revenue', this.value)">
             </div>
           </div>
           <div class="chart-wrapper-sm">
-            <div class="chart-empty" id="empty-sensortower-revenue"><div class="chart-empty-icon">ð¡</div><div class="chart-empty-text">ë°ì´í° ìì</div></div>
+            <div class="chart-empty" id="empty-sensortower-revenue"><div class="chart-empty-icon">📡</div><div class="chart-empty-text">데이터 없음</div></div>
             <canvas id="canvas-sensortower-revenue" style="display:none"></canvas>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ì´ë²¤í¸ ë§í¹ í¨ë -->
+    <!-- 이벤트 마킹 패널 -->
     <div class="ev-anno-bar" id="evAnnoBar" style="display:none;margin-bottom:16px">
       <div class="ev-anno-toggle" id="evAnnoToggle" onclick="toggleEvAnno()">
-        <span class="ev-anno-title">ð ê¸°ê° ë´ ì´ë²¤í¸ ë§í¹</span>
-        <span class="ev-anno-count" id="evAnnoCount">0ê±´</span>
-        <span style="font-size:11px;color:#9ca3af;margin-left:6px">ì í í­ëª©ì´ ê·¸ëíì ì ì ì¼ë¡ íìë©ëë¤</span>
-        <span class="ev-anno-arrow" id="evAnnoArrow">â¼</span>
+        <span class="ev-anno-title">📅 기간 내 이벤트 마킹</span>
+        <span class="ev-anno-count" id="evAnnoCount">0건</span>
+        <span style="font-size:11px;color:#9ca3af;margin-left:6px">선택 항목이 그래프에 점선으로 표시됩니다</span>
+        <span class="ev-anno-arrow" id="evAnnoArrow">▼</span>
       </div>
       <div id="evAnnoBody" style="display:none">
         <div class="ev-anno-actions">
-          <button class="ev-anno-btn" onclick="selectAllAnno()">ì ì²´ ì í</button>
-          <button class="ev-anno-btn" onclick="clearAllAnno()">ì ì²´ í´ì </button>
-          <button class="ev-anno-btn" style="margin-left:auto;background:#1d4ed8;color:white;border-color:#1d4ed8" onclick="toggleInlineAddForm()">+ ì´ë²¤í¸ ì¶ê°</button>
+          <button class="ev-anno-btn" onclick="selectAllAnno()">전체 선택</button>
+          <button class="ev-anno-btn" onclick="clearAllAnno()">전체 해제</button>
+          <button class="ev-anno-btn" style="margin-left:auto;background:#1d4ed8;color:white;border-color:#1d4ed8" onclick="toggleInlineAddForm()">+ 이벤트 추가</button>
         </div>
 
-        <!-- ì¸ë¼ì¸ ì´ë²¤í¸ ì¶ê° í¼ -->
+        <!-- 인라인 이벤트 추가 폼 -->
         <div id="inlineAddForm" style="display:none;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin:8px 0">
-          <div style="font-size:12px;font-weight:700;color:#374151;margin-bottom:10px">ì ì´ë²¤í¸ ì¶ê°</div>
+          <div style="font-size:12px;font-weight:700;color:#374151;margin-bottom:10px">새 이벤트 추가</div>
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:8px">
             <div>
-              <div style="font-size:10px;color:#6b7280;margin-bottom:3px">ê²ì</div>
+              <div style="font-size:10px;color:#6b7280;margin-bottom:3px">게임</div>
               <select id="iGame" style="width:100%;padding:5px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:12px;font-family:inherit">
                 <option value="knivesout">Knives Out</option>
                 <option value="codm">CoD Mobile</option>
@@ -500,29 +499,29 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
               </select>
             </div>
             <div>
-              <div style="font-size:10px;color:#6b7280;margin-bottom:3px">ì í</div>
+              <div style="font-size:10px;color:#6b7280;margin-bottom:3px">유형</div>
               <select id="iType" style="width:100%;padding:5px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:12px;font-family:inherit">
-                <option value="collab">ð¤ ì½ë¼ë³´</option>
-                <option value="event">ð¯ ì´ë²¤í¸</option>
-                <option value="update">ð ìë°ì´í¸</option>
+                <option value="collab">🤝 콜라보</option>
+                <option value="event">🎯 이벤트</option>
+                <option value="update">🔄 업데이트</option>
               </select>
             </div>
             <div>
-              <div style="font-size:10px;color:#6b7280;margin-bottom:3px">ììì¼</div>
+              <div style="font-size:10px;color:#6b7280;margin-bottom:3px">시작일</div>
               <input type="date" id="iStart" style="width:100%;padding:5px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:12px;font-family:inherit">
             </div>
             <div>
-              <div style="font-size:10px;color:#6b7280;margin-bottom:3px">ì¢ë£ì¼ (ì í)</div>
+              <div style="font-size:10px;color:#6b7280;margin-bottom:3px">종료일 (선택)</div>
               <input type="date" id="iEnd" style="width:100%;padding:5px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:12px;font-family:inherit">
             </div>
           </div>
           <div style="margin-bottom:8px">
-            <div style="font-size:10px;color:#6b7280;margin-bottom:3px">ì´ë²¤í¸ëª *</div>
-            <input type="text" id="iTitle" placeholder="ì: ãã­ã©ã¤ã ã³ã©ã ç¬¬5å¼¾" style="width:100%;padding:5px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:12px;font-family:inherit">
+            <div style="font-size:10px;color:#6b7280;margin-bottom:3px">이벤트명 *</div>
+            <input type="text" id="iTitle" placeholder="예: ホロライブ コラボ 第5弾" style="width:100%;padding:5px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:12px;font-family:inherit">
           </div>
           <div style="display:flex;gap:8px;justify-content:flex-end">
-            <button onclick="toggleInlineAddForm()" style="padding:5px 14px;border:1px solid #d1d5db;background:white;border-radius:6px;font-size:12px;cursor:pointer">ì·¨ì</button>
-            <button onclick="addInlineEvent()" style="padding:5px 14px;background:#1d4ed8;color:white;border:none;border-radius:6px;font-size:12px;cursor:pointer;font-weight:600">ì¶ê°</button>
+            <button onclick="toggleInlineAddForm()" style="padding:5px 14px;border:1px solid #d1d5db;background:white;border-radius:6px;font-size:12px;cursor:pointer">취소</button>
+            <button onclick="addInlineEvent()" style="padding:5px 14px;background:#1d4ed8;color:white;border:none;border-radius:6px;font-size:12px;cursor:pointer;font-weight:600">추가</button>
           </div>
         </div>
 
@@ -533,48 +532,48 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
     <!-- Summary Tables -->
     <div class="table-section">
       <div class="table-header">
-        <div class="section-title" style="margin-bottom:0">ð ê¸°ê°ë³ ìì½</div>
+        <div class="section-title" style="margin-bottom:0">📋 기간별 요약</div>
         <div class="report-date-wrap">
-          <span>ê¸°ê°:</span>
+          <span>기간:</span>
           <input type="date" id="tableRangeStart" onchange="renderTable()">
           <span style="color:#9ca3af">~</span>
           <input type="date" id="tableRangeEnd" onchange="renderTable()">
-          <button class="header-btn" style="background:#3b82f6;border-color:#3b82f6;font-size:11px;padding:4px 10px" onclick="syncTableRangeFromData()">ë°ì´í° ì ì²´</button>
+          <button class="header-btn" style="background:#3b82f6;border-color:#3b82f6;font-size:11px;padding:4px 10px" onclick="syncTableRangeFromData()">데이터 전체</button>
         </div>
       </div>
       <div id="summaryTables">
-        <div class="no-data-msg">ë°ì´í°ë¥¼ ìë¡ëíë©´ ê¸°ê°ë³ ë¹êµ íì´ë¸ì´ íìë©ëë¤</div>
+        <div class="no-data-msg">데이터를 업로드하면 기간별 비교 테이블이 표시됩니다</div>
       </div>
     </div>
   </div><!-- /tab-dashboard -->
 
-  <!-- ââââââââ EVENTS TAB ââââââââ -->
+  <!-- ════════ EVENTS TAB ════════ -->
   <div id="tab-events" class="tab-content">
 
     <div class="events-top">
       <div class="filter-stack">
         <div class="filter-row" id="gFilter">
-          <button class="fchip active" data-g="all" onclick="setFilter('game','all',this)">ì ì²´ ê²ì</button>
-          <button class="fchip g-ko" data-g="knivesout" onclick="setFilter('game','knivesout',this)">ðµ Knives Out</button>
-          <button class="fchip g-cod" data-g="codm" onclick="setFilter('game','codm',this)">ð  CoD Mobile</button>
-          <button class="fchip g-df" data-g="deltaforce" onclick="setFilter('game','deltaforce',this)">ð¢ Delta Force</button>
+          <button class="fchip active" data-g="all" onclick="setFilter('game','all',this)">전체 게임</button>
+          <button class="fchip g-ko" data-g="knivesout" onclick="setFilter('game','knivesout',this)">🔵 Knives Out</button>
+          <button class="fchip g-cod" data-g="codm" onclick="setFilter('game','codm',this)">🟠 CoD Mobile</button>
+          <button class="fchip g-df" data-g="deltaforce" onclick="setFilter('game','deltaforce',this)">🟢 Delta Force</button>
         </div>
         <div class="filter-row" id="tFilter">
-          <button class="fchip active" data-t="all" onclick="setFilter('type','all',this)">ëª¨ë  ì í</button>
-          <button class="fchip" data-t="collab" onclick="setFilter('type','collab',this)">ð¤ ì½ë¼ë³´</button>
-          <button class="fchip" data-t="update" onclick="setFilter('type','update',this)">ð ìë°ì´í¸</button>
-          <button class="fchip" data-t="event" onclick="setFilter('type','event',this)">ð¯ ì´ë²¤í¸</button>
+          <button class="fchip active" data-t="all" onclick="setFilter('type','all',this)">모든 유형</button>
+          <button class="fchip" data-t="collab" onclick="setFilter('type','collab',this)">🤝 콜라보</button>
+          <button class="fchip" data-t="update" onclick="setFilter('type','update',this)">🔄 업데이트</button>
+          <button class="fchip" data-t="event" onclick="setFilter('type','event',this)">🎯 이벤트</button>
         </div>
       </div>
-      <button class="add-btn" onclick="toggleAddForm()">+ ì´ë²¤í¸ ì¶ê°</button>
+      <button class="add-btn" onclick="toggleAddForm()">+ 이벤트 추가</button>
     </div>
 
     <!-- Add Event Form -->
     <div class="add-form" id="addForm" style="display:none">
-      <div style="font-size:13px;font-weight:700;margin-bottom:14px">ì ì´ë²¤í¸ ì¶ê°</div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:14px">새 이벤트 추가</div>
       <div class="form-grid">
         <div class="fg">
-          <label class="f-label">ê²ì</label>
+          <label class="f-label">게임</label>
           <select class="f-select" id="nGame">
             <option value="knivesout">Knives Out</option>
             <option value="codm">Call of Duty: Mobile</option>
@@ -582,41 +581,41 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
           </select>
         </div>
         <div class="fg">
-          <label class="f-label">ì í</label>
+          <label class="f-label">유형</label>
           <select class="f-select" id="nType">
-            <option value="collab">ð¤ ì½ë¼ë³´</option>
-            <option value="update">ð ìë°ì´í¸</option>
-            <option value="event">ð¯ ì´ë²¤í¸</option>
+            <option value="collab">🤝 콜라보</option>
+            <option value="update">🔄 업데이트</option>
+            <option value="event">🎯 이벤트</option>
           </select>
         </div>
         <div class="fg">
-          <label class="f-label">ììì¼</label>
+          <label class="f-label">시작일</label>
           <input type="date" class="f-input" id="nStart">
         </div>
         <div class="fg">
-          <label class="f-label">ì¢ë£ì¼ (ì í)</label>
+          <label class="f-label">종료일 (선택)</label>
           <input type="date" class="f-input" id="nEnd">
         </div>
         <div class="fg full">
-          <label class="f-label">ì´ë²¤í¸ëª</label>
-          <input type="text" class="f-input" id="nTitle" placeholder="ì: ãã­ã©ã¤ã ã³ã©ã ç¬¬4å¼¾">
+          <label class="f-label">이벤트명</label>
+          <input type="text" class="f-input" id="nTitle" placeholder="예: ホロライブ コラボ 第4弾">
         </div>
         <div class="fg full">
-          <label class="f-label">ì¤ëª</label>
-          <textarea class="f-textarea" id="nDesc" placeholder="ì´ë²¤í¸ ë´ì©ì ìë ¥íì¸ì..."></textarea>
+          <label class="f-label">설명</label>
+          <textarea class="f-textarea" id="nDesc" placeholder="이벤트 내용을 입력하세요..."></textarea>
         </div>
         <div class="fg half">
-          <label class="f-label">ì´ë¯¸ì§ URL (ì í)</label>
+          <label class="f-label">이미지 URL (선택)</label>
           <input type="url" class="f-input" id="nImg" placeholder="https://...">
         </div>
         <div class="fg half">
-          <label class="f-label">íê·¸ (ì¼í êµ¬ë¶)</label>
-          <input type="text" class="f-input" id="nTags" placeholder="VTuber, ã³ã©ã, ç¡æã¬ãã£">
+          <label class="f-label">태그 (쉼표 구분)</label>
+          <input type="text" class="f-input" id="nTags" placeholder="VTuber, コラボ, 無料ガチャ">
         </div>
       </div>
       <div class="form-actions">
-        <button class="btn-secondary" onclick="toggleAddForm()">ì·¨ì</button>
-        <button class="btn-primary" onclick="addEvent()">ì¶ê°</button>
+        <button class="btn-secondary" onclick="toggleAddForm()">취소</button>
+        <button class="btn-primary" onclick="addEvent()">추가</button>
       </div>
     </div>
 
@@ -629,22 +628,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 <!-- Column Mapping Modal -->
 <div class="modal-overlay" id="mapModal" style="display:none" onclick="if(event.target===this)closeMapModal()">
   <div class="modal">
-    <div class="modal-title">ð ì´ ë§¤í ì¤ì </div>
-    <p class="modal-desc">ë ì§ ì´ ëë ê²ì ì´ì ìë ê°ì§íì§ ëª»íìµëë¤. íì¼ì ê° ì´ì ìëì¼ë¡ ë§¤íí´ì£¼ì¸ì.</p>
+    <div class="modal-title">📋 열 매핑 설정</div>
+    <p class="modal-desc">날짜 열 또는 게임 열을 자동 감지하지 못했습니다. 파일의 각 열을 수동으로 매핑해주세요.</p>
     <div id="mapContent"></div>
     <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeMapModal()">ì·¨ì</button>
-      <button class="btn-primary" onclick="applyMapping()">ì ì©</button>
+      <button class="btn-secondary" onclick="closeMapModal()">취소</button>
+      <button class="btn-primary" onclick="applyMapping()">적용</button>
     </div>
   </div>
 </div>
 
 <div class="modal-overlay" id="editEvModal" style="display:none" onclick="if(event.target===this)closeEditEvModal()">
   <div class="modal" style="max-width:560px;width:100%">
-    <div class="modal-title">âï¸ ì´ë²¤í¸ ìì </div>
+    <div class="modal-title">✏️ 이벤트 수정</div>
     <div class="form-grid" style="margin-top:12px">
       <div class="fg">
-        <label class="f-label">ê²ì</label>
+        <label class="f-label">게임</label>
         <select class="f-select" id="eGame">
           <option value="knivesout">Knives Out</option>
           <option value="codm">Call of Duty: Mobile</option>
@@ -652,120 +651,129 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
         </select>
       </div>
       <div class="fg">
-        <label class="f-label">ì í</label>
+        <label class="f-label">유형</label>
         <select class="f-select" id="eType">
-          <option value="collab">ð¤ ì½ë¼ë³´</option>
-          <option value="update">ð ìë°ì´í¸</option>
-          <option value="event">ð¯ ì´ë²¤í¸</option>
+          <option value="collab">🤝 콜라보</option>
+          <option value="update">🔄 업데이트</option>
+          <option value="event">🎯 이벤트</option>
         </select>
       </div>
       <div class="fg">
-        <label class="f-label">ììì¼</label>
+        <label class="f-label">시작일</label>
         <input type="date" class="f-input" id="eStart">
       </div>
       <div class="fg">
-        <label class="f-label">ì¢ë£ì¼</label>
+        <label class="f-label">종료일</label>
         <input type="date" class="f-input" id="eEnd">
       </div>
       <div class="fg full">
-        <label class="f-label">ì´ë²¤í¸ëª</label>
+        <label class="f-label">이벤트명</label>
         <input type="text" class="f-input" id="eTitle">
       </div>
       <div class="fg full">
-        <label class="f-label">ì¤ëª</label>
+        <label class="f-label">설명</label>
         <textarea class="f-textarea" id="eDesc"></textarea>
       </div>
       <div class="fg full">
-        <label class="f-label">ì´ë¯¸ì§ (íì¼ ìë¡ë ëë URL)</label>
+        <label class="f-label">이미지 (파일 업로드 또는 URL)</label>
         <input type="file" class="f-input" id="eImgFile" accept="image/*" onchange="previewEditImg(this)" style="margin-bottom:6px">
-        <input type="url" class="f-input" id="eImgUrl" placeholder="https://... (URL ì§ì  ìë ¥)">
+        <input type="url" class="f-input" id="eImgUrl" placeholder="https://... (URL 직접 입력)">
         <div id="eImgPreview" style="margin-top:8px"></div>
       </div>
       <div class="fg full">
-        <label class="f-label">íê·¸ (ì¼í êµ¬ë¶)</label>
+        <label class="f-label">태그 (쉼표 구분)</label>
         <input type="text" class="f-input" id="eTags">
       </div>
     </div>
     <div class="modal-actions" style="margin-top:16px">
-      <button class="btn-secondary" onclick="closeEditEvModal()">ì·¨ì</button>
-      <button class="btn-primary" onclick="saveEditEv()">ì ì¥</button>
+      <button class="btn-secondary" onclick="closeEditEvModal()">취셬</button>
+      <button class="btn-primary" onclick="saveEditEv()">저장</button>
     </div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<!-- ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+<!-- ══════════════════════════════════════════════════════
      JAVASCRIPT
-ââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+══════════════════════════════════════════════════════ -->
 <script>
-/* âââ GAME CONFIG âââ */
+/* ─── GAME CONFIG ─── */
 const GAMES = {
-  knivesout:   { name:'Knives Out',         jp:'èéè¡å',        color:'#3b82f6', bg:'#dbeafe' },
+  knivesout:   { name:'Knives Out',         jp:'荒野行動',        color:'#3b82f6', bg:'#dbeafe' },
   codm:        { name:'Call of Duty: Mobile', jp:'CoD Mobile',   color:'#f97316', bg:'#ffedd5' },
-  deltaforce:  { name:'Delta Force',         jp:'ãã«ã¿ãã©ã¼ã¹', color:'#22c55e', bg:'#dcfce7' },
+  deltaforce:  { name:'Delta Force',         jp:'デルタフォース', color:'#22c55e', bg:'#dcfce7' },
   pubgm:       { name:'PUBG Mobile',         jp:'PUBG Mobile',   color:'#eab308', bg:'#fef9c3' }
 };
 const GAME_PATTERNS = {
-  knivesout:  ['knives out','èéè¡å','knivesout','knives_out'],
+  knivesout:  ['knives out','荒野行動','knivesout','knives_out'],
   codm:       ['call of duty','cod mobile','codm','cod:mobile','callofduty'],
   deltaforce: ['delta force','deltaforce','delta_force'],
   pubgm:      ['pubg mobile','pubgm','pubg_mobile','pubg mobile(t-log)','pubg(t-log)']
 };
-// data.ai Bundle ID / Package Name ì í ë§¤ì¹­ (ì±ëªë³´ë¤ ì°ì )
+// data.ai Bundle ID / Package Name 정확 매칭 (앱명보다 우선)
 const GAME_BUNDLE_IDS = {
   knivesout:  ['com.netease.ko'],
   codm:       ['com.activision.callofduty.shooter'],
   deltaforce: ['com.proxima.dfm'],
   pubgm:      ['com.pubg.krmobile','com.tencent.ig','com.rekoo.pubgm']
 };
-const DATE_PATTERNS = ['date','æ¥ä»','day','ë ì§','time','period','week'];
+const DATE_PATTERNS = ['date','日付','day','날짜','time','period','week'];
 
-/* âââ INITIAL EVENTS (pre-researched) âââ */
+/* ─── INITIAL EVENTS (pre-researched) ─── */
 const SEED_EVENTS = [
   {id:1,game:'knivesout',date:'2026-02-09',endDate:'2026-02-23',type:'event',
-   title:'ã¦ããæè¬ç¥­ ç¬¬2å¼¾',
-   desc:'ãã¦ããæè¬ç¥­ ç¬¬2å¼¾ãéå¬ãæééå®ã­ã°ã¤ã³ãã¼ãã¹ã»ç¹å¥ããã·ã§ã³å®è£ã2æä¸æ¬ã®DAUä½è¿·ãåºæã¡ãã13%ã®MoMä¸æã¸å¯ä¸ããèµ·ç¹æ½ç­ã',
-   tags:['æè¬ç¥­','ã­ã°ã¤ã³ãã¼ãã¹','DAUä¿é²']},
+   title:'ウマい感謝祭 第2弾',
+   desc:'「ウマい感謝祭 第2弾」開催。期間限定ログインボーナス・特別ミッション実装。2月上旬のDAU低迷を底打ちさせ13%のMoM上昇へ寄与した起点施策。',
+   tags:['感謝祭','ログインボーナス','DAU促進']},
   {id:2,game:'knivesout',date:'2026-03-01',endDate:'2026-03-23',type:'collab',
-   title:'ãã­ã©ã¤ã ã³ã©ã ç¬¬3å¼¾ï¼ãã³ãç·¨ï¼',
-   desc:'ç«åãããã»æç¥ããã­(åç»å ´)ã»åç°ãºããã»ç½éãã¨ã«ã»ã©ãã©ã¹ã»ãã¼ã¯ãã¹5äººããã³ãçµæãã¼ãã§ç»å ´ãSPéå¨ã»SPè¡£è£ãååã®éæ¯ãã»çæ­ãã¤ã¹ããã¯ãFLOWERï½hololive collaboration ver.ï½ãå®è£ãæå¤§50é£ç¡æã¬ãã£æä¾ã',
-   tags:['Hololive','VTuber','ç¡æ50é£','é³æ¥½ã³ã©ã','SPè¡£è£']},
+   title:'ホロライブ コラボ 第3弾（バンド編）',
+   desc:'猫又おかゆ・戌神ころね(初登場)・兎田ぺこら・白銀ノエル・ラプラス・ダークネス5人がバンド結成テーマで登場。SP銃器・SP衣装「双兎の遊戯」・生歌ボイスパック「FLOWER～hololive collaboration ver.～」実装。最大50連無料ガチャ提供。',
+   tags:['Hololive','VTuber','無料50連','音楽コラボ','SP衣装']},
   {id:3,game:'knivesout',date:'2026-03-20',endDate:'2026-03-26',type:'event',
-   title:'æ±äº¬å°ç¨® ã³ã©ãç¬¬6å¼¾ äºåæ½ç­',
-   desc:'ã³ã©ãéå§7æ¥åããæ¯æ¥0æã«ç¡æ10é£ã¬ãã£éå¸ï¼7æ¥é/ææ°ã«å¥ã1åã3/27åé ã®å¼ãç´ãæ¹å¼ï¼ãæ§ã³ã©ãéè²ã¢ã¤ãã ä¿æèã¸ã®è¿½å 10é£ç¡æéå¸ã3/20ã3/26ã«äºåäºç´å ±é¬ååã¤ãã³ãä¸¦è¡å®æ½ãã³ã©ãåããDAUãç©ã¿ä¸ããè¨­è¨ãå¹æçã«æ©è½ã',
-   tags:['å¼ãç´ãã¬ãã£','äºåæ½ç­','ç¡æã¬ãã£','ãªãã³ã·ã§ã³']},
-  {id:4,game:'knivesout',date:'2026-03-27',endDate:'2026-04-17',type:'collab',
-   title:'æ±äº¬å°ç¨® ã³ã©ã ç¬¬6å¼¾',
-   desc:'éæ¨ç ã»é§å¶è£é¦ã»æå±±ç¿ãç»å ´ãã³ã©ãéæ ç¢ºå®ãå¼ãç´ãã¬ãã£ã(æ¯æ¥0æ10é£/7æ¥é)ãæ°è¦EXä¼èª¬ã¬ãã£ã»EXä¼èª¬ã¬ãã£è¤æ°éè¨­ãç¬¬2ã5å¼¾æ­´ä»£ã³ã©ãã¢ã¤ãã æééå®å¾©å»ãMoM +22%ã®å£²ä¸å¢ã»MoM +13%ã®DAUå¢ãéæã',
-   tags:['æ±äº¬å°ç¨®','ã¢ãã¡ã³ã©ã','EXä¼èª¬ã¬ãã£','å¼ãç´ãã¬ãã£','å¾©å»']},
+   title:'東京喰種 コラボ第6弾 事前施策',
+   desc:'コラボ開始7日前から毎日0時に無料10連ガチャ配布�� ߚ^��ZL��r��_�����"��d ^�H̼�ߖ>_��c����W�7�nӎ_�Z��?��'��^��
+ώ��s�G�&ˎ
+��
+������w�r'��������*��æ����Zg�7���̼�Îp̼�ێ���/�&7��#����Ǧ��>_�>[�
+��g�ώ#�⛢�3���Z���
+ώ��s�&7�/�
+%W�
+K��7����+�K�
+/�����#�3�*�zs�j���������(���х���l���W�7�nӎ_�
+���������/�&7�Z���X������Zg�
+�����������ώ
+ߎ��̝u��(������б����蝭��ٕͽ�М���є����ش�̴�ܜ�����є����ش�д�ܜ�����蝍�������(���ѥѱ�蟚vǒ곖ZÞ����
+ώ��p����ۖ����(�����͌蟦G�r���S��r���/�F���g��r#��ǿ�が登場。コラボ金枠確定「引き直しガチャ」(毎日0時10連/7日間)、新規EX伝説ガチャ・EX伝説ガチャ複数開設。第2〜5弾歴代コラボアイテム期間限定復刻。MoM +22%の売上増・MoM +13%のDAU増を達成。',
+   tags:['東京喰種','アニメコラボ','EX伝説ガチャ','引き直しガチャ','復刻']},
   {id:5,game:'knivesout',date:'2026-04-25',endDate:'2026-05-08',type:'collab',
-   title:'ã«ãããã ã³ã©ã ç¬¬4å¼¾',
-   desc:'ç¬¹æ¨å²ã»èèã»ãªã¼ã»ãã«ã¨ã¹ã¿ã»æå·ãµã©ã®4åãç»å ´ãèèã®SPè¡£è£ï¼éå®ãã¶ã¤ã³ï¼ãæ°è¦å®è£ãã³ã©ãã¬ãã£ã»æééå®ããã·ã§ã³ã»ç¹å¸éå¸ã¤ãã³ãåæéå¬ã',
-   tags:['ã«ãããã','VTuber','SPè¡£è£','èè']},
+   title:'にすさんじ コラボ 第4弾',
+   desc:'笹木咲・葛葉・リゼ・ヘルエスタ・星川サラの4名が登場。葛葉のSP衣装（限定デザイン）を新規実装。コラボガチャ・期間限定ミッション・特典配布イベント同時開催。',
+   tags:['にじさんじ','VTuber','SP衣装','葛葉']},
   {id:6,game:'codm',date:'2026-03-19',type:'update',
-   title:'Season 3 "Paranoia" ã­ã¼ã³ã',
-   desc:'æ°ã·ã¼ãºã³ãParanoiaãéå¹(3/19)ãæ°ã¢ã¼ãDMZ: Recon Quick Playè¿½å ãæ°æ­¦å¨MX Guardianã·ã§ããã¬ã³å®è£ãPop Team Epic(ããå­ã»ããç¾)ã³ã©ãï¼NieR: Automataã³ã©ãåæå±éãã³ãºããã¯ã»ãã­ã¦4ç¨®ï¼ãããã³ã°ã¨ããã¯ã»ã¹ãã­ã³ã°ããã¯ã¹(æ­¦å¨è¨­è¨å³ã»ã¤ã¢ã¼ãã»è»ä¸¡ã¹ã­ã³ç­10ç¨®ä»¥ä¸)è²©å£²éå§ãMoM +11%ã®å£²ä¸å¢ã',
-   tags:['æ°ã·ã¼ãºã³','Pop Team Epic','NieR:Automata','æ°ã¢ã¼ã','æ°æ­¦å¨']},
-  {id:7,game:'codm',date:'2026-03-19',endDate:'2026-04-18',type:'event',
-   title:'Spring Invasion ã¤ãã³ã',
-   desc:'ã·ã¼ãºã³3ã¹ããªã³ã°ã¤ãã³ããé«åè³ªãªãã¬ã¼ã¿ã¼ã¹ã­ã³ã»ã³ã¹ã¡ãã£ã¯ã¹ãç¡æç²å¾ã§ããã°ã©ã¤ã³ããã«ã¤ãã³ããåãã­ã¦ã«ã¬ã¸ã§ã³ãæ­¦å¨è¨­è¨å³ï¼ã¨ããã¯ãªãã¬ã¼ã¿ã¼ã¹ã­ã³ã»ããæ§æã',
-   tags:['ããªã¼ã¤ãã³ã','Spring','ã°ã©ã¤ã³ã','æééå®ã¹ã­ã³']},
+   title:'Season 3 "Paranoia" ローンチ',
+   desc:'新シーズン3スプリンイベント。高品質オペレータースキン・コスメティクスを無料獲得できるグラインダブルイベント。各ドロウにレジェンド武器設計図＋エピックオペレータースキンセット構成。',
+   tags:['フリーイベント','Spring','グラインド','期間限定スキン']},
   {id:8,game:'deltaforce',date:'2026-02-03',type:'update',
-   title:'å¤§åã·ã¼ãºã³ã¢ãããã¼ããã¢ã¼ãã©ã·ã¹ã',
-   desc:'2026å¹´æåã®å¤§åã·ã¼ãºã³ãã¢ã¼ãã©ã·ã¹ãéä¿¡(2/3)ãæ°ãµãã¼ããªãã¬ã¼ã¿ã¼ãããªã³ãã©ã(å»çãã­ã¼ã³Ããã¿ãã©ã¤ã¬ã¹ã­ã¥ã¼ãã­ã¼ã³)ãæ°Warfareããããã¢ãã¿ã¼ã·ã§ãã¯ã(é½å¸åãã«ã¹ã±ã¼ã«ç°å¢ç ´å£ã»åå®è£)ãæ°ã²ã¼ã ã¢ã¼ãããã©ãã·ã¥ãã¤ã³ãã(ç§»ååç®æ¨)å®è£ãã¢ãããã¼ãä»¥éDAUã¯æç¶çä¸è½å¾åã',
-   tags:['ã¢ã¼ãã©ã·ã¹','æ°ã·ã¼ãºã³','æ°ããã','æ°ã¢ã¼ã','æ°ãªãã¬ã¼ã¿ã¼']},
+   title:'大型シーズンアップデート「モーフォシス」',
+   desc:'2026年最初の大型シーズン「モーフォシス」配信(2/3)。新サポートオペレーター「フリンダラ」(医療ドローン×バタフライレスキュードローン)、新Warfareマップ「アフターショック」(都市型フルケール環境破壊・初実装)、新ゲームモード「フラッシュポイント」(移動型目標)実装。アップデート以降DAUは持続的下落傾向。',
+   tags:['モーフォシス','新シーズン','新マップ','新モード','新オペレーター']},
   {id:9,game:'deltaforce',date:'2026-02-27',endDate:'2026-03-13',type:'event',
-   title:'æ¥ç¯ é¦é¯ã¤ãã³ã ï¼ãæ¥ã®è»é¦¬ãæ½é¸ã¤ãã³ã',
-   desc:'ãããæ°´åã«åºç¾ããç¹æ®ã«ã©ã¼ã®é¦é¯ãæã¾ãã¦å ±é¬ãç²å¾ããã·ã¼ãºãã«ã¤ãã³ãããæ¥ã®è»é¦¬ãæ½é¸ã¤ãã³ãã¨åæå®æ½ãæééå®ã¹ã­ã³ã»ä¹ãç©å¤è¦³ãæä¾ã',
-   tags:['æ¥ç¯','ã·ã¼ãºãã«','éå®ã¤ãã³ã','æ¥ã®è»é¦¬']},
+   title:'春節 錦鯉イベント ＆「春の軍馬」抽選イベント',
+   desc:'マップ水域に出現する特殊カラーの錦鯉を捕まえて報酬を獲得するシーズナルイベント。「春の軍馬」抽選イベントと同時実施し期間限定スキン・乗り物外観を提供。',
+   tags:['春節','シーズナル','限定イ��(移動型目標)実装。アップデート以降DAUは持続的下落傾向。',
+   tags:['モーフォシス','新シーズン','新マップ','新モード','新オペレーター']},
+  {id:9,game:'deltaforce',date:'2026-02-27',endDate:'2026-03-13',type:'event',
+   title:'春節 錦鯉イベント ＆「春の軍馬」抽選イベント',
+   desc:'マップ水域に出現する特殊カラーの錦鯉を捕まえて報酬を獲得するシーズナルイベント。「春の軍馬」抽選イベントと同時実施し期間限定スキン・乗り物外観を提供。',
+   tags:['春節','シーズナル','限定イベント','春の軍馬']},
   {id:10,game:'deltaforce',date:'2026-04-21',type:'update',
-   title:'Season 9 "Echo" ã­ã¼ã³ã',
-   desc:'æ°ã·ã¼ãºã³ãEchoãéå¹(4/21)ãæ°åµå¯ãªãã¬ã¼ã¿ã¼ãã¢ã¼ã¹ã(ã½ãã¼è¿½è·¡/ã¤ã³ãã«ã³ã³ãã­ã¼ã«)ãæ°Warfareããããã¢ã¯ã»ã«ãã«ãããã¼ã­ãã ãå¤§å¹ãªãã¥ã¼ã¢ã«(æ°ã«ã¼ãã»æ¨ªæ­ãªãã·ã§ã³)ãæ°æ­¦å¨AR-57ã»M82è¿½å ãTomb Raiderã³ã©ã(ã©ã¼ã©ã»ã¯ã­ãã)ãBurst Festã¤ãã³ãåæå±éã',
-   tags:['Echo','æ°ã·ã¼ãºã³','æ°ããã','Tomb Raider','æ°ãªãã¬ã¼ã¿ã¼']}
+   title:'Season 9 "Echo" ローンチ',
+   desc:'新シーズン「Echo」開幕(4/21)。新偵察オペレーター「モース」(ソナー追跡/インテルコントロール)、新Warfareマップ「アク・カナル」、「ゼロダム」大幅リニューアル(新ルート・横断オプション)、新武器AR-57・M82追加。Tomb Raiderコラボ(ラーラ・クロフト)、Burst Festイベント同時展開。',
+   tags:['Echo','新シーズン','新マップ','Tomb Raider','新オペレーター']}
 ];
 
-/* âââ FIREBASE INIT âââ */
+/* ─── FIREBASE INIT ─── */
 const firebaseConfig = {
   apiKey: "AIzaSyAKJ88UekIRR8GXUonU9QP3MR-nwrU5BaE",
   authDomain: "pubgm-competitor-dashboard.firebaseapp.com",
@@ -777,11 +785,11 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* âââ STORAGE KEYS âââ */
+/* ─── STORAGE KEYS ─── */
 const DATA_KEY   = 'jpDash_data_v2';
 const EVENTS_KEY = 'jpDashEvents';
 
-/* âââ STATE âââ */
+/* ─── STATE ─── */
 const S = {
   data:{ dataai:{traffic:null,revenue:null}, sensortower:{traffic:null,revenue:null} },
   source:'dataai', metric:'traffic',
@@ -792,15 +800,15 @@ const S = {
   yMax:{},
   pending:null,
   range:{ start:'', end:'', preset:'all' },
-  selectedAnnoIds: new Set()   // ê·¸ëíì íìí  ì´ë²¤í¸ ID ì§í©
+  selectedAnnoIds: new Set()   // 그래프에 표시할 이벤트 ID 집합
 };
 
-/* âââ PERSIST / RESTORE (Firebase) âââ */
+/* ─── PERSIST / RESTORE (Firebase) ─── */
 async function persistData(){
   try {
     const dataStr = JSON.stringify(S.data);
     if(dataStr.length > 900000){
-      // ì²­í¬ë¡ ë¶í  ì ì¥
+      // 청크로 분할 저장
       const size = 800000;
       const chunks = [];
       for(let i=0;i<dataStr.length;i+=size) chunks.push(dataStr.slice(i,i+size));
@@ -813,11 +821,11 @@ async function persistData(){
       await db.collection('dashboard').doc('data').set({data:dataStr, updatedAt:new Date()});
       await db.collection('dashboard').doc('data_meta').delete().catch(()=>{});
     }
-    toast('âï¸ í´ë¼ì°ëì ì ì¥ë¨','ok');
+    toast('☁️ 클라우드에 저장됨','ok');
   } catch(e){
-    console.error('Firebase ì ì¥ ì¤í¨', e);
+    console.error('Firebase 저장 실패', e);
     try { localStorage.setItem(DATA_KEY, JSON.stringify(S.data)); }
-    catch(e2){ toast('â ï¸ ì ì¥ ì¤í¨','err'); }
+    catch(e2){ toast('⚠️ 저장 실패','err'); }
   }
 }
 async function restoreData(){
@@ -835,13 +843,13 @@ async function restoreData(){
       S.data = JSON.parse(full);
     }
   } catch(e){
-    console.warn('Firebase ë³µì ì¤í¨, localStorage ìë', e);
+    console.warn('Firebase 복원 실패, localStorage 시도', e);
     try { const raw=localStorage.getItem(DATA_KEY); if(raw) S.data=JSON.parse(raw); }
-    catch(e2){ console.warn('ë°ì´í° ë³µì ì¤í¨', e2); }
+    catch(e2){ console.warn('데이터 복원 실패', e2); }
   }
 }
 
-/* ì ì¥ë ë°ì´í° ìíë¥¼ ìë¡ë ì¹´ëì ë°ì */
+/* 저장된 데이터 상태를 업로드 카드에 반영 */
 function refreshUploadUI(src){
   if(src==='dataai') _refreshDataAIUI();
   else _refreshSTUI();
@@ -854,7 +862,7 @@ function _refreshDataAIUI(){
   const st=document.getElementById('st-dataai');
   const dz=document.getElementById('dz-dataai');
 
-  // ê²ìë³ ì¹© ìë°ì´í¸
+  // 게임별 칩 업데이트
   Object.keys(GAMES).forEach(gk=>{
     const chip=document.getElementById('chip-dataai-'+gk);
     if(!chip) return;
@@ -862,24 +870,24 @@ function _refreshDataAIUI(){
     const hasR=r?.rows?.some(row=>row[gk]!==null&&row[gk]>0);
     const loaded=!!(hasT||hasR);
     chip.className='game-chip'+(loaded?' loaded':'');
-    chip.textContent=(loaded?'â ':'â¬ ')+GAMES[gk].name;
+    chip.textContent=(loaded?'✅ ':'⬜ ')+GAMES[gk].name;
   });
 
   if(!t&&!r){
     si.className='stored-info';
-    st.textContent='íì¼ì ìë¡ëíë©´ ê¸°ì¡´ ì ì¥ ë°ì´í°ì ë³í©ë©ëë¤';
+    st.textContent='파일을 업로드하면 기존 저장 데이터에 병합됩니다';
     st.className='file-status';
     dz.classList.remove('loaded');
     return;
   }
 
   si.className='stored-info has-data';
-  const fmt=d=>{ if(!d) return null; return `${d.rows.length}í (${d.rows[0]?.date} ~ ${d.rows[d.rows.length-1]?.date})`; };
+  const fmt=d=>{ if(!d) return null; return `${d.rows.length}행 (${d.rows[0]?.date} ~ ${d.rows[d.rows.length-1]?.date})`; };
   const parts=[];
   if(t) parts.push(`<strong>Traffic</strong> ${fmt(t)}`);
   if(r) parts.push(`<strong>Revenue</strong> ${fmt(r)}`);
-  siTx.innerHTML='ð¾ ì ì¥ë¨ â '+parts.join(' &nbsp;|&nbsp; ');
-  st.textContent='ì íì¼ì ì¬ë¦¬ë©´ ë ì§ ê¸°ì¤ì¼ë¡ ìë ë³í©ë©ëë¤';
+  siTx.innerHTML='💾 저장됨 — '+parts.join(' &nbsp;|&nbsp; ');
+  st.textContent='새 파일을 올리면 날짜 기준으로 자동 병합됩니다';
   st.className='file-status ok';
   dz.classList.add('loaded');
 }
@@ -889,62 +897,62 @@ function _refreshSTUI(){
   const si=document.getElementById('si-sensortower');
   const siTx=document.getElementById('si-sensortower-text');
 
-  // DAU ì¡´ ìí
+  // DAU 존 상태
   const dauEl=document.getElementById('fs-st-dau');
   const dauDz=document.getElementById('dz-st-dau');
   if(t?.rows?.length){
-    dauEl.textContent=`â ${t.rows.length}ì¼ (${t.rows[0].date} ~ ${t.rows[t.rows.length-1].date})`;
+    dauEl.textContent=`✅ ${t.rows.length}일 (${t.rows[0].date} ~ ${t.rows[t.rows.length-1].date})`;
     dauEl.className='file-status ok';
     dauDz?.classList.add('loaded');
   } else {
-    dauEl.textContent='ë¯¸ìë¡ë';
+    dauEl.textContent='미업로드';
     dauEl.className='file-status';
     dauDz?.classList.remove('loaded');
   }
 
-  // Revenue ì¡´ ìí
+  // Revenue 존 상태
   const revEl=document.getElementById('fs-st-rev');
   const revDz=document.getElementById('dz-st-rev');
   if(r?.rows?.length){
-    revEl.textContent=`â ${r.rows.length}ì¼ (${r.rows[0].date} ~ ${r.rows[r.rows.length-1].date})`;
+    revEl.textContent=`✅ ${r.rows.length}일 (${r.rows[0].date} ~ ${r.rows[r.rows.length-1].date})`;
     revEl.className='file-status ok';
     revDz?.classList.add('loaded');
   } else {
-    revEl.textContent='ë¯¸ìë¡ë';
+    revEl.textContent='미업로드';
     revEl.className='file-status';
     revDz?.classList.remove('loaded');
   }
 
-  // stored-info ë°°ì§
+  // stored-info 배지
   if(!t&&!r){ si.className='stored-info'; return; }
   si.className='stored-info has-data';
-  const fmt=d=>{ if(!d) return null; return `${d.rows.length}í (${d.rows[0]?.date} ~ ${d.rows[d.rows.length-1]?.date})`; };
+  const fmt=d=>{ if(!d) return null; return `${d.rows.length}행 (${d.rows[0]?.date} ~ ${d.rows[d.rows.length-1]?.date})`; };
   const parts=[];
   if(t) parts.push(`<strong>DAU</strong> ${fmt(t)}`);
   if(r) parts.push(`<strong>Revenue</strong> ${fmt(r)}`);
-  siTx.innerHTML='ð¾ ì ì¥ë¨ â '+parts.join(' &nbsp;|&nbsp; ');
+  siTx.innerHTML='💾 저장됨 — '+parts.join(' &nbsp;|&nbsp; ');
 }
 
-/* í¹ì  ìì¤/ì§í ë°ì´í° ì­ì  */
+/* 특정 소스/지표 데이터 삭제 */
 function clearData(src, metric){
   const label = metric==='traffic'?'Traffic':'Revenue';
-  if(!confirm(`${src==='dataai'?'data.ai':'Sensor Tower'} ${label} ë°ì´í°ë¥¼ ì­ì íìê² ìµëê¹?\nì´ ììì ëëë¦´ ì ììµëë¤.`)) return;
+  if(!confirm(`${src==='dataai'?'data.ai':'Sensor Tower'} ${label} 데이터를 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.`)) return;
   S.data[src][metric] = null;
   persistData();
   refreshUploadUI(src);
   renderCharts(); renderTable();
-  toast(`${label} ë°ì´í°ê° ì­ì ëììµëë¤.`);
+  toast(`${label} 데이터가 삭제되었습니다.`);
 }
 
-/* âââ INIT âââ */
+/* ─── INIT ─── */
 window.addEventListener('DOMContentLoaded', async ()=>{
-  // Chart.js ì´ë¸íì´ì íë¬ê·¸ì¸ ë±ë¡
-  try{ Chart.register(ChartAnnotation); }catch(e){ console.warn('ChartAnnotation íë¬ê·¸ì¸ ë¡ë ì¤í¨:', e); }
+  // Chart.js 어노테이션 플러그인 등록
+  try{ Chart.register(ChartAnnotation); }catch(e){ console.warn('ChartAnnotation 플러그인 로드 실패:', e); }
 
-  // ë¡ë© íì
-  toast('âï¸ í´ë¼ì°ëìì ë°ì´í° ë¶ë¬ì¤ë ì¤...','ok');
+  // 로딩 표시
+  toast('☁️ 클라우드에서 데이터 불러오는 중...','ok');
 
-  // Firebaseìì ì´ë²¤í¸ ë³µì
+  // Firebase에서 이벤트 복원
   try {
     const evDoc = await db.collection('dashboard').doc('events').get();
     if(evDoc.exists){
@@ -954,18 +962,18 @@ window.addEventListener('DOMContentLoaded', async ()=>{
       S.events = savedEvs ? JSON.parse(savedEvs) : SEED_EVENTS.map(e=>({...e}));
     }
   } catch(e){
-    console.warn('ì´ë²¤í¸ ë¡ë ì¤í¨', e);
+    console.warn('이벤트 로드 실패', e);
     const savedEvs = localStorage.getItem(EVENTS_KEY);
     S.events = savedEvs ? JSON.parse(savedEvs) : SEED_EVENTS.map(e=>({...e}));
   }
   renderEvents();
 
-  // Firebaseìì ë°ì´í° ë³µì
+  // Firebase에서 데이터 복원
   await restoreData();
   refreshUploadUI('dataai');
   refreshUploadUI('sensortower');
 
-  // ê¸°ì¤ì¼ ì¤ì  â ì ì¥ë ë°ì´í° ì¤ ê°ì¥ ìµì  ë ì§
+  // 기준일 설정 — 저장된 데이터 중 가장 최신 날짜
   const maxDate = ['dataai','sensortower'].flatMap(src=>
     ['traffic','revenue'].map(m=>S.data[src][m]?.rows?.at(-1)?.date)
   ).filter(Boolean).sort().at(-1);
@@ -973,10 +981,10 @@ window.addEventListener('DOMContentLoaded', async ()=>{
   if(_rdEl) _rdEl.value = maxDate || new Date().toISOString().split('T')[0];
 
   if(maxDate){ syncRangeInputs(); renderCharts(); renderTable(); }
-  toast('â ë°ì´í° ë¡ë ìë£','ok');
+  toast('✅ 데이터 로드 완료','ok');
 });
 
-/* âââ TABS âââ */
+/* ─── TABS ─── */
 function showTab(name,btn){
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -984,11 +992,11 @@ function showTab(name,btn){
   btn.classList.add('active');
 }
 
-/* âââ UPLOAD âââ */
+/* ─── UPLOAD ─── */
 function onDragOver(e){ e.preventDefault(); e.currentTarget.classList.add('dragging'); }
 function onDragLeave(e,id){ document.getElementById(id).classList.remove('dragging'); }
 
-// data.ai: ë¤ì¤ íì¼ (ê²ìë³ íì¼ â íêº¼ë²ì ëë¡­/ì í)
+// data.ai: 다중 파일 (게임별 파일 → 한꺼번에 드롭/선택)
 function onFileInputMulti(e,src){ Array.from(e.target.files).forEach(f=>processFile(f,src)); }
 function onDropMulti(e,src){
   e.preventDefault();
@@ -996,7 +1004,7 @@ function onDropMulti(e,src){
   Array.from(e.dataTransfer.files).forEach(f=>processFile(f,src));
 }
 
-// Sensor Tower: DAU / Revenue ë¶ë¦¬ ì¡´ (í¬ë§· ìë ê°ì§)
+// Sensor Tower: DAU / Revenue 분리 존 (포맷 자동 감지)
 function onFileInputST(e,zone){ if(e.target.files[0]) processFile(e.target.files[0],'sensortower'); }
 function onDropST(e,zone){
   e.preventDefault();
@@ -1004,26 +1012,26 @@ function onDropST(e,zone){
   if(e.dataTransfer.files[0]) processFile(e.dataTransfer.files[0],'sensortower');
 }
 
-/* ì±ëª/ë²ë¤ID â gameKey ì ê·í
-   bundleIdë¥¼ ëê¸°ë©´ ë²ë¤ID ì°ì  ë§¤ì¹­, ìì¼ë©´ ì±ëªì¼ë¡ í´ë°± */
+/* 앱명/번들ID → gameKey 정규화
+   bundleId를 넘기면 번들ID 우선 매칭, 없으면 앱명으로 폴백 */
 function normalizeApp(name, bundleId){
-  // 1ìì: Bundle ID / Package Name ì í ë§¤ì¹­
+  // 1순위: Bundle ID / Package Name 정확 매칭
   if(bundleId){
     const bl=(bundleId||'').toLowerCase().trim();
     for(const [gk,ids] of Object.entries(GAME_BUNDLE_IDS)){
       if(ids.includes(bl)) return gk;
     }
   }
-  // 2ìì: ì±ëª í¨í´ ë§¤ì¹­ (í´ë°±)
+  // 2순위: 앱명 패턴 매칭 (폴백)
   const l=(name||'').toLowerCase().trim();
-  if(l.includes('knives out')||l.includes('èéè¡å')||l.includes('èéè¡å¨')) return 'knivesout';
+  if(l.includes('knives out')||l.includes('荒野行動')||l.includes('荒野行动')) return 'knivesout';
   if(l.includes('call of duty')) return 'codm';
   if(l.includes('delta force')) return 'deltaforce';
   if(l.includes('pubg mobile')||l.includes('pubg')) return 'pubgm';
   return null;
 }
 
-/* ì§ê³ ë§µ â rows ë°°ì´ ë³í */
+/* 집계 맵 → rows 배열 변환 */
 function aggToRows(agg){
   const allGames=Object.keys(GAMES);
   const usedGames=new Set();
@@ -1036,28 +1044,28 @@ function aggToRows(agg){
   return {rows,colMap};
 }
 
-/* âââââââââââââââââââââââââââââââââââââââââââ
-   processFile: í¬ë§· ìë ê°ì§ â íì ë¶ê¸°
-âââââââââââââââââââââââââââââââââââââââââââ */
+/* ───────────────────────────────────────────
+   processFile: 포맷 자동 감지 → 파서 분기
+─────────────────────────────────────────── */
 function processFile(file,src){
-  // status ìì null-safe (ST ì¹´ëë ë³ë ì¡´ íì ì¬ì©)
+  // status 요소 null-safe (ST 카드는 별도 존 표시 사용)
   const _stEl=document.getElementById('st-'+src);
-  if(_stEl){ _stEl.textContent='íì± ì¤...'; _stEl.className='file-status'; }
+  if(_stEl){ _stEl.textContent='파싱 중...'; _stEl.className='file-status'; }
 
   const reader=new FileReader();
   reader.onload=ev=>{
     try{
       const buf=ev.target.result;
       const bytes=new Uint8Array(buf,0,4);
-      // UTF-16 BOM ê°ì§ (Sensor Tower)
+      // UTF-16 BOM 감지 (Sensor Tower)
       const isUTF16=(bytes[0]===0xFF&&bytes[1]===0xFE)||(bytes[0]===0xFE&&bytes[1]===0xFF);
       if(isUTF16){ parseSensorTower(buf,src,file.name); return; }
 
-      // UTF-8 íì¤í¸ë¡ ëì½ë©
+      // UTF-8 텍스트로 디코딩
       const text=new TextDecoder('utf-8').decode(buf);
-      const firstLine=text.split('\n')[0].replace(/^ï»¿/,'').trim();
+      const firstLine=text.split('\n')[0].replace(/^﻿/,'').trim();
 
-      // data.ai Intelligence í¤ë ê°ì§
+      // data.ai Intelligence 헤더 감지
       if(firstLine.startsWith('data-ai Intelligence')){ parseDataAI(text,src,file.name); return; }
 
       // XLSX
@@ -1069,38 +1077,38 @@ function processFile(file,src){
         handleParsed(data,Object.keys(data[0]||{}),src,S.subMetric[src],file.name);
         return;
       }
-      // ì¼ë° Wide CSV
+      // 일반 Wide CSV
       const res=Papa.parse(text,{header:true,skipEmptyLines:true,dynamicTyping:true});
       handleParsed(res.data,res.meta.fields,src,S.subMetric[src],file.name);
-    }catch(err){ toastErr('íì± ì¤ë¥: '+err.message); console.error(err); }
+    }catch(err){ toastErr('파싱 오류: '+err.message); console.error(err); }
   };
   reader.readAsArrayBuffer(file);
 }
 
-/* âââââââââââââââââââââââââââââââââââââââââââ
-   Sensor Tower íì
-   íì: UTF-16 LE BOM, í­ êµ¬ë¶, Long Format
-   - Revenue íì¼: 'Revenue ($)' ì»¬ë¼ ì¡´ì¬
-   - DAU íì¼: 'DAU' ì»¬ë¼ ì¡´ì¬
-   - Date Ã Unified Name Ã Platform Ã Device í©ì°
-âââââââââââââââââââââââââââââââââââââââââââ */
+/* ───────────────────────────────────────────
+   Sensor Tower 파서
+   형식: UTF-16 LE BOM, 탭 구분, Long Format
+   - Revenue 파일: 'Revenue ($)' 컬럼 존재
+   - DAU 파일: 'DAU' 컬럼 존재
+   - Date × Unified Name × Platform × Device 합산
+─────────────────────────────────────────── */
 function parseSensorTower(buf,src,fname){
-  // UTF-16 LE BOM (FF FE): ë¬¼ë¦¬ì  BOM 2ë°ì´í¸ ì¤íµ í utf-16le ëì½ë©
+  // UTF-16 LE BOM (FF FE): 물리적 BOM 2바이트 스킵 후 utf-16le 디코딩
   const bytes=new Uint8Array(buf,0,4);
   const isLE=bytes[0]===0xFF&&bytes[1]===0xFE;
   const textBuf=buf.slice(2);
   let text=new TextDecoder(isLE?'utf-16le':'utf-16be').decode(textBuf);
-  // íì¤í¸ ë ë²¨ BOM ë¬¸ì(U+FEFF) ì ê±°
+  // 텍스트 레벨 BOM 문자(U+FEFF) 제거
   if(text.charCodeAt(0)===0xFEFF) text=text.slice(1);
   const lines=text.split(/\r?\n/).filter(l=>l.trim());
-  if(lines.length<2){ toastErr('Sensor Tower íì¼ì´ ë¹ì´ììµëë¤.'); return; }
+  if(lines.length<2){ toastErr('Sensor Tower 파일이 비어있습니다.'); return; }
 
   const headers=lines[0].split('\t').map(h=>h.trim());
   const ci=(name)=>headers.findIndex(h=>h===name);
   const iName=ci('Unified Name'), iDate=ci('Date');
   const iDAU=ci('DAU'), iRev=ci('Revenue ($)');
 
-  if(iName<0||iDate<0){ toastErr('Sensor Tower ì´ êµ¬ì¡°ë¥¼ ì¸ìíì§ ëª»íìµëë¤.'); return; }
+  if(iName<0||iDate<0){ toastErr('Sensor Tower 열 구조를 인식하지 못했습니다.'); return; }
   const isDAU=iDAU>=0;
   const metric=isDAU?'traffic':'revenue';
   const iVal=isDAU?iDAU:iRev;
@@ -1120,65 +1128,65 @@ function parseSensorTower(buf,src,fname){
   const {rows,colMap}=aggToRows(agg);
   const label=`ST_${metric==='traffic'?'DAU':'Revenue'}`;
   mergeAndSave(src,metric,rows,colMap,label);
-  toast(`â Sensor Tower ${metric==='traffic'?'DAU':'Revenue'} íì± ìë£ (${rows.length}ì¼)`,'ok');
+  toast(`✅ Sensor Tower ${metric==='traffic'?'DAU':'Revenue'} 파싱 완료 (${rows.length}일)`,'ok');
   afterLoad(src,rows);
 }
 
-/* âââââââââââââââââââââââââââââââââââââââââââ
-   data.ai íì
-   íì: UTF-8, ë©íí¤ë 9ì¤ ì¤íµ, Long Format
-   - ì»¬ë¼: Unified App Name, Start Date,
+/* ───────────────────────────────────────────
+   data.ai 파서
+   형식: UTF-8, 메타헤더 9줄 스킵, Long Format
+   - 컬럼: Unified App Name, Start Date,
             Active Users, Store Revenue
-   - íì¼ 1ê°ìì Traffic + Revenue ëì ì¶ì¶
-   - Market Ã Device ì¤ë³µ í í©ì°
-âââââââââââââââââââââââââââââââââââââââââââ */
+   - 파일 1개에서 Traffic + Revenue 동시 추출
+   - Market × Device 중복 행 합산
+─────────────────────────────────────────── */
 function parseDataAI(text,src,fname){
-  // í¤ë í ì°¾ê¸° (App, ì¼ë¡ ììíë ì²« ë²ì§¸ í)
+  // 헤더 행 찾기 (App, 으로 시작하는 첫 번째 행)
   const lines=text.split(/\r?\n/);
   const hdrIdx=lines.findIndex(l=>l.startsWith('App,'));
-  if(hdrIdx<0){ toastErr('data.ai íì¼ íìì ì¸ìíì§ ëª»íìµëë¤.'); return; }
+  if(hdrIdx<0){ toastErr('data.ai 파일 형식을 인식하지 못했습니다.'); return; }
 
   const csvText=lines.slice(hdrIdx).join('\n');
   const res=Papa.parse(csvText,{header:true,skipEmptyLines:true});
   const rows=res.data;
-  if(!rows.length){ toastErr('data.ai ë°ì´í°ê° ë¹ì´ììµëë¤.'); return; }
+  if(!rows.length){ toastErr('data.ai 데이터가 비어있습니다.'); return; }
 
-  // í¤ë ì»¬ë¼ëª íì
+  // 헤더 컬럼명 파악
   const sampleRow=rows[0]||{};
   const allCols=Object.keys(sampleRow);
-  // iOS: "App Bundle ID", Android: "App Package Name" â ê°ê° ë³ë ì»¬ë¼
+  // iOS: "App Bundle ID", Android: "App Package Name" — 각각 별도 컬럼
   const bundleCol=allCols.find(k=>/^app\s+bundle\s+id$/i.test(k))||allCols.find(k=>/bundle.?id/i.test(k))||null;
   const pkgCol  =allCols.find(k=>/^app\s+package\s+name$/i.test(k))||allCols.find(k=>/package.?name/i.test(k))||null;
-  // Country/Market ì»¬ë¼ ê°ì§
+  // Country/Market 컬럼 감지
   const countryCol=allCols.find(k=>/^country$/i.test(k)||/^market$/i.test(k)||/country.?name/i.test(k)||/market.?name/i.test(k))||null;
 
-  // íì± ì§ë¨: ì²« ë²ì§¸ KO ë§¤ì¹­ íì ì»¬ë¼ êµ¬ì¡°ë¥¼ ì½ìì ì¶ë ¥
+  // 파싱 진단: 첫 번째 KO 매칭 행의 컬럼 구조를 콘솔에 출력
   let _diagnosed=false;
   const aggT={}, aggR={};
   rows.forEach(row=>{
     const appName=(row['Unified App Name']||'').trim();
-    // iOS: App Bundle ID ì»¬ë¼, Android: App Package Name ì»¬ë¼ â ë ë¤ íì¸
+    // iOS: App Bundle ID 컬럼, Android: App Package Name 컬럼 — 둘 다 확인
     const bundleId=((bundleCol?(row[bundleCol]||'').trim():'')||(pkgCol?(row[pkgCol]||'').trim():'')).toLowerCase();
     const date=(row['Start Date']||'').trim();
     const dau=parseFloat(row['Active Users']||0)||0;
     const rev=parseFloat(row['Store Revenue']||0)||0;
     if(!date) return;
 
-    // Bundle ID / Package Name ì í ë§¤ì¹­ë§ íì© â ì´ë¦ í´ë°± ìì
-    // (ì¤êµ­íÂ·ê¸ë¡ë²í ë± ë¤ë¥¸ bundle ID ì±ì´ ì´ë¦ì¼ë¡ í¼ìëë ê²ì ë°©ì§)
-    if(!bundleId) return; // bundle ID / package name ëª¨ë ìì¼ë©´ ì¤íµ
+    // Bundle ID / Package Name 정확 매칭만 허용 — 이름 폴백 없음
+    // (중국판·글로벌판 등 다른 bundle ID 앱이 이름으로 혼입되는 것을 방지)
+    if(!bundleId) return; // bundle ID / package name 모두 없으면 스킵
     const gk=Object.entries(GAME_BUNDLE_IDS).find(([,ids])=>ids.includes(bundleId))?.[0]||null;
     if(!gk) return;
 
-    // Device ì§ê³ íë§ í¬í¨: ios-all / android-all ì ì²´ ì§ê³ë§ ì¬ì©
-    // (iphone, ipad, android-phone ë± ì¸ë¶ íì ios-all/android-allì ì´ë¯¸ í¬í¨ë¨)
+    // Device 집계 행만 포함: ios-all / android-all 전체 집계만 사용
+    // (iphone, ipad, android-phone 등 세부 행은 ios-all/android-all에 이미 포함됨)
     const deviceVal=(row['Device']||'').toLowerCase().trim();
     if(deviceVal && !deviceVal.includes('-all') && !deviceVal.includes('all-')) return;
 
-    // ì§ë¨: ì²ì ë§¤ì¹­ë íì ì»¬ë¼ êµ¬ì¡°ë¥¼ ì½ìì ê¸°ë¡
+    // 진단: 처음 매칭된 행의 컬럼 구조를 콘솔에 기록
     if(!_diagnosed){
-      console.log('[data.ai íì] bundleCol=', bundleCol, '/ pkgCol=', pkgCol);
-      console.log('[data.ai íì] ì²« ë§¤ì¹­:', gk, '| bundleId=', bundleId, '| date=', date, '| dau=', dau);
+      console.log('[data.ai 파서] bundleCol=', bundleCol, '/ pkgCol=', pkgCol);
+      console.log('[data.ai 파서] 첫 매칭:', gk, '| bundleId=', bundleId, '| date=', date, '| dau=', dau);
       _diagnosed=true;
     }
 
@@ -1188,18 +1196,18 @@ function parseDataAI(text,src,fname){
     aggR[date][gk]=(aggR[date][gk]||0)+rev;
   });
 
-  // ì§ë¨: 2026-04-01 KO ìì í ì ì²´ ì¶ë ¥ (íí° ì ì© ì )
+  // 진단: 2026-04-01 KO 원시 행 전체 출력 (필터 적용 전)
   const _koRaw=rows.filter(row=>{
     const appName=(row['Unified App Name']||'').trim();
     const bundleId=bundleCol?(row[bundleCol]||'').trim():'';
     const date=(row['Start Date']||'').trim();
     if(date!=='2026-04-01') return false;
-    // bundle ID ëë ì´ë¦ì¼ë¡ KO íë³´ íë¨
+    // bundle ID 또는 이름으로 KO 후보 판단
     const byBundle=bundleId&&bundleId.toLowerCase()==='com.netease.ko';
-    const byName=appName.toLowerCase().includes('knives out')||appName.includes('èéè¡å');
+    const byName=appName.toLowerCase().includes('knives out')||appName.includes('荒野行動');
     return byBundle||byName;
   });
-  console.log('[data.ai ì§ë¨] 2026-04-01 KO ìì í (íí° ì , ì ì²´):');
+  console.log('[data.ai 진단] 2026-04-01 KO 원시 행 (필터 전, 전체):');
   _koRaw.forEach((r,i)=>{
     console.log(`  [${i+1}] bundleId="${r[bundleCol]||''}" | Device="${r['Device']||''}" | DeviceName="${r['Device Name']||''}" | Market="${r['Market']||''}" | Country="${r['Country']||r['Country Code']||''}" | DAU=${r['Active Users']}`);
   });
@@ -1207,21 +1215,21 @@ function parseDataAI(text,src,fname){
   const {rows:tRows,colMap:tMap}=aggToRows(aggT);
   const {rows:rRows,colMap:rMap}=aggToRows(aggR);
 
-  // Traffic + Revenue ëì ì ì¥
+  // Traffic + Revenue 동시 저장
   const usedGames=[...new Set([...Object.values(aggT).flatMap(Object.keys),...Object.values(aggR).flatMap(Object.keys)])];
   const appLabel=usedGames.map(k=>GAMES[k]?.name).filter(Boolean).join(', ');
 
   mergeAndSave(src,'traffic',tRows,tMap,`data.ai(${appLabel})`);
   mergeAndSave(src,'revenue',rRows,rMap,`data.ai(${appLabel})`);
 
-  // ë¹ DAU íì revenue íì¼ìë§ ìì ì ìì â ìë´
+  // 빈 DAU 행은 revenue 파일에만 있을 수 있음 → 안내
   const emptyDAU=tRows.filter(r=>Object.keys(GAMES).every(k=>!r[k])).length;
-  const msg=emptyDAU>0?` (DAU ë¯¸ì§ê³ ${emptyDAU}ì¼ í¬í¨)`:'';
-  toast(`â data.ai íì± ìë£: ${appLabel} (Traffic ${tRows.length}ì¼, Revenue ${rRows.length}ì¼)${msg}`,'ok');
+  const msg=emptyDAU>0?` (DAU 미집계 ${emptyDAU}일 포함)`:'';
+  toast(`✅ data.ai 파싱 완료: ${appLabel} (Traffic ${tRows.length}일, Revenue ${rRows.length}일)${msg}`,'ok');
   afterLoad(src,tRows.length?tRows:rRows);
 }
 
-/* ê³µíµ: ë³í© ì ì¥ */
+/* 공통: 병합 저장 */
 function mergeAndSave(src,metric,rows,colMap,fname){
   const existing=S.data[src][metric];
   let mergedRows,mergedColMap,added=0,updated=0;
@@ -1231,7 +1239,7 @@ function mergeAndSave(src,metric,rows,colMap,fname){
       map.has(r.date)?updated++:added++;
       const prev=map.get(r.date)||{};
       const m={date:r.date};
-      // ì ê°ì´ nullì´ë©´ ê¸°ì¡´ ê° ì ì§ (ê²ìë³ íì¼ ìë¡ë ì ë®ì´ì°ê¸° ë°©ì§)
+      // 새 값이 null이면 기존 값 유지 (게임별 파일 업로드 시 덮어쓰기 방지)
       Object.keys(GAMES).forEach(gk=>{ m[gk]=r[gk]!==null?r[gk]:(prev[gk]??null); });
       map.set(r.date,m);
     });
@@ -1244,19 +1252,19 @@ function mergeAndSave(src,metric,rows,colMap,fname){
   S.data[src][metric]={rows:mergedRows,colMap:mergedColMap,fname};
 }
 
-/* ê³µíµ: ì ì¥ í UI ê°±ì  */
+/* 공통: 저장 후 UI 갱신 */
 function afterLoad(src,rows){
   persistData();
   refreshUploadUI(src);
   syncRangeInputs();
   renderCharts(); renderTable();
-  document.getElementById('lastUpdated').textContent='ë§ì§ë§ ìë¡ë: '+new Date().toLocaleTimeString('ko-KR');
+  document.getElementById('lastUpdated').textContent='마지막 업로드: '+new Date().toLocaleTimeString('ko-KR');
   const rdInput=document.getElementById('reportDate');
   const maxDate=(Array.isArray(rows)?rows:Object.values(rows)).at(-1)?.date;
   if(maxDate&&rdInput) rdInput.value=maxDate;
 }
 
-/* ì¼ë° Wide CSV ê²½ë¡ */
+/* 일반 Wide CSV 경로 */
 function handleParsed(raw,headers,src,metric,fname){
   const colMap=detectCols(headers);
   const gamesFound=Object.keys(GAMES).filter(k=>colMap[k]!==null);
@@ -1268,7 +1276,7 @@ function handleParsed(raw,headers,src,metric,fname){
   const rows=raw.map(row=>{
     const dv=row[colMap.date]; if(!dv) return null;
     let d=String(dv).trim();
-    if(d.includes('/')){ const p=d.split('/'); d=`${p[0]}-${(p[1]||'').padStart(2,'0')}-$x(p[2]||'').padStart(2,'0')}`; }
+    if(d.includes('/')){ const p=d.split('/'); d=`${p[0]}-${(p[1]||'').padStart(2,'0')}-${(p[2]||'').padStart(2,'0')}`; }
     const entry={date:d};
     Object.keys(GAMES).forEach(gk=>{
       const val=colMap[gk]?parseFloat(String(row[colMap[gk]]||'').replace(/[$,]/g,'')):null;
@@ -1279,7 +1287,7 @@ function handleParsed(raw,headers,src,metric,fname){
   mergeAndSave(src,metric,rows,colMap,fname);
   afterLoad(src,rows);
   const srcLabel=src==='dataai'?'data.ai':'Sensor Tower';
-  toast(`â ${srcLabel} ${metric} ë¡ë ìë£ (${rows.length}í)`,'ok');
+  toast(`✅ ${srcLabel} ${metric} 로드 완료 (${rows.length}행)`,'ok');
 }
 
 function detectCols(headers){
@@ -1296,14 +1304,14 @@ function detectCols(headers){
 }
 
 
-/* âââ COLUMN MAPPING MODAL âââ */
+/* ─── COLUMN MAPPING MODAL ─── */
 function openMapModal(headers){
   const c=document.getElementById('mapContent');
   const opts=headers.map(h=>`<option value="${h}">${h}</option>`).join('');
   c.innerHTML=`
-    <div class="map-row"><span class="map-label">ð ë ì§ ì´</span><select class="map-select" id="md-date"><option value="">-- ì í --</option>${opts}</select></div>
+    <div class="map-row"><span class="map-label">📅 날짜 열</span><select class="map-select" id="md-date"><option value="">-- 선택 --</option>${opts}</select></div>
     ${Object.entries(GAMES).map(([k,g])=>`
-    <div class="map-row"><span class="map-label" style="color:${g.color}">â ${g.name}</span><select class="map-select" id="md-${k}"><option value="">-- ìì --</option>${opts}</select></div>`).join('')}`;
+    <div class="map-row"><span class="map-label" style="color:${g.color}">● ${g.name}</span><select class="map-select" id="md-${k}"><option value="">-- 없음 --</option>${opts}</select></div>`).join('')}`;
   document.getElementById('mapModal').style.display='flex';
 }
 function closeMapModal(){ document.getElementById('mapModal').style.display='none'; S.pending=null; }
@@ -1316,9 +1324,9 @@ function applyMapping(){
   saveDataset(raw,colMap,src,metric,fname);
 }
 
-/* âââ RANGE PICKER âââ */
+/* ─── RANGE PICKER ─── */
 
-// 4ê° ë°ì´í° ìì¤ ì ì²´ìì ë ì§ ë²ì ì¶ì¶
+// 4개 데이터 소스 전체에서 날짜 범위 추출
 function getDataDateRange(){
   const all=[];
   ['dataai','sensortower'].forEach(src=>['traffic','revenue'].forEach(m=>{
@@ -1330,21 +1338,21 @@ function getDataDateRange(){
   return {min:all[0],max:all[all.length-1]};
 }
 
-// ë ì§ ì°ì° í¬í¼
+// 날짜 연산 헬퍼
 function addDays(dateStr, days){
   const d = new Date(dateStr+'T00:00:00');
   d.setDate(d.getDate()+days);
-  // toISOString()ì UTC ê¸°ì¤ â ë¡ì»¬ ë ì§ í¨ìë¡ í¬ë§·
+  // toISOString()은 UTC 기준 → 로컬 날짜 함수로 포맷
   const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), dd=String(d.getDate()).padStart(2,'0');
   return `${y}-${m}-${dd}`;
 }
 
-// íë¦¬ì ë²í¼ í´ë¦­
+// 프리셋 버튼 클릭
 function setPreset(p){
   S.range.preset = p;
   const { min, max } = getDataDateRange();
 
-  // íë¦¬ì ë²í¼ íì±í
+  // 프리셋 버튼 활성화
   ['all','1m','3m','6m','ytd','custom'].forEach(k=>{
     const el = document.getElementById('preset-'+k);
     if(el) el.classList.toggle('active', k===p);
@@ -1366,7 +1374,7 @@ function setPreset(p){
   _commitRange();
 }
 
-// ë ì§ ìë ¥ì°½ ì§ì  ìì  ì â 'ì§ì  ì¤ì ' ëª¨ë
+// 날짜 입력창 직접 수정 시 → '직접 설정' 모드
 function onRangeInputChange(){
   S.range.preset = 'custom';
   ['all','1m','3m','6m','ytd'].forEach(k=> document.getElementById('preset-'+k)?.classList.remove('active'));
@@ -1374,14 +1382,14 @@ function onRangeInputChange(){
   document.getElementById('preset-custom').classList.add('active');
 }
 
-// ì ì© ë²í¼
+// 적용 버튼
 function applyRange(){
   S.range.start = document.getElementById('rangeStart').value;
   S.range.end   = document.getElementById('rangeEnd').value;
   _commitRange();
 }
 
-// ë²ì ì ì© + ì°¨í¸Â·íì´ë¸ ê°±ì 
+// 범위 적용 + 차트·테이블 갱신
 function _commitRange(){
   const s=S.range.start, e=S.range.end;
   const {min,max}=getDataDateRange();
@@ -1398,7 +1406,7 @@ function _commitRange(){
   renderTable();
 }
 
-// ë°ì´í° ë¡ë í range ìë ¥ì°½ ì´ê¸°ê° ì¸í
+// 데이터 로드 후 range 입력창 초기값 세팅
 function syncRangeInputs(){
   const {min,max}=getDataDateRange();
   if(!document.getElementById('rangeStart').value&&min) document.getElementById('rangeStart').value=min;
@@ -1407,12 +1415,12 @@ function syncRangeInputs(){
   S.range.end=document.getElementById('rangeEnd').value;
   const infoEl=document.getElementById('rangeInfo');
   if(min&&max) infoEl.innerHTML=`<strong>${min}</strong> ~ <strong>${max}</strong>`;
-  // í ê¸°ê°ë ë°ì´í° ë²ìë¡ ì´ê¸°í (ë¹ì´ìì ëë§)
+  // 표 기간도 데이터 범위로 초기화 (비어있을 때만)
   if(!document.getElementById('tableRangeStart').value&&min) document.getElementById('tableRangeStart').value=min;
   if(!document.getElementById('tableRangeEnd').value&&max)   document.getElementById('tableRangeEnd').value=max;
 }
 
-/* âââ CHART INSTANCES âââ */
+/* ─── CHART INSTANCES ─── */
 const CHART_CFGS=[
   {src:'dataai',     metric:'traffic', id:'dataai-traffic'},
   {src:'sensortower',metric:'traffic', id:'sensortower-traffic'},
@@ -1421,7 +1429,7 @@ const CHART_CFGS=[
 ];
 const S_CHARTS={};
 
-/* âââ CHARTS âââ */
+/* ─── CHARTS ─── */
 function setYMax(id, val){
   S.yMax[id] = val ? parseFloat(val) : null;
   renderCharts();
@@ -1469,7 +1477,7 @@ function renderOneChart({src,metric,id}){
     type:isRevenue?'bar':'line'
   }));
 
-  // ì íë ì´ë²¤í¸ ì ì  (ë ì´ë¸ ìì â ìë Canvas íë¬ê·¸ì¸ìì ì§ì  ê·¸ë¦¼)
+  // 선택된 이벤트 점선 (레이블 없음 — 아래 Canvas 플러그인에서 직접 그림)
   const annotations={};
   const _annoEvs=[];
   if(S.selectedAnnoIds.size>0&&labels.length>0){
@@ -1482,7 +1490,7 @@ function renderOneChart({src,metric,id}){
       });
   }
 
-  // ì°¨í¸ ìì­ ë§¨ ì ê³ ì  ë ì´ë¸ (Canvas API) â ê²¹ì¹¨ ë°©ì§: ì¶©ë ì ìë íì¼ë¡
+  // 차트 영역 맨 위 고정 레이블 (Canvas API) — 겹침 방지: 충돌 시 아래 행으로
   const topLabelPlugin={
     id:'tlp_'+id,
     afterDraw(chart){
@@ -1496,7 +1504,7 @@ function renderOneChart({src,metric,id}){
       ctx.textBaseline='top';
       const pad=5, bh=14, gap=2, rowH=bh+gap;
 
-      // 1ë¨ê³: ê° ì´ë²¤í¸ì í½ì ìì¹Â·í¬ê¸° ê³ì°
+      // 1단계: 각 이벤트의 픽셀 위치·크기 계산
       const items=[];
       _annoEvs.forEach(({ev,g})=>{
         const x=xScale.getPixelForValue(ev.date);
@@ -1507,13 +1515,13 @@ function renderOneChart({src,metric,id}){
         items.push({ev,g,x,bx,bw});
       });
 
-      // 2ë¨ê³: ê²¹ì¹¨ ê°ì§ â í(row) ë°°ì  (greedy interval scheduling)
-      // rows[r] = í´ë¹ íìì ë§ì§ë§ì¼ë¡ ë°°ì¹ë ë ì´ë¸ì ì¤ë¥¸ìª½ ë x
+      // 2단계: 겹침 감지 → 행(row) 배정 (greedy interval scheduling)
+      // rows[r] = 해당 행에서 마지막으로 배치된 레이블의 오른쪽 끝 x
       const rows=[];
       items.forEach(item=>{
         let placed=false;
         for(let r=0;r<rows.length;r++){
-          if(item.bx > rows[r]+2){ // 2px ì¬ì 
+          if(item.bx > rows[r]+2){ // 2px 여유
             item.row=r;
             rows[r]=item.bx+item.bw;
             placed=true;
@@ -1526,7 +1534,7 @@ function renderOneChart({src,metric,id}){
         }
       });
 
-      // 3ë¨ê³: ë ë
+      // 3단계: 렌더
       items.forEach(({ev,g,x,bx,bw,row})=>{
         const by=top+3+row*rowH;
         ctx.fillStyle=g.bg+'ee';
@@ -1571,7 +1579,7 @@ function renderOneChart({src,metric,id}){
   if(legendEl) legendEl.innerHTML=datasets.map(ds=>`<div class="legend-item"><div class="legend-dot" style="background:${ds.borderColor||ds.backgroundColor}"></div><span>${ds.label}</span></div>`).join('');
 }
 
-/* âââ EVENT ANNOTATION PANEL âââ */
+/* ─── EVENT ANNOTATION PANEL ─── */
 function renderEvAnno(){
   const bar=document.getElementById('evAnnoBar');
   const list=document.getElementById('evAnnoList');
@@ -1587,14 +1595,14 @@ function renderEvAnno(){
   const inRange=S.events.filter(ev=>ev.date>=rs&&ev.date<=re)
     .sort((a,b)=>a.date.localeCompare(b.date));
 
-  countEl.textContent=inRange.length+'ê±´';
+  countEl.textContent=inRange.length+'건';
 
   if(!inRange.length){
-    list.innerHTML='<div class="ev-anno-empty">íì¬ ê¸°ê°ì ë±ë¡ë ì´ë²¤í¸ê° ììµëë¤</div>';
+    list.innerHTML='<div class="ev-anno-empty">현재 기간에 등록된 이벤트가 없습니다</div>';
     return;
   }
 
-  const typeEmoji={collab:'ð¤',update:'ð',event:'ð¯'};
+  const typeEmoji={collab:'🤝',update:'🔄',event:'🎯'};
   list.innerHTML=inRange.map(ev=>{
     const g=GAMES[ev.game]||{name:ev.game,color:'#888',bg:'#f3f4f6'};
     const checked=S.selectedAnnoIds.has(ev.id);
@@ -1604,14 +1612,14 @@ function renderEvAnno(){
       <div style="flex:1;min-width:0">
         <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px;flex-wrap:wrap">
           <span class="ev-check-game" style="background:${g.bg};color:${g.color}">${g.name}</span>
-          <span style="font-size:9px;color:#9ca3af">${typeEmoji[ev.type]||'ð®'}</span>
+          <span style="font-size:9px;color:#9ca3af">${typeEmoji[ev.type]||'🎮'}</span>
         </div>
         <div class="ev-check-title">${ev.title}</div>
         <div class="ev-check-date">${dateStr}</div>
       </div>
-      <button onclick="event.preventDefault();deleteAnnoEvent(${ev.id})" title="ì­ì "
+      <button onclick="event.preventDefault();deleteAnnoEvent(${ev.id})" title="삭제"
         style="flex-shrink:0;background:none;border:none;cursor:pointer;color:#d1d5db;font-size:14px;padding:2px 4px;line-height:1;border-radius:4px;transition:color .15s"
-        onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#d1d5db'">â</button>
+        onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#d1d5db'">✕</button>
     </label>`;
   }).join('');
 }
@@ -1621,7 +1629,7 @@ function toggleInlineAddForm(){
   const show=form.style.display==='none';
   form.style.display=show?'block':'none';
   if(show){
-    // ì°¨í¸ ë²ì ë´ ë ì§ë¡ ê¸°ë³¸ê° ì¸í
+    // 차트 범위 내 날짜로 기본값 세팅
     const s=S.range.start||''; const e=S.range.end||'';
     if(s) document.getElementById('iStart').value=s;
     if(e) document.getElementById('iEnd').value=e;
@@ -1635,7 +1643,7 @@ function addInlineEvent(){
   const date=document.getElementById('iStart').value;
   const endDate=document.getElementById('iEnd').value;
   const title=document.getElementById('iTitle').value.trim();
-  if(!date||!title){ alert('ììì¼ê³¼ ì´ë²¤í¸ëªì íììëë¤.'); return; }
+  if(!date||!title){ alert('시작일과 이벤트명은 필수입니다.'); return; }
   const newEv={
     id: Date.now(),
     game, type, date,
@@ -1646,16 +1654,16 @@ function addInlineEvent(){
   };
   S.events.push(newEv);
   saveEvs();
-  // ì¶ê°ë ì´ë²¤í¸ ìë ì í
+  // 추가된 이벤트 자동 선택
   S.selectedAnnoIds.add(newEv.id);
-  // í¼ ì´ê¸°í
+  // 폼 초기화
   document.getElementById('iTitle').value='';
   document.getElementById('iStart').value='';
   document.getElementById('iEnd').value='';
   toggleInlineAddForm();
   renderEvAnno();
   renderCharts();
-  toast(`â ì´ë²¤í¸ ì¶ê°ë¨: ${title}`,'ok');
+  toast(`✅ 이벤트 추가됨: ${title}`,'ok');
 }
 
 function toggleEvAnno(){
@@ -1696,7 +1704,7 @@ function clearAllAnno(){
   renderEvAnno(); renderCharts();
 }
 
-/* âââ SUMMARY TABLE âââ */
+/* ─── SUMMARY TABLE ─── */
 function syncTableRangeFromData(){
   const {min,max}=getDataDateRange();
   if(min) document.getElementById('tableRangeStart').value=min;
@@ -1707,12 +1715,12 @@ function syncTableRangeFromData(){
 function renderTable(){
   const container=document.getElementById('summaryTables');
   const hasAny=Object.values(S.data).some(src=>Object.values(src).some(d=>d));
-  if(!hasAny){container.innerHTML='<div class="no-data-msg">ë°ì´í°ë¥¼ ìë¡ëíë©´ ê¸°ê°ë³ ë¹êµ íì´ë¸ì´ íìë©ëë¤</div>';return;}
+  if(!hasAny){container.innerHTML='<div class="no-data-msg">데이터를 업로드하면 기간별 비교 테이블이 표시됩니다</div>';return;}
 
   const tblStart=document.getElementById('tableRangeStart').value;
   const tblEnd=document.getElementById('tableRangeEnd').value;
   if(!tblStart||!tblEnd){
-    container.innerHTML='<div class="no-data-msg">ììì ê¸°ê°ì ì¤ì íë©´ ê¸°ê°ë³ ë¹êµ íì´ë¸ì´ íìë©ëë¤</div>';
+    container.innerHTML='<div class="no-data-msg">위에서 기간을 설정하면 기간별 비교 테이블이 표시됩니다</div>';
     return;
   }
   const periods=calcPeriods(tblStart, tblEnd);
@@ -1725,7 +1733,7 @@ function renderTable(){
 function buildUnifiedTable(metric,periods){
   const daD=S.data.dataai[metric];
   const stD=S.data.sensortower[metric];
-  // T-log(PUBGM): data.ai ì°ì , ìì¼ë©´ sensortower
+  // T-log(PUBGM): data.ai 우선, 없으면 sensortower
   const tlD=daD?.colMap?.pubgm?daD:(stD?.colMap?.pubgm?stD:null);
 
   const compGames=['knivesout','codm','deltaforce'];
@@ -1737,7 +1745,7 @@ function buildUnifiedTable(metric,periods){
   const hasTlog=!!(tlD?.colMap?.pubgm);
 
   if(!daiGames.length&&!stGames.length&&!hasTlog)
-    return `<div class="no-data-msg">${metricLabel} ë°ì´í° ìì</div>`;
+    return `<div class="no-data-msg">${metricLabel} 데이터 없음</div>`;
 
   function getVal(data,gk,period){
     if(!data||!data.colMap[gk]) return null;
@@ -1754,11 +1762,11 @@ function buildUnifiedTable(metric,periods){
   const pctCell=n=>{
     if(n===null) return '<td>-</td>';
     const cls=n>0?'pos':n<0?'neg':'neu';
-    return `<td class="${cls}">${n>0?'â²':'â¼'}${Math.abs(n)}%</td>`;
+    return `<td class="${cls}">${n>0?'▲':'▼'}${Math.abs(n)}%</td>`;
   };
   const gameLabel=k=>({knivesout:'Knives Out',codm:'CoDM',deltaforce:'Delta Force',pubgm:'PUBG Mobile'}[k]||k);
 
-  // í¤ë í 1
+  // 헤더 행 1
   let h1=`<tr>
     <th class="meta-h" rowspan="2">/</th>
     <th class="date-h" rowspan="2">Start date</th>
@@ -1768,14 +1776,14 @@ function buildUnifiedTable(metric,periods){
   if(hasTlog)         h1+=`<th class="tlog-h" colspan="1">T-log</th>`;
   h1+='</tr>';
 
-  // í¤ë í 2
+  // 헤더 행 2
   let h2='<tr>';
   daiGames.forEach(k=>{ h2+=`<th class="sub-dai">${gameLabel(k)}</th>`; });
   stGames.forEach(k=>{  h2+=`<th class="sub-st">${gameLabel(k)}</th>`; });
   if(hasTlog)           h2+=`<th class="sub-tlog">PUBGM</th>`;
   h2+='</tr>';
 
-  // ê¸°ê° ë°ì´í° í
+  // 기간 데이터 행
   const periodKeys=[
     {k:'thisMonth',l:'This Month'},
     {k:'lastMonth',l:'Last Month'},
@@ -1799,7 +1807,7 @@ function buildUnifiedTable(metric,periods){
   });
   let selectedRangeRow='';
 
-  // ì±ì¥ë¥  í
+  // 성장률 행
   const growthDefs=[
     {l:'MoM (%)',           a:'thisMonth',b:'lastMonth'},
     {l:'QoQ (%)',           a:'thisQ',    b:'lastQ'},
@@ -1826,14 +1834,14 @@ function buildUnifiedTable(metric,periods){
 }
 
 // tblStart: "YYYY-MM-DD", tblEnd: "YYYY-MM-DD"
-// ë¶ê¸° ë¹êµë ëª¨ë "ë¶ê¸° ììì¼ë¡ë¶í° ëì¼ ê²½ê³¼ ì¼ì" ê¸°ì¤ì¼ë¡ ê³µì  ë¹êµ
-// ì) 2026-04-01 ~ 2026-04-11 (Q2 ë´ 11ì¼):
-//   thisQ  : 2026-04-01 ~ 2026-04-11  (Q2 ìì+0~10ì¼)
-//   lastQ  : 2026-01-01 ~ 2026-01-11  (Q1 ìì+0~10ì¼)
-//   lyQ    : 2025-04-01 ~ 2025-04-11  (ìëQ2 ìì+0~10ì¼)
+// 분기 비교는 모두 "분기 시작일로부터 동일 경과 일수" 기준으로 공정 비교
+// 예) 2026-04-01 ~ 2026-04-11 (Q2 내 11일):
+//   thisQ  : 2026-04-01 ~ 2026-04-11  (Q2 시작+0~10일)
+//   lastQ  : 2026-01-01 ~ 2026-01-11  (Q1 시작+0~10일)
+//   lyQ    : 2025-04-01 ~ 2025-04-11  (작년Q2 시작+0~10일)
 function calcPeriods(tblStart, tblEnd){
-  // toISOString()ì UTC ê¸°ì¤ â JST(+9)ìì ë ì§ê° íë£¨ ë°ë¦¼
-  // getFullYear/getMonth/getDateë ë¡ì»¬ ìê° ê¸°ì¤ì´ë¯ë¡ ìì 
+  // toISOString()은 UTC 기준 → JST(+9)에서 날짜가 하루 밀림
+  // getFullYear/getMonth/getDate는 로컬 시간 기준이므로 안전
   const f=d=>{
     const y=d.getFullYear();
     const m=String(d.getMonth()+1).padStart(2,'0');
@@ -1851,27 +1859,27 @@ function calcPeriods(tblStart, tblEnd){
   const sy=rs.getFullYear(), sm=rs.getMonth(), sd=rs.getDate();
   const ey=re.getFullYear(), em=re.getMonth(), ed=re.getDate();
 
-  // ââ ì ê¸°ì¤ ââ
-  // Last Month = íë¬ ì  ëì¼ ììì¼ ~ ëì¼ ì¢ë£ì¼
+  // ── 월 기준 ──
+  // Last Month = 한달 전 동일 시작일 ~ 동일 종료일
   const lastMonthS=clamp(sm===0?sy-1:sy, sm===0?11:sm-1, sd);
   const lastMonthE=clamp(em===0?ey-1:ey, em===0?11:em-1, ed);
 
-  // ââ ë¶ê¸° ê¸°ì¤ ââ
-  // ì´ë² ë¶ê¸° ììì¼ (end date ê¸°ì¤)
+  // ── 분기 기준 ──
+  // 이번 분기 시작일 (end date 기준)
   const eqm=Math.floor(em/3)*3;
   const thisQStart=new Date(ey, eqm, 1);
-  // ë¶ê¸° ë´ ê²½ê³¼ ì¼ì (0-based offset)
+  // 분기 내 경과 일수 (0-based offset)
   const daysIntoQ=Math.round((re-thisQStart)/(1000*60*60*24));
 
-  // ì  ë¶ê¸° ììì¼
+  // 전 분기 시작일
   const lqm=eqm-3<0?9:eqm-3;
   const lqy=eqm-3<0?ey-1:ey;
   const lastQStart=new Date(lqy, lqm, 1);
-  const lastQEnd=addDaysTo(lastQStart, daysIntoQ); // ëì¼ ê²½ê³¼ ì¼ì
+  const lastQEnd=addDaysTo(lastQStart, daysIntoQ); // 동일 경과 일수
 
-  // ì ë ëë¶ê¸° ììì¼
+  // 전년 동분기 시작일
   const lyQStart=new Date(ey-1, eqm, 1);
-  const lyQEnd=addDaysTo(lyQStart, daysIntoQ); // ëì¼ ê²½ê³¼ ì¼ì
+  const lyQEnd=addDaysTo(lyQStart, daysIntoQ); // 동일 경과 일수
 
   return {
     thisMonth:{ s:tblStart, e:tblEnd },
@@ -1891,13 +1899,13 @@ function calcPeriods(tblStart, tblEnd){
       e:tblEnd
     },
 
-    // Last Quarter = ì  ë¶ê¸° ìì + ëì¼ ê²½ê³¼ ì¼ì (ê³µì  ë¹êµ)
+    // Last Quarter = 전 분기 시작 + 동일 경과 일수 (공정 비교)
     lastQ:{
       s:f(lastQStart),
       e:f(lastQEnd)
     },
 
-    // Last Year Same Quarter = ìë ëë¶ê¸° ìì + ëì¼ ê²½ê³¼ ì¼ì
+    // Last Year Same Quarter = 작년 동분기 시작 + 동일 경과 일수
     lyQ:{
       s:f(lyQStart),
       e:f(lyQEnd)
@@ -1918,7 +1926,7 @@ function aggPeriod(rows,colMap,s,e,metric){
   return res;
 }
 
-/* âââ EVENTS âââ */
+/* ─── EVENTS ─── */
 function setFilter(type,val,btn){
   S.filter[type]=val;
   const barId=type==='game'?'gFilter':'tFilter';
@@ -1935,21 +1943,21 @@ function renderEvents(){
     return true;
   });
 
-  document.getElementById('evCount').textContent=`${list.length}ê° ì´ë²¤í¸`;
+  document.getElementById('evCount').textContent=`${list.length}개 이벤트`;
 
   if(!list.length){
-    grid.innerHTML='<div class="empty-state"><div class="empty-icon">ð</div><div>íí° ì¡°ê±´ì ë§ë ì´ë²¤í¸ê° ììµëë¤</div></div>';
+    grid.innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><div>필터 조건에 맞는 이벤트가 없습니다</div></div>';
     return;
   }
 
-  const tLabel={collab:'ì½ë¼ë³´',update:'ìë°ì´í¸',event:'ì´ë²¤í¸'};
-  const tEmoji={collab:'ð¤',update:'ð',event:'ð¯'};
+  const tLabel={collab:'콜라보',update:'업데이트',event:'이벤트'};
+  const tEmoji={collab:'🤝',update:'🔄',event:'🎯'};
 
   const renderCard=ev=>{
     const g=GAMES[ev.game]||{name:ev.game,color:'#888',bg:'#f3f4f6'};
     const dateStr=ev.endDate&&ev.endDate!==ev.date?`${ev.date} ~ ${ev.endDate}`:ev.date;
     const imgEl=ev.img?`<div style="padding:0 15px 10px"><img src="${ev.img}" style="width:100%;border-radius:6px;max-height:140px;object-fit:cover" onerror="this.parentElement.remove()" alt=""></div>`
-      :`<div class="ev-placeholder" style="--gbg:${g.bg}">${tEmoji[ev.type]||'ð®'}</div>`;
+      :`<div class="ev-placeholder" style="--gbg:${g.bg}">${tEmoji[ev.type]||'🎮'}</div>`;
     return `<div class="ev-card">
       <div class="ev-top" style="--gc:${g.color}">
         <div class="ev-meta">
@@ -1963,13 +1971,13 @@ function renderEvents(){
       ${imgEl}
       <div class="ev-tags">${(ev.tags||[]).map(t=>`<span class="ev-tag">#${t}</span>`).join('')}</div>
       <div class="ev-footer">
-        <button class="btn-icon" onclick="openEditEvModal(${ev.id})" title="ìì ">âï¸</button>
-        <button class="btn-icon" onclick="delEvent(${ev.id})" title="ì­ì ">ðï¸</button>
+        <button class="btn-icon" onclick="openEditEvModal(${ev.id})" title="수정">✏️</button>
+        <button class="btn-icon" onclick="delEvent(${ev.id})" title="삭제">🗑️</button>
       </div>
     </div>`;
   };
 
-  // ê²ì íí° 'all': ê²ìë³ ì¹ìì¼ë¡ êµ¬ë¶
+  // 게임 필터 'all': 게임별 섹션으로 구분
   if(S.filter.game==='all'){
     const gameOrder=['knivesout','codm','deltaforce'];
     let html='';
@@ -1980,14 +1988,14 @@ function renderEvents(){
       html+=`<div style="grid-column:1/-1;display:flex;align-items:center;gap:10px;margin:8px 0 4px">
         <div style="width:4px;height:20px;background:${g.color};border-radius:2px"></div>
         <span style="font-size:13px;font-weight:700;color:${g.color}">${g.name}</span>
-        <span style="font-size:11px;color:#9ca3af">${items.length}ê±´</span>
+        <span style="font-size:11px;color:#9ca3af">${items.length}건</span>
         <div style="flex:1;height:1px;background:#e5e7eb"></div>
       </div>`;
       html+=items.map(renderCard).join('');
     });
     grid.innerHTML=html;
   } else {
-    // í¹ì  ê²ì íí°: ë ì§ ë´ë¦¼ì°¨ì
+    // 특정 게임 필터: 날짜 내림차순
     grid.innerHTML=list.sort((a,b)=>b.date.localeCompare(a.date)).map(renderCard).join('');
   }
 }
@@ -2022,7 +2030,7 @@ function previewEditImg(input){
   if(!file) return;
   const reader=new FileReader();
   reader.onload=e=>{
-    document.getElementById('eImgPreview').innerHTML<`<img src="${e.target.result}" style="max-height:100px;border-radius:6px;max-width:100%">`;
+    document.getElementById('eImgPreview').innerHTML=`<img src="${e.target.result}" style="max-height:100px;border-radius:6px;max-width:100%">`;
     document.getElementById('eImgUrl').value='';
   };
   reader.readAsDataURL(file);
@@ -2038,18 +2046,18 @@ function saveEditEv(){
   ev.title=document.getElementById('eTitle').value.trim();
   ev.desc=document.getElementById('eDesc').value.trim();
   ev.tags=document.getElementById('eTags').value.split(',').map(t=>t.trim()).filter(Boolean);
-  // ì´ë¯¸ì§: íì¼ ìë¡ë > URL ìë ¥ > ê¸°ì¡´ ê° ì ì§
+  // 이미지: 파일 업로드 > URL 입력 > 기존 값 유지
   const fileInput=document.getElementById('eImgFile');
   const urlInput=document.getElementById('eImgUrl').value.trim();
   if(fileInput.files[0]){
     const reader=new FileReader();
-    reader.onload=e=>{ ev.img=e.target.result; saveEvs(); renderEvents(); closeEditEvModal(); toast('ì ì¥ëììµëë¤.','ok'); };
+    reader.onload=e=>{ ev.img=e.target.result; saveEvs(); renderEvents(); closeEditEvModal(); toast('저장되었습니다.','ok'); };
     reader.readAsDataURL(fileInput.files[0]);
     return;
   }
   ev.img=urlInput||ev.img||null;
   saveEvs(); renderEvents(); closeEditEvModal();
-  toast('ì ì¥ëììµëë¤.','ok');
+  toast('저장되었습니다.','ok');
 }
 
 function toggleAddForm(){
@@ -2060,7 +2068,7 @@ function toggleAddForm(){
 function addEvent(){
   const title=document.getElementById('nTitle').value.trim();
   const date=document.getElementById('nStart').value;
-  if(!title||!date){ toastErr('ë ì§ì ì´ë²¤í¸ëªì íììëë¤.'); return; }
+  if(!title||!date){ toastErr('날짜와 이벤트명은 필수입니다.'); return; }
   const ev={
     id:Date.now(),
     game:document.getElementById('nGame').value,
@@ -2075,35 +2083,35 @@ function addEvent(){
   renderEvents();
   toggleAddForm();
   ['nTitle','nStart','nEnd','nDesc','nImg','nTags'].forEach(id=>document.getElementById(id).value='');
-  toast('ì´ë²¤í¸ê° ì¶ê°ëììµëë¤.','ok');
+  toast('이벤트가 추가되었습니다.','ok');
 }
 
 function delEvent(id){
-  if(!confirm('ì´ ì´ë²¤í¸ë¥¼ ì­ì íìê² ìµëê¹?')) return;
+  if(!confirm('이 이벤트를 삭제하시겠습니까?')) return;
   S.events=S.events.filter(e=>e.id!==id);
   saveEvs(); renderEvents();
-  toast('ì­ì ëììµëë¤.');
+  toast('삭제되었습니다.');
 }
 
 async function saveEvs(){
   try {
     await db.collection('dashboard').doc('events').set({events:S.events, updatedAt:new Date()});
   } catch(e){
-    console.warn('ì´ë²¤í¸ Firebase ì ì¥ ì¤í¨', e);
+    console.warn('이벤트 Firebase 저장 실패', e);
     localStorage.setItem(EVENTS_KEY,JSON.stringify(S.events));
   }
 }
 
 function resetEvents(){
-  if(!confirm('ì´ë²¤í¸ë¥¼ ì´ê¸° ë°ì´í°ë¡ ì´ê¸°ííìê² ìµëê¹?')) return;
+  if(!confirm('이벤트를 초기 데이터로 초기화하시겠습니까?')) return;
   S.events=SEED_EVENTS.map(e=>({...e}));
   saveEvs(); renderEvents();
-  toast('ì´ë²¤í¸ê° ì´ê¸°íëììµëë¤.','ok');
+  toast('이벤트가 초기화되었습니다.','ok');
 }
 
-/* âââ DATA CLEAR âââ */
+/* ─── DATA CLEAR ─── */
 async function clearAllData(){
-  if(!confirm('ìë¡ëë ë°ì´í°ë¥¼ ëª¨ë ì­ì íìê² ìµëê¹?\nì´ë²¤í¸ ë°ì´í°ë ì ì§ë©ëë¤.')) return;
+  if(!confirm('업로드된 데이터를 모두 삭제하시겠습니까?\n이벤트 데이터는 유지됩니다.')) return;
   ['dataai','sensortower'].forEach(src=>{
     ['traffic','revenue'].forEach(m=>{ S.data[src][m]=null; });
   });
@@ -2111,27 +2119,27 @@ async function clearAllData(){
   try {
     await db.collection('dashboard').doc('data').delete();
     await db.collection('dashboard').doc('data_meta').delete();
-  } catch(e){ console.warn('Firebase ë°ì´í° ì­ì  ì¤í¨', e); }
-  // ìë ¥ì°½ ì´ê¸°í
+  } catch(e){ console.warn('Firebase 데이터 삭제 실패', e); }
+  // 입력창 초기화
   ['rangeStart','rangeEnd','tableRangeStart','tableRangeEnd'].forEach(id=>{
     const el=document.getElementById(id); if(el) el.value='';
   });
   renderCharts(); renderTable();
   ['dataai','sensortower'].forEach(src=>refreshUploadUI(src));
-  toast('ë°ì´í°ê° ì´ê¸°íëììµëë¤. íì¼ì ë¤ì ìë¡ëí´ì£¼ì¸ì.','ok');
+  toast('데이터가 초기화되었습니다. 파일을 다시 업로드해주세요.','ok');
 }
 
-/* âââ RAW DATA DEBUG âââ */
+/* ─── RAW DATA DEBUG ─── */
 function showRawData(){
   const lines=[];
   ['dataai','sensortower'].forEach(src=>{
     ['traffic','revenue'].forEach(metric=>{
       const d=S.data[src][metric];
       if(!d?.rows?.length) return;
-      lines.push(`\nâ  ${src} / ${metric} (${d.rows.length}í, íì¼: ${d.fname||'-'})`);
+      lines.push(`\n■ ${src} / ${metric} (${d.rows.length}행, 파일: ${d.fname||'-'})`);
       lines.push(`  colMap: ${JSON.stringify(d.colMap)}`);
-      // ì²ìÂ·ë§ì§ë§ 3í íì
-      const sample=[...d.rows.slice(0,3),...(d.rows.length>6?['... (ì¤ëµ) ...']:d.rows.slice(3)),...d.rows.slice(-3)];
+      // 처음·마지막 3행 표시
+      const sample=[...d.rows.slice(0,3),...(d.rows.length>6?['... (중략) ...']:d.rows.slice(3)),...d.rows.slice(-3)];
       sample.forEach(r=>{
         if(typeof r==='string'){lines.push('  '+r);return;}
         const ko=r.knivesout!=null?Math.round(r.knivesout).toLocaleString():'-';
@@ -2142,11 +2150,11 @@ function showRawData(){
       });
     });
   });
-  if(!lines.length){ alert('ì ì¥ë ë°ì´í°ê° ììµëë¤.'); return; }
-  alert('ã ì ì¥ë ìì ë°ì´í° (ìí) ã\n'+lines.join('\n'));
+  if(!lines.length){ alert('저장된 데이터가 없습니다.'); return; }
+  alert('【 저장된 원시 데이터 (샘플) 】\n'+lines.join('\n'));
 }
 
-/* âââ CSV TEMPLATE âââ */
+/* ─── CSV TEMPLATE ─── */
 function downloadTemplate(){
   const rows=[['Date','Knives Out','Call of Duty: Mobile','Delta Force','PUBG Mobile']];
   const base=new Date('2026-04-01');
@@ -2159,10 +2167,10 @@ function downloadTemplate(){
   a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
   a.download='competitor_traffic_template.csv';
   a.click();
-  toast('CSV ííë¦¿ ë¤ì´ë¡ë ìë£','ok');
+  toast('CSV 텘플릿 다운로드 완료','ok');
 }
 
-/* âââ TOAST âââ */
+/* ─── TOAST ─── */
 function toast(msg,type=''){
   const t=document.getElementById('toast');
   t.textContent=msg; t.className='toast '+(type?type+' ':'')+'show';
