@@ -495,8 +495,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
           <button class="ev-anno-btn" onclick="clearAllAnno()">전체 해제</button>
           <button class="ev-anno-btn" style="margin-left:auto;background:#1d4ed8;color:white;border-color:#1d4ed8" onclick="toggleInlineAddForm()">+ 이벤트 추가</button>
         </div>
-
-        <!-- 인라인 이벤트 추가 폼 -->
         <div id="inlineAddForm" style="display:none;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin:8px 0">
           <div style="font-size:12px;font-weight:700;color:#374151;margin-bottom:10px">새 이벤트 추가</div>
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:8px">
@@ -534,7 +532,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
             <button onclick="addInlineEvent()" style="padding:5px 14px;background:#1d4ed8;color:white;border:none;border-radius:6px;font-size:12px;cursor:pointer;font-weight:600">추가</button>
           </div>
         </div>
-
         <div class="ev-anno-list" id="evAnnoList"></div>
       </div>
     </div>
@@ -777,13 +774,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
 <script>
 /* ─── GAME CONFIG ─── */
 const GAMES = {
-  knivesout:   { name:'Knives Out',          jp:'該野行動',       color:'#3b82f6', bg:'#dbeafe' },
+  knivesout:   { name:'Knives Out',         jp:'荒野行動',        color:'#3b82f6', bg:'#dbeafe' },
   codm:        { name:'Call of Duty: Mobile', jp:'CoD Mobile',   color:'#f97316', bg:'#ffedd5' },
   deltaforce:  { name:'Delta Force',         jp:'デルタフォース', color:'#22c55e', bg:'#dcfce7' },
   pubgm:       { name:'PUBG Mobile',         jp:'PUBG Mobile',   color:'#eab308', bg:'#fef9c3' }
 };
 const GAME_PATTERNS = {
-  knivesout:  ['knives out','該野行動','knivesout','knives_out'],
+  knivesout:  ['knives out','荒野行動','knivesout','knives_out'],
   codm:       ['call of duty','cod mobile','codm','cod:mobile','callofduty'],
   deltaforce: ['delta force','deltaforce','delta_force'],
   pubgm:      ['pubg mobile','pubgm','pubg_mobile','pubg mobile(t-log)','pubg(t-log)']
@@ -802,7 +799,7 @@ const SEED_EVENTS = [
   {id:1,game:'knivesout',date:'2026-02-09',endDate:'2026-02-23',type:'event',
    title:'ウマい感謝祭 第2弾',
    desc:'「ウマい感謝祭 第2弾」開催。期間限定ログインボーナス・特別ミッション実装。2月上旬のDAU低迷を底打ちさせ13%のMoM上昇へ寄与した起点施策。',
-   tags:['感謝祭','ログインボーナス','DAU促進']},
+   tags:['感謝祭','ログインボーナス','DAU促進'],source:'https://x.com/GAME_KNIVES_OUT'},
   {id:2,game:'knivesout',date:'2026-03-01',endDate:'2026-03-23',type:'collab',
    title:'ホロライブ コラボ 第3弾（バンド編）',
    desc:'猫又おかゆ・戌神ころね(初登場)・兎田ぺこら・白銀ノエル・ラプラス・ダークネス5人がバンド結成テーマで登場。SP銃器・SP衣装「双兎の遊戯」・生歌ボイスパック「FLOWER～hololive collaboration ver.～」実装。最大50連無料ガチャ提供。',
@@ -829,7 +826,7 @@ const SEED_EVENTS = [
    tags:['フリーイベント','Spring','グラインド','期間限定スキン'],source:'https://www.callofduty.com/ja/blog/mobile'},
   {id:8,game:'deltaforce',date:'2026-02-03',type:'update',
    title:'大型シーズンアップデート「モーフォシス」',
-   desc:'2026年最初の大型シーズン「モーフォシス」配信(2/3)。新サポートオペレーター「フリンダラ」(医療ドローン×バタフライレスキュードローン)、新Warfareマップ「アフターショック」(都市型フルケール環境破壊・初実装)、新ゲームモード「フラッシュポイント」(移動型目標)実装。アップデート以降DAUは持続的下落傾向。',
+   desc:'2026年最初の大型シーズン「モーフォシス」配信(2/3)。新サポートオペレーター「フリンダラ」(医療ドローン×バタフライレスキュードローン)、新Warfareマップ「アフターショック」(都市型フルスケール環境破壊・初実装)、新ゲームモード「フラッシュポイント」(移動型目標)実装。アップデート以降DAUは持続的下落傾向。',
    tags:['モーフォシス','新シーズン','新マップ','新モード','新オペレーター'],source:'https://x.com/DeltaForceG_JP'},
   {id:9,game:'deltaforce',date:'2026-02-27',endDate:'2026-03-13',type:'event',
    title:'春節 錦鯉イベント ＆「春の軍馬」抽選イベント',
@@ -912,6 +909,7 @@ const EVENTS_KEY = 'jpDashEvents';
 /* ─── STATE ─── */
 const S = {
   data:{ dataai:{traffic:null,revenue:null}, sensortower:{traffic:null,revenue:null} },
+  tlog:{ traffic:null, revenue:null },
   source:'dataai', metric:'traffic',
   chart:null,
   subMetric:{ dataai:'traffic', sensortower:'traffic' },
@@ -967,6 +965,21 @@ async function restoreData(){
     console.warn('Firebase 복원 실패, localStorage 시도', e);
     try { const raw=localStorage.getItem(DATA_KEY); if(raw) S.data=JSON.parse(raw); }
     catch(e2){ console.warn('데이터 복원 실패', e2); }
+  }
+}
+
+/* ─── T-LOG (Firebase) 자동 로드 ─── */
+async function loadTlog(){
+  try {
+    const doc = await db.collection('dashboard').doc('tlog').get();
+    if(!doc.exists) return;
+    const raw = doc.data().tlog;
+    if(!raw) return;
+    const parsed = JSON.parse(raw);
+    S.tlog.traffic = parsed.traffic || null;
+    S.tlog.revenue = parsed.revenue || null;
+  } catch(e){
+    console.warn('T-log 로드 실패', e);
   }
 }
 
@@ -1098,13 +1111,17 @@ window.addEventListener('DOMContentLoaded', async ()=>{
 
   // Firebase에서 데이터 복원
   await restoreData();
+  await loadTlog();
   refreshUploadUI('dataai');
   refreshUploadUI('sensortower');
 
-  // 기준일 설정 — 저장된 데이터 중 가장 최신 날짜
-  const maxDate = ['dataai','sensortower'].flatMap(src=>
-    ['traffic','revenue'].map(m=>S.data[src][m]?.rows?.at(-1)?.date)
-  ).filter(Boolean).sort().at(-1);
+  // 기준일 설정 — 저장된 데이터 중 가장 최신 날짜 (T-log 포함)
+  const maxDate = [
+    ...['dataai','sensortower'].flatMap(src=>
+      ['traffic','revenue'].map(m=>S.data[src][m]?.rows?.at(-1)?.date)
+    ),
+    ...['traffic','revenue'].map(m=>S.tlog[m]?.rows?.at(-1)?.date)
+  ].filter(Boolean).sort().at(-1);
   const _rdEl=document.getElementById('reportDate');
   if(_rdEl) _rdEl.value = maxDate || new Date().toISOString().split('T')[0];
 
@@ -1523,7 +1540,7 @@ function _commitRange(){
   const {min,max}=getDataDateRange();
 
   const infoEl=document.getElementById('rangeInfo');
-  if(s&&e) infoEl.innerHTML<`<strong>${s}</strong> ~ <strong>${e}</strong>`;
+  if(s&&e) infoEl.innerHTML=`<strong>${s}</strong> ~ <strong>${e}</strong>`;
   else if(min&&max) infoEl.innerHTML=`<strong>${min}</strong> ~ <strong>${max}</strong>`;
   else infoEl.textContent='';
 
@@ -1590,7 +1607,12 @@ function renderOneChart({src,metric,id}){
   const rows=vis.length?vis:d.rows;
   const labels=rows.map(r=>r.date);
 
-  const datasets=Object.entries(GAMES).filter(([k])=>d.colMap[k]).map(([k,g])=>({
+  // SensorTower 차트에서는 pubgm 제외 (T-log로 대체), 나머지는 그대로
+  const datasets=Object.entries(GAMES).filter(([k])=>{
+    if(!d.colMap[k]) return false;
+    if(k==='pubgm' && src==='sensortower') return false; // ST의 pubgm 제거
+    return true;
+  }).map(([k,g])=>({
     label:g.name,
     data:rows.map(r=>r[k]),
     borderColor:g.color,
@@ -1602,6 +1624,46 @@ function renderOneChart({src,metric,id}){
     fill:false,
     type:isRevenue?'bar':'line'
   }));
+
+  // T-log PUBGM 라인 추가 (모든 차트에 공통)
+  const tlD = S.tlog[metric];
+  if(tlD?.rows?.length){
+    const rs2=S.range.start, re2=S.range.end;
+    const tlVis=tlD.rows.filter(r=>(!rs2||r.date>=rs2)&&(!re2||r.date<=re2));
+    const tlRows=tlVis.length?tlVis:tlD.rows;
+    // 차트 labels와 날짜 맞추기: labels 배열 기준으로 매핑
+    const tlMap=Object.fromEntries(tlRows.map(r=>[r.date,r.pubgm]));
+    const tlData=labels.map(dt=>tlMap[dt]??null);
+    const pubgmColor='#EF4444';
+    if(isRevenue){
+      datasets.push({
+        label:'PUBGM (T-log)',
+        data:tlData,
+        borderColor:pubgmColor,
+        backgroundColor:pubgmColor+'bb',
+        borderWidth:0,
+        pointRadius:labels.length>90?0:2,
+        pointHoverRadius:5,
+        tension:.3,
+        fill:false,
+        type:'bar'
+      });
+    } else {
+      datasets.push({
+        label:'PUBGM (T-log)',
+        data:tlData,
+        borderColor:pubgmColor,
+        backgroundColor:pubgmColor+'25',
+        borderWidth:2.5,
+        borderDash:[],
+        pointRadius:labels.length>90?0:2,
+        pointHoverRadius:5,
+        tension:.3,
+        fill:false,
+        type:'line'
+      });
+    }
+  }
 
   // 선택된 이벤트 점선 (레이블 없음 — 아래 Canvas 플러그인에서 직접 그림)
   const annotations={};
@@ -1882,8 +1944,8 @@ function renderTable(){
 function buildUnifiedTable(metric,periods){
   const daD=S.data.dataai[metric];
   const stD=S.data.sensortower[metric];
-  // T-log(PUBGM): data.ai 우선, 없으면 sensortower
-  const tlD=daD?.colMap?.pubgm?daD:(stD?.colMap?.pubgm?stD:null);
+  // T-log(PUBGM): Firebase에서 로드한 S.tlog 사용
+  const tlD=S.tlog[metric]?.rows?.length?S.tlog[metric]:null;
 
   const compGames=['knivesout','codm','deltaforce'];
   const isRevenue=metric==='revenue';
@@ -1993,8 +2055,12 @@ function toggleHistAcc(key){
   if(!isOpen) renderHistTable(key);
 }
 function getHistCutoff(){
-  // 모든 소스 중 가장 최신 날짜 기준으로 2년 커트오프 통일
-  const allData=[S.data.dataai.traffic,S.data.dataai.revenue,S.data.sensortower.traffic,S.data.sensortower.revenue];
+  // 모든 소스(T-log 포함) 중 가장 최신 날짜 기준으로 2년 커트오프 통일
+  const allData=[
+    S.data.dataai.traffic,S.data.dataai.revenue,
+    S.data.sensortower.traffic,S.data.sensortower.revenue,
+    S.tlog.traffic,S.tlog.revenue
+  ];
   let maxDate='';
   allData.forEach(d=>{
     if(!d?.rows?.length) return;
@@ -2016,7 +2082,7 @@ function aggHistRows(rows,colMap,gran,isRevenue){
     if(gran==='quarterly'){const m=parseInt(date.substring(5,7));return date.substring(0,4)+'-Q'+Math.ceil(m/3);}
     return date.substring(0,4);
   };
-  const games=Object.keys(colMap).filter(k=>k!=='date'&&k!=='pubgm');
+  const games=Object.keys(colMap).filter(k=>k!=='date');
   const groups={};
   rows.forEach(row=>{
     const key=getKey(row.date);
@@ -2037,33 +2103,43 @@ function renderHistTable(key){
   if(!cont) return;
   const daT=S.data.dataai.traffic, daR=S.data.dataai.revenue;
   const stT=S.data.sensortower.traffic, stR=S.data.sensortower.revenue;
+  const tlT=S.tlog.traffic, tlR=S.tlog.revenue;
   const games=['knivesout','codm','deltaforce'];
   const gL={knivesout:'Knives Out',codm:'CoDM',deltaforce:'Delta Force'};
   const daTr2=get2YrRows(daT),daRv2=get2YrRows(daR),stTr2=get2YrRows(stT),stRv2=get2YrRows(stR);
+  const tlTr2=get2YrRows(tlT),tlRv2=get2YrRows(tlR);
   const daTAgg=daTr2.length?aggHistRows(daTr2,daT.colMap,key,false):[];
   const daRAgg=daRv2.length?aggHistRows(daRv2,daR.colMap,key,true):[];
   const stTAgg=stTr2.length?aggHistRows(stTr2,stT.colMap,key,false):[];
   const stRAgg=stRv2.length?aggHistRows(stRv2,stR.colMap,key,true):[];
+  const tlTAgg=tlTr2.length?aggHistRows(tlTr2,tlT.colMap,key,false):[];
+  const tlRAgg=tlRv2.length?aggHistRows(tlRv2,tlR.colMap,key,true):[];
   const daTG=games.filter(g=>daT?.colMap?.[g]),daRG=games.filter(g=>daR?.colMap?.[g]);
   const stTG=games.filter(g=>stT?.colMap?.[g]),stRG=games.filter(g=>stR?.colMap?.[g]);
-  if(!daTAgg.length&&!daRAgg.length&&!stTAgg.length&&!stRAgg.length){cont.innerHTML='<div class="no-data-msg">데이터 없음</div>';return;}
-  const allDates=new Set([...daTAgg,...daRAgg,...stTAgg,...stRAgg].map(r=>r.date));
+  const hasTlT=tlTAgg.length>0, hasTlR=tlRAgg.length>0;
+  if(!daTAgg.length&&!daRAgg.length&&!stTAgg.length&&!stRAgg.length&&!hasTlT&&!hasTlR){cont.innerHTML='<div class="no-data-msg">데이터 없음</div>';return;}
+  const allDates=new Set([...daTAgg,...daRAgg,...stTAgg,...stRAgg,...tlTAgg,...tlRAgg].map(r=>r.date));
   const sorted=[...allDates].sort((a,b)=>a.localeCompare(b));
   const daTM=Object.fromEntries(daTAgg.map(r=>[r.date,r]));
   const daRM=Object.fromEntries(daRAgg.map(r=>[r.date,r]));
   const stTM=Object.fromEntries(stTAgg.map(r=>[r.date,r]));
   const stRM=Object.fromEntries(stRAgg.map(r=>[r.date,r]));
+  const tlTM=Object.fromEntries(tlTAgg.map(r=>[r.date,r]));
+  const tlRM=Object.fromEntries(tlRAgg.map(r=>[r.date,r]));
   const colGrps=[];
   if(daTG.length) colGrps.push({label:'data.ai Traffic',games:daTG,map:daTM,isRev:false,cls:'dai-h',sub:'sub-dai'});
   if(daRG.length) colGrps.push({label:'data.ai Revenue',games:daRG,map:daRM,isRev:true,cls:'dai-h',sub:'sub-dai'});
   if(stTG.length) colGrps.push({label:'ST Traffic',games:stTG,map:stTM,isRev:false,cls:'st-h',sub:'sub-st'});
   if(stRG.length) colGrps.push({label:'ST Revenue',games:stRG,map:stRM,isRev:true,cls:'st-h',sub:'sub-st'});
+  if(hasTlT) colGrps.push({label:'T-log Traffic',games:['pubgm'],map:tlTM,isRev:false,cls:'tlog-h',sub:'sub-tlog',isTlog:true});
+  if(hasTlR) colGrps.push({label:'T-log Revenue',games:['pubgm'],map:tlRM,isRev:true,cls:'tlog-h',sub:'sub-tlog',isTlog:true});
+  const fv=(v,isR)=>v===null||v===undefined||isNaN(v)?'-':isR?'$'+Math.round(v).toLocaleString():Math.round(v).toLocaleString();
+  const gLabel=g=>g==='pubgm'?'PUBGM':(gL[g]||g);
   let h1=`<tr><th class="date-h" rowspan="2">기간</th>`;
   colGrps.forEach(({label,games:gs,cls})=>{h1+=`<th class="${cls}" colspan="${gs.length}">${label}</th>`;});
   h1+='</tr><tr>';
-  colGrps.forEach(({games:gs,sub})=>{gs.forEach(g=>{h1+=`<th class="${sub}">${gL[g]}</th>`;});});
+  colGrps.forEach(({games:gs,sub})=>{gs.forEach(g=>{h1+=`<th class="${sub}">${gLabel(g)}</th>`;});});
   h1+='</tr>';
-  const fv=(v,isR)=>v===null||v===undefined||isNaN(v)?'-':isR?'$'+Math.round(v).toLocaleString():Math.round(v).toLocaleString();
   let tbody='';
   sorted.forEach(date=>{
     tbody+=`<tr><td class="date-val">${date}</td>`;
@@ -2075,26 +2151,49 @@ function renderHistTable(key){
 }
 function exportHistCSV(key){
   const daT=S.data.dataai.traffic,daR=S.data.dataai.revenue,stT=S.data.sensortower.traffic,stR=S.data.sensortower.revenue;
+  const tlT=S.tlog.traffic,tlR=S.tlog.revenue;
   const games=['knivesout','codm','deltaforce'];
   const gL={knivesout:'Knives Out',codm:'CoDM',deltaforce:'Delta Force'};
   const daTr2=get2YrRows(daT),daRv2=get2YrRows(daR),stTr2=get2YrRows(stT),stRv2=get2YrRows(stR);
+  const tlTr2=get2YrRows(tlT),tlRv2=get2YrRows(tlR);
   const daTAgg=daTr2.length?aggHistRows(daTr2,daT.colMap,key,false):[];
   const daRAgg=daRv2.length?aggHistRows(daRv2,daR.colMap,key,true):[];
   const stTAgg=stTr2.length?aggHistRows(stTr2,stT.colMap,key,false):[];
   const stRAgg=stRv2.length?aggHistRows(stRv2,stR.colMap,key,true):[];
+  const tlTAgg=tlTr2.length?aggHistRows(tlTr2,tlT.colMap,key,false):[];
+  const tlRAgg=tlRv2.length?aggHistRows(tlRv2,tlR.colMap,key,true):[];
   const daTG=games.filter(g=>daT?.colMap?.[g]),daRG=games.filter(g=>daR?.colMap?.[g]);
   const stTG=games.filter(g=>stT?.colMap?.[g]),stRG=games.filter(g=>stR?.colMap?.[g]);
-  const allDates=new Set([...daTAgg,...daRAgg,...stTAgg,...stRAgg].map(r=>r.date));
+  const hasTlT=tlTAgg.length>0,hasTlR=tlRAgg.length>0;
+  const allDates=new Set([...daTAgg,...daRAgg,...stTAgg,...stRAgg,...tlTAgg,...tlRAgg].map(r=>r.date));
   if(!allDates.size){toast('내보낼 데이터가 없습니다.','err');return;}
   const sorted=[...allDates].sort((a,b)=>a.localeCompare(b));
   const daTM=Object.fromEntries(daTAgg.map(r=>[r.date,r]));
   const daRM=Object.fromEntries(daRAgg.map(r=>[r.date,r]));
   const stTM=Object.fromEntries(stTAgg.map(r=>[r.date,r]));
   const stRM=Object.fromEntries(stRAgg.map(r=>[r.date,r]));
-  const hdrs=['기간',...daTG.map(g=>`${gL[g]} Traffic (data.ai)`),...daRG.map(g=>`${gL[g]} Revenue (data.ai)`),...stTG.map(g=>`${gL[g]} Traffic (SensorTower)`),...stRG.map(g=>`${gL[g]} Revenue (SensorTower)`)];
+  const tlTM=Object.fromEntries(tlTAgg.map(r=>[r.date,r]));
+  const tlRM=Object.fromEntries(tlRAgg.map(r=>[r.date,r]));
+  const hdrs=[
+    '기간',
+    ...daTG.map(g=>`${gL[g]} Traffic (data.ai)`),
+    ...daRG.map(g=>`${gL[g]} Revenue (data.ai)`),
+    ...stTG.map(g=>`${gL[g]} Traffic (SensorTower)`),
+    ...stRG.map(g=>`${gL[g]} Revenue (SensorTower)`),
+    ...(hasTlT?['PUBGM Traffic (T-log)']:[]),
+    ...(hasTlR?['PUBGM Revenue (T-log)']:[])
+  ];
   const csvRows=[hdrs.join(',')];
   sorted.forEach(date=>{
-    const vals=[date,...daTG.map(g=>daTM[date]?.[g]??''),...daRG.map(g=>daRM[date]?.[g]??''),...stTG.map(g=>stTM[date]?.[g]??''),...stRG.map(g=>stRM[date]?.[g]??'')];
+    const vals=[
+      date,
+      ...daTG.map(g=>daTM[date]?.[g]??''),
+      ...daRG.map(g=>daRM[date]?.[g]??''),
+      ...stTG.map(g=>stTM[date]?.[g]??''),
+      ...stRG.map(g=>stRM[date]?.[g]??''),
+      ...(hasTlT?[tlTM[date]?.pubgm??'']:[]),
+      ...(hasTlR?[tlRM[date]?.pubgm??'']:[])
+    ];
     csvRows.push(vals.join(','));
   });
   const gran={daily:'데일리',monthly:'먼슬리',quarterly:'쿼터리',yearly:'이얼리'}[key];
@@ -2104,23 +2203,15 @@ function exportHistCSV(key){
 function renderHistSection(){
   const sect=document.getElementById('historicalSection');
   if(!sect) return;
-  const hasAny=Object.values(S.data).some(src=>Object.values(src).some(d=>d));
+  const hasAny=Object.values(S.data).some(src=>Object.values(src).some(d=>d))
+    || Object.values(S.tlog).some(d=>d?.rows?.length);
   sect.style.display=hasAny?'':'none';
   ['daily','monthly','quarterly','yearly'].forEach(key=>{
     const body=document.getElementById('hist-body-'+key);
     if(body&&body.style.display!=='none') renderHistTable(key);
   });
 }
-
-// tblStart: "YYYY-MM-DD", tblEnd: "YYYY-MM-DD"
-// 분기 비교는 모두 "분기 시작일로부터 동일 경과 일수" 기준으로 공정 비교
-// 예) 2026-04-01 ~ 2026-04-11 (Q2 내 11일):
-//   thisQ  : 2026-04-01 ~ 2026-04-11  (Q2 시작+0~10일)
-//   lastQ  : 2026-01-01 ~ 2026-01-11  (Q1 시작+0~10일)
-//   lyQ    : 2025-04-01 ~ 2025-04-11  (작년Q2 시작+0~10일)
 function calcPeriods(tblStart, tblEnd){
-  // toISOString()은 UTC 기준 → JST(+9)에서 날짜가 하루 밀림
-  // getFullYear/getMonth/getDate는 로컬 시간 기준이므로 안전
   const f=d=>{
     const y=d.getFullYear();
     const m=String(d.getMonth()+1).padStart(2,'0');
@@ -2132,63 +2223,28 @@ function calcPeriods(tblStart, tblEnd){
     return new Date(y,m,Math.min(d,last));
   };
   const addDaysTo=(d,n)=>{ const r=new Date(d); r.setDate(r.getDate()+n); return r; };
-
   const rs=new Date(tblStart+'T00:00:00');
   const re=new Date(tblEnd  +'T00:00:00');
   const sy=rs.getFullYear(), sm=rs.getMonth(), sd=rs.getDate();
   const ey=re.getFullYear(), em=re.getMonth(), ed=re.getDate();
-
-  // ── 월 기준 ──
-  // Last Month = 한달 전 동일 시작일 ~ 동일 종료일
   const lastMonthS=clamp(sm===0?sy-1:sy, sm===0?11:sm-1, sd);
   const lastMonthE=clamp(em===0?ey-1:ey, em===0?11:em-1, ed);
-
-  // ── 분기 기준 ──
-  // 이번 분기 시작일 (end date 기준)
   const eqm=Math.floor(em/3)*3;
   const thisQStart=new Date(ey, eqm, 1);
-  // 분기 내 경과 일수 (0-based offset)
   const daysIntoQ=Math.round((re-thisQStart)/(1000*60*60*24));
-
-  // 전 분기 시작일
   const lqm=eqm-3<0?9:eqm-3;
   const lqy=eqm-3<0?ey-1:ey;
   const lastQStart=new Date(lqy, lqm, 1);
-  const lastQEnd=addDaysTo(lastQStart, daysIntoQ); // 동일 경과 일수
-
-  // 전년 동분기 시작일
+  const lastQEnd=addDaysTo(lastQStart, daysIntoQ);
   const lyQStart=new Date(ey-1, eqm, 1);
-  const lyQEnd=addDaysTo(lyQStart, daysIntoQ); // 동일 경과 일수
-
+  const lyQEnd=addDaysTo(lyQStart, daysIntoQ);
   return {
     thisMonth:{ s:tblStart, e:tblEnd },
-
-    lastMonth:{
-      s:f(lastMonthS),
-      e:f(lastMonthE)
-    },
-
-    lyMonth:{
-      s:f(clamp(sy-1, sm, sd)),
-      e:f(clamp(ey-1, em, ed))
-    },
-
-    thisQ:{
-      s:f(thisQStart),
-      e:tblEnd
-    },
-
-    // Last Quarter = 전 분기 시작 + 동일 경과 일수 (공정 비교)
-    lastQ:{
-      s:f(lastQStart),
-      e:f(lastQEnd)
-    },
-
-    // Last Year Same Quarter = 작년 동분기 시작 + 동일 경과 일수
-    lyQ:{
-      s:f(lyQStart),
-      e:f(lyQEnd)
-    }
+    lastMonth:{ s:f(lastMonthS), e:f(lastMonthE) },
+    lyMonth:{ s:f(clamp(sy-1, sm, sd)), e:f(clamp(ey-1, em, ed)) },
+    thisQ:{ s:f(thisQStart), e:tblEnd },
+    lastQ:{ s:f(lastQStart), e:f(lastQEnd) },
+    lyQ:{ s:f(lyQStart), e:f(lyQEnd) }
   };
 }
 
@@ -2221,17 +2277,13 @@ function renderEvents(){
     if(S.filter.type!=='all'&&ev.type!==S.filter.type) return false;
     return true;
   });
-
   document.getElementById('evCount').textContent=`${list.length}개 이벤트`;
-
   if(!list.length){
     grid.innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><div>필터 조건에 맞는 이벤트가 없습니다</div></div>';
     return;
   }
-
   const tLabel={collab:'콜라보',update:'업데이트',event:'이벤트'};
   const tEmoji={collab:'🤝',update:'🔄',event:'🎯'};
-
   const renderCard=ev=>{
     const g=GAMES[ev.game]||{name:ev.game,color:'#888',bg:'#f3f4f6'};
     const dateStr=ev.endDate&&ev.endDate!==ev.date?`${ev.date} ~ ${ev.endDate}`:ev.date;
@@ -2256,8 +2308,6 @@ function renderEvents(){
       </div>
     </div>`;
   };
-
-  // 게임 필터 'all': 게임별 섹션으로 구분
   if(S.filter.game==='all'){
     const gameOrder=['knivesout','codm','deltaforce'];
     let html='';
@@ -2275,7 +2325,6 @@ function renderEvents(){
     });
     grid.innerHTML=html;
   } else {
-    // 특정 게임 필터: 날짜 내림차순
     grid.innerHTML=list.sort((a,b)=>b.date.localeCompare(a.date)).map(renderCard).join('');
   }
 }
@@ -2311,7 +2360,7 @@ function previewEditImg(input){
   if(!file) return;
   const reader=new FileReader();
   reader.onload=e=>{
-    document.getElementById('eImgPreview').innerHTML<`<img src="${e.target.result}" style="max-height:100px;border-radius:6px;max-width:100%">`;
+    document.getElementById('eImgPreview').innerHTML=`<img src="${e.target.result}" style="max-height:100px;border-radius:6px;max-width:100%">`;
     document.getElementById('eImgUrl').value='';
   };
   reader.readAsDataURL(file);
@@ -2328,7 +2377,6 @@ function saveEditEv(){
   ev.desc=document.getElementById('eDesc').value.trim();
   ev.tags=document.getElementById('eTags').value.split(',').map(t=>t.trim()).filter(Boolean);
   ev.source=document.getElementById('eSource').value.trim()||null;
-  // 이미지: 파일 업로드 > URL 입력 > 기존 값 유지
   const fileInput=document.getElementById('eImgFile');
   const urlInput=document.getElementById('eImgUrl').value.trim();
   if(fileInput.files[0]){
@@ -2403,7 +2451,6 @@ async function clearAllData(){
     await db.collection('dashboard').doc('data').delete();
     await db.collection('dashboard').doc('data_meta').delete();
   } catch(e){ console.warn('Firebase 데이터 삭제 실패', e); }
-  // 입력창 초기화
   ['rangeStart','rangeEnd','tableRangeStart','tableRangeEnd'].forEach(id=>{
     const el=document.getElementById(id); if(el) el.value='';
   });
@@ -2421,7 +2468,6 @@ function showRawData(){
       if(!d?.rows?.length) return;
       lines.push(`\n■ ${src} / ${metric} (${d.rows.length}행, 파일: ${d.fname||'-'})`);
       lines.push(`  colMap: ${JSON.stringify(d.colMap)}`);
-      // 처음·마지막 3행 표시
       const sample=[...d.rows.slice(0,3),...(d.rows.length>6?['... (중략) ...']:d.rows.slice(3)),...d.rows.slice(-3)];
       sample.forEach(r=>{
         if(typeof r==='string'){lines.push('  '+r);return;}
@@ -2445,8 +2491,6 @@ function exportRangeCSV(){
   const metrics=['traffic','revenue'];
   const srcLabel={dataai:'data.ai',sensortower:'SensorTower'};
   const metricLabel={traffic:'Traffic(DAU)',revenue:'Revenue($)'};
-
-  // 유효 컬럼 목록 수집
   const cols=[];
   sources.forEach(src=>{
     metrics.forEach(metric=>{
@@ -2458,8 +2502,6 @@ function exportRangeCSV(){
     });
   });
   if(!cols.length){ toastErr('추출할 데이터가 없습니다. 먼저 CSV 파일을 업로드해 주세요.'); return; }
-
-  // 기간 내 날짜 집합 & 데이터 맵 구성
   const dateSet=new Set();
   const dataMap={};
   sources.forEach(src=>{
@@ -2476,11 +2518,8 @@ function exportRangeCSV(){
       });
     });
   });
-
   const dates=Array.from(dateSet).sort();
   if(!dates.length){ toastErr('선택한 기간에 데이터가 없습니다.'); return; }
-
-  // CSV 생성 (UTF-8 BOM 포함 → 엑셀 한글 정상 표시)
   const header=['Date',...cols.map(c=>c.label)];
   const csvRows=[header.join(',')];
   dates.forEach(date=>{
@@ -2490,7 +2529,6 @@ function exportRangeCSV(){
     })];
     csvRows.push(row.join(','));
   });
-
   const dateTag=(rs||'start')+'_'+(re||'end');
   const a=document.createElement('a');
   a.href='data:text/csv;charset=utf-8,﻿'+encodeURIComponent(csvRows.join('\n'));
