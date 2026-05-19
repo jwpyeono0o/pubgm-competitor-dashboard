@@ -265,6 +265,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
   .events-grid{grid-template-columns:1fr}
   .controls-bar{gap:12px}
 }
+/* ── HIST ACCORDION ── */
+.hist-accordion{background:white;border:1px solid #e5e7eb;border-radius:10px;margin-bottom:8px;overflow:hidden}
+.hist-acc-hd{display:flex;align-items:center;justify-content:space-between;padding:11px 18px;cursor:pointer;user-select:none;transition:background .15s}
+.hist-acc-hd:hover{background:#f9fafb}
+.hist-acc-title{font-size:13px;font-weight:700;color:#374151}
+.hist-acc-bd{padding:0 18px 16px;overflow-x:auto}
 </style>
 </head>
 <body>
@@ -557,6 +563,55 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
       </div>
       <div id="summaryTables">
         <div class="no-data-msg">데이터를 업로드하면 기간별 비교 테이블이 표시됩니다</div>
+      </div>
+    </div>
+
+    <!-- ─── 최근 2년 지표 원본 ─── -->
+    <div id="historicalSection" style="margin-top:20px;display:none">
+      <div class="section-title" style="margin-bottom:10px">📊 최근 2년 지표 원본 데이터</div>
+      <!-- Daily -->
+      <div class="hist-accordion">
+        <div class="hist-acc-hd" onclick="toggleHistAcc('daily')">
+          <span class="hist-acc-title">📅 데일리 지표</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="range-export" onclick="event.stopPropagation();exportHistCSV('daily')" style="font-size:11px;padding:3px 10px">⬇ CSV</button>
+            <span id="hist-arrow-daily" style="font-size:11px;color:#9ca3af">▼</span>
+          </div>
+        </div>
+        <div id="hist-body-daily" class="hist-acc-bd" style="display:none"><div id="hist-tbl-daily"></div></div>
+      </div>
+      <!-- Monthly -->
+      <div class="hist-accordion">
+        <div class="hist-acc-hd" onclick="toggleHistAcc('monthly')">
+          <span class="hist-acc-title">📆 먼슬리 지표</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="range-export" onclick="event.stopPropagation();exportHistCSV('monthly')" style="font-size:11px;padding:3px 10px">⬇ CSV</button>
+            <span id="hist-arrow-monthly" style="font-size:11px;color:#9ca3af">▼</span>
+          </div>
+        </div>
+        <div id="hist-body-monthly" class="hist-acc-bd" style="display:none"><div id="hist-tbl-monthly"></div></div>
+      </div>
+      <!-- Quarterly -->
+      <div class="hist-accordion">
+        <div class="hist-acc-hd" onclick="toggleHistAcc('quarterly')">
+          <span class="hist-acc-title">📊 쿼터리 지표</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="range-export" onclick="event.stopPropagation();exportHistCSV('quarterly')" style="font-size:11px;padding:3px 10px">⬇ CSV</button>
+            <span id="hist-arrow-quarterly" style="font-size:11px;color:#9ca3af">▼</span>
+          </div>
+        </div>
+        <div id="hist-body-quarterly" class="hist-acc-bd" style="display:none"><div id="hist-tbl-quarterly"></div></div>
+      </div>
+      <!-- Yearly -->
+      <div class="hist-accordion">
+        <div class="hist-acc-hd" onclick="toggleHistAcc('yearly')">
+          <span class="hist-acc-title">📈 이얼리 지표</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="range-export" onclick="event.stopPropagation();exportHistCSV('yearly')" style="font-size:11px;padding:3px 10px">⬇ CSV</button>
+            <span id="hist-arrow-yearly" style="font-size:11px;color:#9ca3af">▼</span>
+          </div>
+        </div>
+        <div id="hist-body-yearly" class="hist-acc-bd" style="display:none"><div id="hist-tbl-yearly"></div></div>
       </div>
     </div>
   </div><!-- /tab-dashboard -->
@@ -1006,7 +1061,7 @@ function clearData(src, metric){
   S.data[src][metric] = null;
   persistData();
   refreshUploadUI(src);
-  renderCharts(); renderTable();
+  renderCharts(); renderTable(); renderHistSection();
   toast(`${label} 데이터가 삭제되었습니다.`);
 }
 
@@ -1330,7 +1385,7 @@ function afterLoad(src,rows){
   persistData();
   refreshUploadUI(src);
   syncRangeInputs();
-  renderCharts(); renderTable();
+  renderCharts(); renderTable(); renderHistSection();
   document.getElementById('lastUpdated').textContent='마지막 업로드: '+new Date().toLocaleTimeString('ko-KR');
   const rdInput=document.getElementById('reportDate');
   const maxDate=(Array.isArray(rows)?rows:Object.values(rows)).at(-1)?.date;
@@ -1477,6 +1532,7 @@ function _commitRange(){
 
   renderCharts();
   renderTable();
+  renderHistSection();
 }
 
 // 데이터 로드 후 range 입력창 초기값 세팅
@@ -1926,6 +1982,126 @@ function buildUnifiedTable(metric,periods){
   </div>`;
 }
 
+/* ── 최근 2년 지표 원본 ── */
+function toggleHistAcc(key){
+  const body=document.getElementById('hist-body-'+key);
+  const arrow=document.getElementById('hist-arrow-'+key);
+  if(!body) return;
+  const isOpen=body.style.display!=='none';
+  body.style.display=isOpen?'none':'block';
+  arrow.textContent=isOpen?'▼':'▲';
+  if(!isOpen) renderHistTable(key);
+}
+function get2YrRows(data){
+  if(!data?.rows?.length) return [];
+  const rows=[...data.rows].sort((a,b)=>a.date.localeCompare(b.date));
+  const maxDate=rows[rows.length-1].date;
+  const cutoff=addDays(maxDate,-730);
+  return rows.filter(r=>r.date>=cutoff);
+}
+function aggHistRows(rows,colMap,gran,isRevenue){
+  const getKey=date=>{
+    if(gran==='daily') return date;
+    if(gran==='monthly') return date.substring(0,7);
+    if(gran==='quarterly'){const m=parseInt(date.substring(5,7));return date.substring(0,4)+'-Q'+Math.ceil(m/3);}
+    return date.substring(0,4);
+  };
+  const games=Object.keys(colMap).filter(k=>k!=='date'&&k!=='pubgm');
+  const groups={};
+  rows.forEach(row=>{
+    const key=getKey(row.date);
+    if(!groups[key]) groups[key]={sum:{},cnt:{}};
+    games.forEach(gk=>{
+      const v=row[gk];
+      if(v!==null&&v!==undefined&&!isNaN(v)){groups[key].sum[gk]=(groups[key].sum[gk]||0)+v;groups[key].cnt[gk]=(groups[key].cnt[gk]||0)+1;}
+    });
+  });
+  return Object.entries(groups).sort((a,b)=>b[0].localeCompare(a[0])).map(([key,g])=>{
+    const row={date:key};
+    games.forEach(gk=>{const s=g.sum[gk],c=g.cnt[gk];row[gk]=(s!==undefined)?(isRevenue?s:Math.round(s/c)):null;});
+    return row;
+  });
+}
+function renderHistTable(key){
+  const cont=document.getElementById('hist-tbl-'+key);
+  if(!cont) return;
+  const daT=S.data.dataai.traffic, daR=S.data.dataai.revenue;
+  const stT=S.data.sensortower.traffic, stR=S.data.sensortower.revenue;
+  const games=['knivesout','codm','deltaforce'];
+  const gL={knivesout:'Knives Out',codm:'CoDM',deltaforce:'Delta Force'};
+  const daTr2=get2YrRows(daT),daRv2=get2YrRows(daR),stTr2=get2YrRows(stT),stRv2=get2YrRows(stR);
+  const daTAgg=daTr2.length?aggHistRows(daTr2,daT.colMap,key,false):[];
+  const daRAgg=daRv2.length?aggHistRows(daRv2,daR.colMap,key,true):[];
+  const stTAgg=stTr2.length?aggHistRows(stTr2,stT.colMap,key,false):[];
+  const stRAgg=stRv2.length?aggHistRows(stRv2,stR.colMap,key,true):[];
+  const daTG=games.filter(g=>daT?.colMap?.[g]),daRG=games.filter(g=>daR?.colMap?.[g]);
+  const stTG=games.filter(g=>stT?.colMap?.[g]),stRG=games.filter(g=>stR?.colMap?.[g]);
+  if(!daTAgg.length&&!daRAgg.length&&!stTAgg.length&&!stRAgg.length){cont.innerHTML='<div class="no-data-msg">데이터 없음</div>';return;}
+  const allDates=new Set([...daTAgg,...daRAgg,...stTAgg,...stRAgg].map(r=>r.date));
+  const sorted=[...allDates].sort((a,b)=>b.localeCompare(a));
+  const daTM=Object.fromEntries(daTAgg.map(r=>[r.date,r]));
+  const daRM=Object.fromEntries(daRAgg.map(r=>[r.date,r]));
+  const stTM=Object.fromEntries(stTAgg.map(r=>[r.date,r]));
+  const stRM=Object.fromEntries(stRAgg.map(r=>[r.date,r]));
+  const colGrps=[];
+  if(daTG.length) colGrps.push({label:'data.ai Traffic',games:daTG,map:daTM,isRev:false,cls:'dai-h',sub:'sub-dai'});
+  if(daRG.length) colGrps.push({label:'data.ai Revenue',games:daRG,map:daRM,isRev:true,cls:'dai-h',sub:'sub-dai'});
+  if(stTG.length) colGrps.push({label:'ST Traffic',games:stTG,map:stTM,isRev:false,cls:'st-h',sub:'sub-st'});
+  if(stRG.length) colGrps.push({label:'ST Revenue',games:stRG,map:stRM,isRev:true,cls:'st-h',sub:'sub-st'});
+  let h1=`<tr><th class="date-h" rowspan="2">기간</th>`;
+  colGrps.forEach(({label,games:gs,cls})=>{h1+=`<th class="${cls}" colspan="${gs.length}">${label}</th>`;});
+  h1+='</tr><tr>';
+  colGrps.forEach(({games:gs,sub})=>{gs.forEach(g=>{h1+=`<th class="${sub}">${gL[g]}</th>`;});});
+  h1+='</tr>';
+  const fv=(v,isR)=>v===null||v===undefined||isNaN(v)?'-':isR?'$'+Math.round(v).toLocaleString():Math.round(v).toLocaleString();
+  let tbody='';
+  sorted.forEach(date=>{
+    tbody+=`<tr><td class="date-val">${date}</td>`;
+    colGrps.forEach(({games:gs,map,isRev})=>{const row=map[date]||{};gs.forEach(g=>{tbody+=`<td>${fv(row[g],isRev)}</td>`;});});
+    tbody+='</tr>';
+  });
+  const noteMap={daily:'(Traffic = 일별 값 그대로)',monthly:'(Traffic = 월 평균, Revenue = 월 합계)',quarterly:'(Traffic = 분기 평균, Revenue = 분기 합계)',yearly:'(Traffic = 연 평균, Revenue = 연 합계)'};
+  cont.innerHTML=`<div style="font-size:11px;color:#9ca3af;margin-bottom:6px">${noteMap[key]}</div><div class="tbl-wrapper"><table class="ms-table"><thead>${h1}</thead><tbody>${tbody}</tbody></table></div>`;
+}
+function exportHistCSV(key){
+  const daT=S.data.dataai.traffic,daR=S.data.dataai.revenue,stT=S.data.sensortower.traffic,stR=S.data.sensortower.revenue;
+  const games=['knivesout','codm','deltaforce'];
+  const gL={knivesout:'Knives Out',codm:'CoDM',deltaforce:'Delta Force'};
+  const daTr2=get2YrRows(daT),daRv2=get2YrRows(daR),stTr2=get2YrRows(stT),stRv2=get2YrRows(stR);
+  const daTAgg=daTr2.length?aggHistRows(daTr2,daT.colMap,key,false):[];
+  const daRAgg=daRv2.length?aggHistRows(daRv2,daR.colMap,key,true):[];
+  const stTAgg=stTr2.length?aggHistRows(stTr2,stT.colMap,key,false):[];
+  const stRAgg=stRv2.length?aggHistRows(stRv2,stR.colMap,key,true):[];
+  const daTG=games.filter(g=>daT?.colMap?.[g]),daRG=games.filter(g=>daR?.colMap?.[g]);
+  const stTG=games.filter(g=>stT?.colMap?.[g]),stRG=games.filter(g=>stR?.colMap?.[g]);
+  const allDates=new Set([...daTAgg,...daRAgg,...stTAgg,...stRAgg].map(r=>r.date));
+  if(!allDates.size){toast('내보낼 데이터가 없습니다.','err');return;}
+  const sorted=[...allDates].sort((a,b)=>b.localeCompare(a));
+  const daTM=Object.fromEntries(daTAgg.map(r=>[r.date,r]));
+  const daRM=Object.fromEntries(daRAgg.map(r=>[r.date,r]));
+  const stTM=Object.fromEntries(stTAgg.map(r=>[r.date,r]));
+  const stRM=Object.fromEntries(stRAgg.map(r=>[r.date,r]));
+  const hdrs=['기간',...daTG.map(g=>`${gL[g]} Traffic (data.ai)`),...daRG.map(g=>`${gL[g]} Revenue (data.ai)`),...stTG.map(g=>`${gL[g]} Traffic (SensorTower)`),...stRG.map(g=>`${gL[g]} Revenue (SensorTower)`)];
+  const csvRows=[hdrs.join(',')];
+  sorted.forEach(date=>{
+    const vals=[date,...daTG.map(g=>daTM[date]?.[g]??''),...daRG.map(g=>daRM[date]?.[g]??''),...stTG.map(g=>stTM[date]?.[g]??''),...stRG.map(g=>stRM[date]?.[g]??'')];
+    csvRows.push(vals.join(','));
+  });
+  const gran={daily:'데일리',monthly:'먼슬리',quarterly:'쿼터리',yearly:'이얼리'}[key];
+  const blob=new Blob(['﻿'+csvRows.join('\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`${gran}_지표_최근2년.csv`;a.click();
+}
+function renderHistSection(){
+  const sect=document.getElementById('historicalSection');
+  if(!sect) return;
+  const hasAny=Object.values(S.data).some(src=>Object.values(src).some(d=>d));
+  sect.style.display=hasAny?'':'none';
+  ['daily','monthly','quarterly','yearly'].forEach(key=>{
+    const body=document.getElementById('hist-body-'+key);
+    if(body&&body.style.display!=='none') renderHistTable(key);
+  });
+}
+
 // tblStart: "YYYY-MM-DD", tblEnd: "YYYY-MM-DD"
 // 분기 비교는 모두 "분기 시작일로부터 동일 경과 일수" 기준으로 공정 비교
 // 예) 2026-04-01 ~ 2026-04-11 (Q2 내 11일):
@@ -2221,7 +2397,7 @@ async function clearAllData(){
   ['rangeStart','rangeEnd','tableRangeStart','tableRangeEnd'].forEach(id=>{
     const el=document.getElementById(id); if(el) el.value='';
   });
-  renderCharts(); renderTable();
+  renderCharts(); renderTable(); renderHistSection();
   ['dataai','sensortower'].forEach(src=>refreshUploadUI(src));
   toast('데이터가 초기화되었습니다. 파일을 다시 업로드해주세요.','ok');
 }
