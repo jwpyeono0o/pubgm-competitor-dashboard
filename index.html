@@ -1634,10 +1634,10 @@ function renderOneChart({src,metric,id}){
     // 차트 labels와 날짜 맞추기: labels 배열 기준으로 매핑
     const tlMap=Object.fromEntries(tlRows.map(r=>[r.date,r.pubgm]));
     const tlData=labels.map(dt=>tlMap[dt]??null);
-    const pubgmColor='#EF4444';
+    const pubgmColor=GAMES.pubgm.color;
     if(isRevenue){
       datasets.push({
-        label:'PUBGM (T-log)',
+        label:'PUBGM (billing log)',
         data:tlData,
         borderColor:pubgmColor,
         backgroundColor:pubgmColor+'bb',
@@ -1653,7 +1653,7 @@ function renderOneChart({src,metric,id}){
         label:'PUBGM (T-log)',
         data:tlData,
         borderColor:pubgmColor,
-        backgroundColor:pubgmColor+'25',
+        backgroundColor:pubgmColor+'60',
         borderWidth:2.5,
         borderDash:[],
         pointRadius:labels.length>90?0:2,
@@ -1984,7 +1984,7 @@ function buildUnifiedTable(metric,periods){
     <th class="date-h" rowspan="2">End date</th>`;
   if(daiGames.length) h1+=`<th class="dai-h" colspan="${daiGames.length}">data.ai</th>`;
   if(stGames.length)  h1+=`<th class="st-h"  colspan="${stGames.length}">Sensor Tower</th>`;
-  if(hasTlog)         h1+=`<th class="tlog-h" colspan="1">T-log</th>`;
+  if(hasTlog)         h1+=`<th class="tlog-h" colspan="1">${isRevenue?'Billing Log':'T-log'}</th>`;
   h1+='</tr>';
 
   // 헤더 행 2
@@ -2132,7 +2132,7 @@ function renderHistTable(key){
   if(stTG.length) colGrps.push({label:'ST Traffic',games:stTG,map:stTM,isRev:false,cls:'st-h',sub:'sub-st'});
   if(stRG.length) colGrps.push({label:'ST Revenue',games:stRG,map:stRM,isRev:true,cls:'st-h',sub:'sub-st'});
   if(hasTlT) colGrps.push({label:'T-log Traffic',games:['pubgm'],map:tlTM,isRev:false,cls:'tlog-h',sub:'sub-tlog',isTlog:true});
-  if(hasTlR) colGrps.push({label:'T-log Revenue',games:['pubgm'],map:tlRM,isRev:true,cls:'tlog-h',sub:'sub-tlog',isTlog:true});
+  if(hasTlR) colGrps.push({label:'Billing Log Revenue',games:['pubgm'],map:tlRM,isRev:true,cls:'tlog-h',sub:'sub-tlog',isTlog:true});
   const fv=(v,isR)=>v===null||v===undefined||isNaN(v)?'-':isR?'$'+Math.round(v).toLocaleString():Math.round(v).toLocaleString();
   const gLabel=g=>g==='pubgm'?'PUBGM':(gL[g]||g);
   let h1=`<tr><th class="date-h" rowspan="2">기간</th>`;
@@ -2181,7 +2181,7 @@ function exportHistCSV(key){
     ...stTG.map(g=>`${gL[g]} Traffic (SensorTower)`),
     ...stRG.map(g=>`${gL[g]} Revenue (SensorTower)`),
     ...(hasTlT?['PUBGM Traffic (T-log)']:[]),
-    ...(hasTlR?['PUBGM Revenue (T-log)']:[])
+    ...(hasTlR?['PUBGM Revenue (billing log)']:[])
   ];
   const csvRows=[hdrs.join(',')];
   sorted.forEach(date=>{
