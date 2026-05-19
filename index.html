@@ -537,13 +537,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
     <div class="table-section">
       <div class="table-header">
         <div class="section-title" style="margin-bottom:0">📋 기간별 요약</div>
-        <div class="report-date-wrap">
-          <span>기간:</span>
-          <input type="date" id="tableRangeStart" onchange="renderTable()">
-          <span style="color:#9ca3af">~</span>
-          <input type="date" id="tableRangeEnd" onchange="renderTable()">
-          <button class="header-btn" style="background:#3b82f6;border-color:#3b82f6;font-size:11px;padding:4px 10px" onclick="syncTableRangeFromData()">데이터 전체</button>
-        </div>
+      </div>
+      <div class="range-bar" style="margin-bottom:10px">
+        <button class="preset-btn"        id="tbl-preset-all"  onclick="setTablePreset('all')">전체</button>
+        <button class="preset-btn active" id="tbl-preset-1m"   onclick="setTablePreset('1m')">최근 1개월</button>
+        <button class="preset-btn"        id="tbl-preset-3m"   onclick="setTablePreset('3m')">최근 3개월</button>
+        <button class="preset-btn"        id="tbl-preset-6m"   onclick="setTablePreset('6m')">최근 6개월</button>
+        <button class="preset-btn"        id="tbl-preset-ytd"  onclick="setTablePreset('ytd')">올해</button>
+        <button class="preset-btn"        id="tbl-preset-custom" onclick="" style="display:none">직접 설정</button>
+        <input type="date" id="tableRangeStart" onchange="onTableRangeInputChange()">
+        <span style="color:#9ca3af">~</span>
+        <input type="date" id="tableRangeEnd" onchange="onTableRangeInputChange()">
+        <button class="range-apply" onclick="applyTableRange()">적용</button>
       </div>
       <div id="summaryTables">
         <div class="no-data-msg">데이터를 업로드하면 기간별 비교 테이블이 표시됩니다</div>
@@ -795,6 +800,7 @@ const S = {
   yMax:{},
   pending:null,
   range:{ start:'', end:'', preset:'1m' },
+  tableRange:{ start:'', end:'', preset:'1m' },
   selectedAnnoIds: new Set()   // 그래프에 표시할 이벤트 ID 집합
 };
 
@@ -975,7 +981,7 @@ window.addEventListener('DOMContentLoaded', async ()=>{
   const _rdEl=document.getElementById('reportDate');
   if(_rdEl) _rdEl.value = maxDate || new Date().toISOString().split('T')[0];
 
-  if(maxDate){ setPreset('1m'); }
+  if(maxDate){ setPreset('1m'); setTablePreset('1m'); }
   toast('✅ 데이터 로드 완료','ok');
 });
 
@@ -1410,9 +1416,6 @@ function syncRangeInputs(){
   S.range.end=document.getElementById('rangeEnd').value;
   const infoEl=document.getElementById('rangeInfo');
   if(min&&max) infoEl.innerHTML=`<strong>${min}</strong> ~ <strong>${max}</strong>`;
-  // 표 기간도 데이터 범위로 초기화 (비어있을 때만)
-  if(!document.getElementById('tableRangeStart').value&&min) document.getElementById('tableRangeStart').value=min;
-  if(!document.getElementById('tableRangeEnd').value&&max)   document.getElementById('tableRangeEnd').value=max;
 }
 
 /* ─── CHART INSTANCES ─── */
@@ -1699,21 +1702,44 @@ function clearAllAnno(){
   renderEvAnno(); renderCharts();
 }
 
-/* ─── SUMMARY TABLE ─── */
-function syncTableRangeFromData(){
+/* ─── SUMMARY TABLE RANGE ─── */
+function setTablePreset(p){
+  S.tableRange.preset = p;
   const {min,max}=getDataDateRange();
-  if(min) document.getElementById('tableRangeStart').value=min;
-  if(max) document.getElementById('tableRangeEnd').value=max;
+  ['all','1m','3m','6m','ytd','custom'].forEach(k=>{
+    const el=document.getElementById('tbl-preset-'+k);
+    if(el) el.classList.toggle('active', k===p);
+  });
+  document.getElementById('tbl-preset-custom').style.display = p==='custom'?'':'none';
+  if(p==='all'||!max){ S.tableRange.start=min||''; S.tableRange.end=max||''; }
+  else if(p==='1m'){ S.tableRange.start=addDays(max,-30); S.tableRange.end=max; }
+  else if(p==='3m'){ S.tableRange.start=addDays(max,-90); S.tableRange.end=max; }
+  else if(p==='6m'){ S.tableRange.start=addDays(max,-180); S.tableRange.end=max; }
+  else if(p==='ytd'){ S.tableRange.start=max.substring(0,4)+'-01-01'; S.tableRange.end=max; }
+  document.getElementById('tableRangeStart').value=S.tableRange.start;
+  document.getElementById('tableRangeEnd').value=S.tableRange.end;
   renderTable();
 }
+function applyTableRange(){
+  S.tableRange.start=document.getElementById('tableRangeStart').value;
+  S.tableRange.end=document.getElementById('tableRangeEnd').value;
+  renderTable();
+}
+function onTableRangeInputChange(){
+  S.tableRange.preset='custom';
+  ['all','1m','3m','6m','ytd'].forEach(k=>document.getElementById('tbl-preset-'+k)?.classList.remove('active'));
+  document.getElementById('tbl-preset-custom').style.display='';
+  document.getElementById('tbl-preset-custom').classList.add('active');
+}
+function syncTableRangeFromData(){ setTablePreset('all'); }
 
 function renderTable(){
   const container=document.getElementById('summaryTables');
   const hasAny=Object.values(S.data).some(src=>Object.values(src).some(d=>d));
   if(!hasAny){container.innerHTML='<div class="no-data-msg">데이터를 업로드하면 기간별 비교 테이블이 표시됩니다</div>';return;}
 
-  const tblStart=document.getElementById('tableRangeStart').value;
-  const tblEnd=document.getElementById('tableRangeEnd').value;
+  const tblStart=S.tableRange.start||document.getElementById('tableRangeStart').value;
+  const tblEnd=S.tableRange.end||document.getElementById('tableRangeEnd').value;
   if(!tblStart||!tblEnd){
     container.innerHTML='<div class="no-data-msg">위에서 기간을 설정하면 기간별 비교 테이블이 표시됩니다</div>';
     return;
