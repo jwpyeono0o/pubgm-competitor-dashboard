@@ -2016,7 +2016,7 @@ function aggHistRows(rows,colMap,gran,isRevenue){
       if(v!==null&&v!==undefined&&!isNaN(v)){groups[key].sum[gk]=(groups[key].sum[gk]||0)+v;groups[key].cnt[gk]=(groups[key].cnt[gk]||0)+1;}
     });
   });
-  return Object.entries(groups).sort((a,b)=>b[0].localeCompare(a[0])).map(([key,g])=>{
+  return Object.entries(groups).sort((a,b)=>a[0].localeCompare(b[0])).map(([key,g])=>{
     const row={date:key};
     games.forEach(gk=>{const s=g.sum[gk],c=g.cnt[gk];row[gk]=(s!==undefined)?(isRevenue?s:Math.round(s/c)):null;});
     return row;
@@ -2038,7 +2038,7 @@ function renderHistTable(key){
   const stTG=games.filter(g=>stT?.colMap?.[g]),stRG=games.filter(g=>stR?.colMap?.[g]);
   if(!daTAgg.length&&!daRAgg.length&&!stTAgg.length&&!stRAgg.length){cont.innerHTML='<div class="no-data-msg">데이터 없음</div>';return;}
   const allDates=new Set([...daTAgg,...daRAgg,...stTAgg,...stRAgg].map(r=>r.date));
-  const sorted=[...allDates].sort((a,b)=>b.localeCompare(a));
+  const sorted=[...allDates].sort((a,b)=>a.localeCompare(b));
   const daTM=Object.fromEntries(daTAgg.map(r=>[r.date,r]));
   const daRM=Object.fromEntries(daRAgg.map(r=>[r.date,r]));
   const stTM=Object.fromEntries(stTAgg.map(r=>[r.date,r]));
@@ -2076,7 +2076,7 @@ function exportHistCSV(key){
   const stTG=games.filter(g=>stT?.colMap?.[g]),stRG=games.filter(g=>stR?.colMap?.[g]);
   const allDates=new Set([...daTAgg,...daRAgg,...stTAgg,...stRAgg].map(r=>r.date));
   if(!allDates.size){toast('내보낼 데이터가 없습니다.','err');return;}
-  const sorted=[...allDates].sort((a,b)=>b.localeCompare(a));
+  const sorted=[...allDates].sort((a,b)=>a.localeCompare(b));
   const daTM=Object.fromEntries(daTAgg.map(r=>[r.date,r]));
   const daRM=Object.fromEntries(daRAgg.map(r=>[r.date,r]));
   const stTM=Object.fromEntries(stTAgg.map(r=>[r.date,r]));
