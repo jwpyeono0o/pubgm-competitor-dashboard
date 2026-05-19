@@ -1992,12 +1992,22 @@ function toggleHistAcc(key){
   arrow.textContent=isOpen?'▼':'▲';
   if(!isOpen) renderHistTable(key);
 }
+function getHistCutoff(){
+  // 모든 소스 중 가장 최신 날짜 기준으로 2년 커트오프 통일
+  const allData=[S.data.dataai.traffic,S.data.dataai.revenue,S.data.sensortower.traffic,S.data.sensortower.revenue];
+  let maxDate='';
+  allData.forEach(d=>{
+    if(!d?.rows?.length) return;
+    const m=[...d.rows].sort((a,b)=>b.date.localeCompare(a.date))[0].date;
+    if(m>maxDate) maxDate=m;
+  });
+  return maxDate ? addDays(maxDate,-730) : '';
+}
 function get2YrRows(data){
   if(!data?.rows?.length) return [];
+  const cutoff=getHistCutoff();
   const rows=[...data.rows].sort((a,b)=>a.date.localeCompare(b.date));
-  const maxDate=rows[rows.length-1].date;
-  const cutoff=addDays(maxDate,-730);
-  return rows.filter(r=>r.date>=cutoff);
+  return cutoff ? rows.filter(r=>r.date>=cutoff) : rows;
 }
 function aggHistRows(rows,colMap,gran,isRevenue){
   const getKey=date=>{
