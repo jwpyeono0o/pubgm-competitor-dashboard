@@ -626,6 +626,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
           <label class="f-label">태그 (쉼표 구분)</label>
           <input type="text" class="f-input" id="nTags" placeholder="VTuber, コラボ, 無料ガチャ">
         </div>
+        <div class="fg full">
+          <label class="f-label">참조 URL (선택)</label>
+          <input type="url" class="f-input" id="nSource" placeholder="https://x.com/...">
+        </div>
       </div>
       <div class="form-actions">
         <button class="btn-secondary" onclick="toggleAddForm()">취소</button>
@@ -698,6 +702,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
         <label class="f-label">태그 (쉼표 구분)</label>
         <input type="text" class="f-input" id="eTags">
       </div>
+      <div class="fg full">
+        <label class="f-label">참조 URL (선택)</label>
+        <input type="url" class="f-input" id="eSource" placeholder="https://x.com/...">
+      </div>
     </div>
     <div class="modal-actions" style="margin-top:16px">
       <button class="btn-secondary" onclick="closeEditEvModal()">취소</button>
@@ -743,91 +751,91 @@ const SEED_EVENTS = [
   {id:2,game:'knivesout',date:'2026-03-01',endDate:'2026-03-23',type:'collab',
    title:'ホロライブ コラボ 第3弾（バンド編）',
    desc:'猫又おかゆ・戌神ころね(初登場)・兎田ぺこら・白銀ノエル・ラプラス・ダークネス5人がバンド結成テーマで登場。SP銃器・SP衣装「双兎の遊戯」・生歌ボイスパック「FLOWER～hololive collaboration ver.～」実装。最大50連無料ガチャ提供。',
-   tags:['Hololive','VTuber','無料50連','音楽コラボ','SP衣装']},
+   tags:['Hololive','VTuber','無料50連','音楽コラボ','SP衣装'],source:'https://x.com/GAME_KNIVES_OUT'},
   {id:3,game:'knivesout',date:'2026-03-20',endDate:'2026-03-26',type:'event',
    title:'東京喰種 コラボ第6弾 事前施策',
    desc:'コラボ開始7日前から毎日0時に無料10連ガチャ配布（7日間/最気に入り1回を3/27受領の引き直し方式）。旧コラボ金色アイテム保有者への追加10連無料配布。3/20〜3/26に事前予約報酬受取イベント並行実施。コラボ前からDAUを積み上げる設計が効果的に機能。',
-   tags:['引き直しガチャ','事前施策','無料ガチャ','リテンション']},
+   tags:['引き直しガチャ','事前施策','無料ガチャ','リテンション'],source:'https://x.com/GAME_KNIVES_OUT'},
   {id:4,game:'knivesout',date:'2026-03-27',endDate:'2026-04-17',type:'collab',
    title:'東京喰種 コラボ 第6弾',
    desc:'金木研・霧嶋董香・月山習が登場。コラボ金枠確定「引き直しガチャ」(毎日0時10連/7日間)、新規EX伝説ガチャ・EX伝説ガチャ複数開設。第2〜5弾歴代コラボアイテム期間限定復刻。MoM +22%の売上増・MoM +13%のDAU増を達成。',
-   tags:['東京喰種','アニメコラボ','EX伝説ガチャ','引き直しガチャ','復刻']},
+   tags:['東京喰種','アニメコラボ','EX伝説ガチャ','引き直しガチャ','復刻'],source:'https://x.com/GAME_KNIVES_OUT'},
   {id:5,game:'knivesout',date:'2026-04-25',endDate:'2026-05-08',type:'collab',
    title:'にじさんじ コラボ 第4弾',
    desc:'笹木咲・葛葉・リゼ・ヘルエスタ・星川サラの4名が登場。葛葉のSP衣装（限定デザイン）を新規実装。コラボガチャ・期間限定ミッション・特典配布イベント同時開催。',
-   tags:['にじさんじ','VTuber','SP衣装','葛葉']},
+   tags:['にじさんじ','VTuber','SP衣装','葛葉'],source:'https://x.com/GAME_KNIVES_OUT'},
   {id:6,game:'codm',date:'2026-03-19',type:'update',
    title:'Season 3 "Paranoia" ローンチ',
    desc:'新シーズン「Paranoia」開幕(3/19)。新モードDMZ: Recon Quick Play追加、新武器MX Guardianショットガン実装。Pop Team Epic(ポプ子・ピピ美)コラボ＆NieR: Automataコラボ同時展開。コズミック・ドロウ4種＋ポッピングエピック・ストロングボックス(武器設計図・イモート・車両スキン等10種以上)販売開始。MoM +11%の売上増。',
-   tags:['新シーズン','Pop Team Epic','NieR:Automata','新モード','新武器']},
+   tags:['新シーズン','Pop Team Epic','NieR:Automata','新モード','新武器'],source:'https://www.callofduty.com/ja/blog/mobile'},
   {id:7,game:'codm',date:'2026-03-19',endDate:'2026-04-18',type:'event',
    title:'Spring Invasion イベント',
    desc:'シーズン3スプリングイベント。高品質オペレータースキン・コスメティクスを無料獲得できるグラインダブルイベント。各ドロウにレジェンド武器設計図＋エピックオペレータースキンセット構成。',
-   tags:['フリーイベント','Spring','グラインド','期間限定スキン']},
+   tags:['フリーイベント','Spring','グラインド','期間限定スキン'],source:'https://www.callofduty.com/ja/blog/mobile'},
   {id:8,game:'deltaforce',date:'2026-02-03',type:'update',
    title:'大型シーズンアップデート「モーフォシス」',
    desc:'2026年最初の大型シーズン「モーフォシス」配信(2/3)。新サポートオペレーター「フリンダラ」(医療ドローン×バタフライレスキュードローン)、新Warfareマップ「アフターショック」(都市型フルケール環境破壊・初実装)、新ゲームモード「フラッシュポイント」(移動型目標)実装。アップデート以降DAUは持続的下落傾向。',
-   tags:['モーフォシス','新シーズン','新マップ','新モード','新オペレーター']},
+   tags:['モーフォシス','新シーズン','新マップ','新モード','新オペレーター'],source:'https://x.com/DeltaForceG_JP'},
   {id:9,game:'deltaforce',date:'2026-02-27',endDate:'2026-03-13',type:'event',
    title:'春節 錦鯉イベント ＆「春の軍馬」抽選イベント',
    desc:'マップ水域に出現する特殊カラーの錦鯉を捕まえて報酬を獲得するシーズナルイベント。「春の軍馬」抽選イベントと同時実施し期間限定スキン・乗り物外観を提供。',
-   tags:['春節','シーズナナル','限定イベント','春の軍馬']},
+   tags:['春節','シーズナル','限定イベント','春の軍馬'],source:'https://x.com/DeltaForceG_JP'},
   {id:10,game:'deltaforce',date:'2026-04-21',type:'update',
    title:'Season 9 "Echo" ローンチ',
    desc:'新シーズン「Echo」開幕(4/21)。新偵察オペレーター「モース」(ソナー追跡/インテルコントロール)、新Warfareマップ「アク・カナル」、「ゼロダム」大幅リニューアル(新ルート・横断オプション)、新武器AR-57・M82追加。Tomb Raiderコラボ(ラーラ・クロフト)、Burst Festイベント同時展開。',
-   tags:['Echo','新シーズン','新マップ','Tomb Raider','新オペレーター']},
+   tags:['Echo','新シーズン','新マップ','Tomb Raider','新オペレーター'],source:'https://x.com/DeltaForceG_JP'},
   {id:11,game:'knivesout',date:'2026-01-01',type:'collab',
    title:'NARUTO -ナルト- 疾風伝 コラボ',
    desc:'荒野行動 × NARUTO -ナルト- 疾風伝の大型コラボが2026年1月1日より開催。2025年11月15日～30日の事前イベント（コラボガチャ10連無料）を経てスタート。うずまきナルト・うちはサスケなど人気キャラクターの限定スキンが登場。友達招待で追加ガチャ10連も獲得可能。',
-   tags:['NARUTO','アニメコラボ','疾風伝','事前イベント','無料ガチャ']},
+   tags:['NARUTO','アニメコラボ','疾風伝','事前イベント','無料ガチャ'],source:'https://knivesoutlab.com'},
   {id:12,game:'codm',date:'2026-01-15',type:'update',
    title:'Season 1 "凍てつく深淵 (Frozen Abyss)" ローンチ',
    desc:'2026年シーズン1「凍てつく深淵」が1月15日9時(JST)スタート。冬・氷河テーマのバトルパス、新オペレータースキン実装。',
-   tags:['新シーズン','凍てつく深淵','Frozen Abyss','バトルパス']},
+   tags:['新シーズン','凍てつく深淵','Frozen Abyss','バトルパス'],source:'https://www.callofduty.com/ja/blog/mobile'},
   {id:13,game:'codm',date:'2026-02-20',type:'update',
    title:'Season 2 "Lunar Charge" ローンチ',
    desc:'2026年シーズン2「Lunar Charge」が約2月20日スタート（推定）。旧正月テーマのシーズン。新オペレータースキン・バトルパス実装。',
-   tags:['新シーズン','Lunar Charge','旧正月','バトルパス']},
+   tags:['新シーズン','Lunar Charge','旧正月','バトルパス'],source:'https://www.callofduty.com/ja/blog/mobile'},
   {id:14,game:'codm',date:'2026-04-23',type:'update',
    title:'Season 4 "永遠の牢獄 (Eternal Prison)" ローンチ',
    desc:'2026年シーズン4「永遠の牢獄」が4月23日9時(JST)スタート。バトルロワイヤル「リバースアイランド」マップ拡張、新武器DP27 LMG、新バトルロワイヤルクラス「トキシック・オーバーロード」実装。コング&ゴジラインスパイアのオペレーターコラボも展開。',
-   tags:['新シーズン','永遠の牢獄','Eternal Prison','新マップ','DP27','Godzilla']},
+   tags:['新シーズン','永遠の牢獄','Eternal Prison','新マップ','DP27','Godzilla'],source:'https://www.callofduty.com/ja/blog/mobile'},
   {id:15,game:'knivesout',date:'2026-05-14',type:'collab',
    title:'BLEACH コラボ',
    desc:'荒野行動 × TVアニメ「BLEACH」コラボが5月14日モバイル版アップデートと同時スタート。黒崎一護・朽木ルキアなどのキャラクターをテーマにした限定スキン・コラボガチャ実装。「荒野で卍解！」コラボモードも登場。',
-   tags:['BLEACH','アニメコラボ','一護','ルキア','卍解']},
+   tags:['BLEACH','アニメコラボ','一護','ルキア','卍解'],source:'https://x.com/GAME_KNIVES_OUT'},
   {id:16,game:'knivesout',date:'2026-04-25',type:'event',
    title:'荒野GOGOFES 2026 開幕 ＆ 荒野VTuber祭（にじさんじコラボ同時）',
    desc:'年1度の大型フェス「荒野GOGOFES 2026」が4/25(土)0時より開幕。同時ににじさんじコラボ第4弾「荒野VTuber祭」が開催。5人集結でカスタム金車GET、動画投稿キャンペーン「荒野の光」(総額230万円)、GOGOFESガチャ半額券、チャージセンター限定パックなど大量施策を同時展開。VTuber配信でにじさんじライバーと視聴者参加型コンテンツも実施。',
-   tags:['GOGOFES','にじさんじ','VTuber祭','フレンド招待','動画投稿キャンペーン']},
+   tags:['GOGOFES','にじさんじ','VTuber祭','フレンド招待','動画投稿キャンペーン'],source:'https://x.com/GAME_KNIVES_OUT'},
   {id:17,game:'knivesout',date:'2026-04-30',type:'event',
    title:'I AM BOSSモード 開幕',
    desc:'4/30(木)10時より新限定ゲームモード「I AM BOSSモード」が登場。極道テーマで組長となり最強の極道組織を結成するモード。参加報酬としてガチャコイン:人気テーマセレクション最大10枚を獲得可能。',
-   tags:['I AM BOSS','新モード','極道','期間限定']},
+   tags:['I AM BOSS','新モード','極道','期間限定'],source:'https://x.com/GAME_KNIVES_OUT'},
   {id:18,game:'knivesout',date:'2026-05-01',type:'event',
    title:'GOGOFES 殿堂ガチャ「双生の闇光2.0:日輪の月影」開始 ＆ 無料金銃配布',
    desc:'5/1(金)0時、GOGOFESメインガチャ「新殿堂ガチャ」解禁。「双生の闇光2.0:日輪の月影」(専属4倍スコープ搭載M4A1+2スキル搭載ゼロスラ)が登場。同時に毎日バトルプレイでニキシアの金枠衣装プレゼント、AK-47:コメントオフェンス(Lv7永久版)を無料配布。事前予告ツイートが389万viewsを記録し最大バズ。',
-   tags:['殿堂ガチャ','GOGOFES','双生の闇光','無料配布','課金施策']},
+   tags:['殿堂ガチャ','GOGOFES','双生の闇光','無料配布','課金施策'],source:'https://x.com/GAME_KNIVES_OUT'},
   {id:19,game:'knivesout',date:'2026-05-03',endDate:'2026-05-06',type:'collab',
    title:'荒野行動 × 東京リベンジャーズ 復刻コラボ',
    desc:'5/3(日)〜5/6(水)、東京リベンジャーズとの復刻コラボ開催。GW施策として第1弾〜第4弾ガチャを期間限定で復刻。「コラボ第4弾ガチャ」「伝説のマイキーコラボ車両」など過去人気アイテムを再提供。',
-   tags:['東京リベンジャーズ','復刻コラボ','GW','マイキー']},
+   tags:['東京リベンジャーズ','復刻コラボ','GW','マイキー'],source:'https://x.com/GAME_KNIVES_OUT'},
   {id:20,game:'knivesout',date:'2026-05-05',type:'event',
    title:'荒野行動の日（荒野県民の日）',
    desc:'毎年5月5日は「荒野行動の日」。2026年はGOGOFESと連動し特別記念イベントを開催。ログインで殿堂ガチャ10連無料、アマギフ1万円が当たるGOGOFESイベント参加特典、記念CM公開など豪華施策展開。',
-   tags:['荒野行動の日','荒野県民の日','記念日','無料ガチャ','ログインボーナス']},
+   tags:['荒野行動の日','荒野県民の日','記念日','無料ガチャ','ログインボーナス'],source:'https://x.com/GAME_KNIVES_OUT'},
   {id:21,game:'knivesout',date:'2026-05-08',type:'event',
    title:'GOGOFES 銀翼星使シリーズ 解禁',
    desc:'5/8(金)0時、GOGOFESメイン新ガチャ「銀翼星使シリーズ」解禁。仲間乗り物「銀翼の星竜」と星竜使いキャラクター「コゼット」が先行公開。SACR-H(銀翼の星竜SP枠・専属アニメ付き)、クーペも同時解禁。予告PVが136万views超を記録。',
-   tags:['銀翼星使','GOGOFES','殿堂ガチャ','仲間乗り物','コゼット']},
+   tags:['銀翼星使','GOGOFES','殿堂ガチャ','仲間乗り物','コゼット'],source:'https://x.com/GAME_KNIVES_OUT'},
   {id:22,game:'knivesout',date:'2026-05-14',type:'event',
    title:'サイバープロトコルシリーズ ＆ SP枠LSR-8 解禁',
    desc:'5/14(木)10時、BLEACHコラボと同日アップデートでサイバープロトコルシリーズが登場。初のSP枠LSR-8(専属アニメーション+「サイバーちゃん」スペシャル演出付き)、カプセルカー、M27、衣装「サイバー･メロディ」、ガス弾「サイレントエコー」が解禁。復刻イベント「ペニンシュラ大脱走S9:メイド救出作戦」も同時実施。',
-   tags:['サイバープロトコル','SP枠','LSR-8','アニメーション','新武器']},
+   tags:['サイバープロトコル','SP枠','LSR-8','アニメーション','新武器'],source:'https://x.com/GAME_KNIVES_OUT'},
   {id:23,game:'knivesout',date:'2026-05-16',endDate:'2026-05-29',type:'event',
    title:'GOGOFES 毎週金枠無料GET 第2弾「GOLDEN:バニーガール」＆ T1金車マイカー化プラン',
    desc:'5/16(土)より荒野GOGOFES 毎週金枠無料GETイベント第2弾スタート。通常バトル5日間プレイで金枠「GOLDEN:バニーガール」＆ガチャコイン×5を無料取得可能(5/29まで)。同日よりT1金車マイカー化プランも開始(5/16〜6/5、初回20%OFF)。新衣装「チアガール」(3色カラバリ)が5/17より登場。',
-   tags:['金枠無料','GOLDEN','バニーガール','T1','マイカー化','チアガール','ワールドカップ']}
+   tags:['金枠無料','GOLDEN','バニーガール','T1','マイカー化','チアガール','ワールドカップ'],source:'https://x.com/GAME_KNIVES_OUT'}
 ];
 
 /* ─── FIREBASE INIT ─── */
@@ -1015,6 +1023,13 @@ window.addEventListener('DOMContentLoaded', async ()=>{
     const evDoc = await db.collection('dashboard').doc('events').get();
     if(evDoc.exists){
       S.events = evDoc.data().events || [];
+      // 새 SEED_EVENTS ID가 Firebase에 없으면 자동으로 머지 (수동 편집 내용은 보존)
+      const existingIds = new Set(S.events.map(e=>e.id));
+      const newOnes = SEED_EVENTS.filter(e=>!existingIds.has(e.id));
+      if(newOnes.length){
+        S.events = [...S.events, ...newOnes.map(e=>({...e}))];
+        try { await db.collection('dashboard').doc('events').set({events:S.events, updatedAt:new Date()}); } catch(err){}
+      }
     } else {
       const savedEvs = localStorage.getItem(EVENTS_KEY);
       S.events = savedEvs ? JSON.parse(savedEvs) : SEED_EVENTS.map(e=>({...e}));
@@ -2051,6 +2066,7 @@ function renderEvents(){
       <div class="ev-footer">
         <button class="btn-icon" onclick="openEditEvModal(${ev.id})" title="수정">✏️</button>
         <button class="btn-icon" onclick="delEvent(${ev.id})" title="삭제">🗑️</button>
+        ${ev.source?`<a class="btn-icon" href="${ev.source}" target="_blank" rel="noopener" title="참조 링크">🔗</a>`:''}
       </div>
     </div>`;
   };
@@ -2093,6 +2109,7 @@ function openEditEvModal(id){
   document.getElementById('eImgUrl').value=(ev.img&&!ev.img.startsWith('data:'))?ev.img:'';
   document.getElementById('eImgFile').value='';
   document.getElementById('eTags').value=(ev.tags||[]).join(', ');
+  document.getElementById('eSource').value=ev.source||'';
   const prev=document.getElementById('eImgPreview');
   prev.innerHTML=ev.img?`<img src="${ev.img}" style="max-height:100px;border-radius:6px;max-width:100%">`:'';
   document.getElementById('editEvModal').style.display='flex';
@@ -2124,6 +2141,7 @@ function saveEditEv(){
   ev.title=document.getElementById('eTitle').value.trim();
   ev.desc=document.getElementById('eDesc').value.trim();
   ev.tags=document.getElementById('eTags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  ev.source=document.getElementById('eSource').value.trim()||null;
   // 이미지: 파일 업로드 > URL 입력 > 기존 값 유지
   const fileInput=document.getElementById('eImgFile');
   const urlInput=document.getElementById('eImgUrl').value.trim();
@@ -2154,13 +2172,14 @@ function addEvent(){
     date,endDate:document.getElementById('nEnd').value||null,
     title,desc:document.getElementById('nDesc').value.trim(),
     img:document.getElementById('nImg').value.trim()||null,
-    tags:document.getElementById('nTags').value.split(',').map(t=>t.trim()).filter(Boolean)
+    tags:document.getElementById('nTags').value.split(',').map(t=>t.trim()).filter(Boolean),
+    source:document.getElementById('nSource').value.trim()||null
   };
   S.events.unshift(ev);
   saveEvs();
   renderEvents();
   toggleAddForm();
-  ['nTitle','nStart','nEnd','nDesc','nImg','nTags'].forEach(id=>document.getElementById(id).value='');
+  ['nTitle','nStart','nEnd','nDesc','nImg','nTags','nSource'].forEach(id=>document.getElementById(id).value='');
   toast('이벤트가 추가되었습니다.','ok');
 }
 
