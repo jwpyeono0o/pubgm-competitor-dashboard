@@ -381,8 +381,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Ar
     <!-- Range Picker -->
     <div class="range-bar">
       <div class="range-presets">
-        <button class="preset-btn active" id="preset-all"  onclick="setPreset('all')">전체</button>
-        <button class="preset-btn"        id="preset-1m"   onclick="setPreset('1m')">최근 1개월</button>
+        <button class="preset-btn" id="preset-all"  onclick="setPreset('all')">전체</button>
+        <button class="preset-btn active" id="preset-1m"   onclick="setPreset('1m')">최근 1개월</button>
         <button class="preset-btn"        id="preset-3m"   onclick="setPreset('3m')">최근 3개월</button>
         <button class="preset-btn"        id="preset-6m"   onclick="setPreset('6m')">최근 6개월</button>
         <button class="preset-btn"        id="preset-ytd"  onclick="setPreset('ytd')">올해</button>
@@ -794,7 +794,7 @@ const S = {
   events:[],
   yMax:{},
   pending:null,
-  range:{ start:'', end:'', preset:'all' },
+  range:{ start:'', end:'', preset:'1m' },
   selectedAnnoIds: new Set()   // 그래프에 표시할 이벤트 ID 집합
 };
 
@@ -975,7 +975,7 @@ window.addEventListener('DOMContentLoaded', async ()=>{
   const _rdEl=document.getElementById('reportDate');
   if(_rdEl) _rdEl.value = maxDate || new Date().toISOString().split('T')[0];
 
-  if(maxDate){ syncRangeInputs(); renderCharts(); renderTable(); }
+  if(maxDate){ setPreset('1m'); }
   toast('✅ 데이터 로드 완료','ok');
 });
 
